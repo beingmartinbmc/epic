@@ -44,6 +44,17 @@ jobs:
           OPENAI_PROXY_URL: ${{ secrets.OPENAI_PROXY_URL || '' }}
         run: npm run build
 
+      - name: Debug build output
+        run: |
+          echo "=== Debugging dist/index.html content ==="
+          echo "First 20 lines of dist/index.html:"
+          head -20 dist/index.html
+          echo "=== End of debug output ==="
+          echo ""
+          echo "Searching for OPENAI_API_KEY in dist/index.html:"
+          grep -n "OPENAI_API_KEY" dist/index.html || echo "No OPENAI_API_KEY found"
+          echo ""
+
       - name: Verify build output
         run: |
           echo "Build completed. Checking for sensitive data..."
