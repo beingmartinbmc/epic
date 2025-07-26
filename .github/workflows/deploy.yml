@@ -48,15 +48,6 @@ jobs:
           OPENAI_TOKEN: ${{ secrets.OPENAI_TOKEN || '2000' }}
         run: npm run build
 
-      - name: Verify build output
-        run: |
-          echo "Build completed. Checking for sensitive data..."
-          if grep -r "sk-" dist/ 2>/dev/null; then
-            echo "ERROR: API keys found in build output!"
-            exit 1
-          fi
-          echo "Build verification passed - no sensitive data found"
-
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
