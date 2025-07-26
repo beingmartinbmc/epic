@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
-    // Use build-time injected variable - no need to wait for runtime injection
+    // No fallbacks - let it break if not available
     const API_CONFIG = {
         OPENAI_PROXY_URL: __OPENAI_PROXY_URL__
     };
