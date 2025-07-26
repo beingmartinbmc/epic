@@ -52,7 +52,7 @@ jobs:
 
       - name: Build
         env:
-          OPENAI_PROXY_URL: ${{ secrets.OPENAI_PROXY_URL || 'https://religious-guide-40aech34e-beingmartinbmcs-projects.vercel.app/api/openai-proxy' }}
+          OPENAI_PROXY_URL: ${{ secrets.OPENAI_PROXY_URL }}
         run: |
           echo "Building with OPENAI_PROXY_URL: $OPENAI_PROXY_URL"
           npm run build
