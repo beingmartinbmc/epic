@@ -102,3 +102,4 @@ The frontend automatically deploys to GitHub Pages via GitHub Actions when you p
 
 This project is licensed under the MIT License - see the LICENSE file for details. # Trigger redeploy
 # Trigger redeploy
+# Trigger redeploy for frontend
