@@ -1,5 +1,3 @@
-
-
 window.addEventListener('DOMContentLoaded', async () => {
     const API_CONFIG = {
         OPENAI_PROXY_URL: 'https://religious-guide-j983g9ivu-beingmartinbmcs-projects.vercel.app/api/openai-proxy'
@@ -50,7 +48,9 @@ window.addEventListener('DOMContentLoaded', async () => {
         const stats = getCacheStats();
         if (cacheMonitor.count) cacheMonitor.count.textContent = stats.validEntries;
         if (cacheMonitor.validEntries) cacheMonitor.validEntries.textContent = stats.validEntries;
-        if (cacheMonitor.latestCache) cacheMonitor.latestCache.textContent = stats.newestEntry ? new Date(stats.newestEntry).toLocaleTimeString() : 'No entries';
+        if (cacheMonitor.latestCache) {
+            cacheMonitor.latestCache.textContent = stats.newestEntry ? new Date(stats.newestEntry).toLocaleTimeString() : 'No entries';
+        }
     }
 
     updateCacheStats();
@@ -76,6 +76,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         const titleIcon = document.querySelector('.divine-title i');
         const titleText = document.querySelector('.divine-title span');
         const subtitle = document.querySelector('.divine-subtitle');
+
         let iconClass = 'fas fa-om';
         let title = 'Divine Wisdom';
         let subtitleText = 'Sacred guidance from ancient texts';
@@ -140,14 +141,15 @@ window.addEventListener('DOMContentLoaded', async () => {
     async function getReligiousGuidance(userMessage, selectedText) {
         const textPrompt = PROMPT_MAPPING[selectedText] || prompts.userPrompts.allTexts;
 
-        const { default: franc } = await import('https://cdn.jsdelivr.net/npm/franc-min@5.1.0/+esm');
-        const detectedCode = franc(userMessage || '');
+        // Use global franc from script tag
+        const detectedCode = window.franc(userMessage || '');
+
         const LANG_NAME_MAP = {
-            hin: 'Hindi', spa: 'Spanish', fra: 'French', deu: 'German',
-            ara: 'Arabic', ben: 'Bengali', pan: 'Punjabi', guj: 'Gujarati',
-            mar: 'Marathi', tel: 'Telugu', tam: 'Tamil', urd: 'Urdu',
-            por: 'Portuguese', ita: 'Italian', jpn: 'Japanese', kor: 'Korean',
-            rus: 'Russian', tur: 'Turkish', zho: 'Chinese'
+            hin: 'Hindi', spa: 'Spanish', fra: 'French', deu: 'German', ara: 'Arabic',
+            ben: 'Bengali', pan: 'Punjabi', guj: 'Gujarati', mar: 'Marathi',
+            tel: 'Telugu', tam: 'Tamil', urd: 'Urdu', por: 'Portuguese',
+            ita: 'Italian', jpn: 'Japanese', kor: 'Korean', rus: 'Russian',
+            tur: 'Turkish', zho: 'Chinese'
         };
 
         let langInstruction = 'IMPORTANT: Respond in English.';
@@ -164,9 +166,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
         const response = await fetch(API_CONFIG.OPENAI_PROXY_URL, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 messages: [
                     {
@@ -194,6 +194,7 @@ window.addEventListener('DOMContentLoaded', async () => {
             const content = data.choices[0].message.content;
             const quotes = [];
             const lines = content.split('\n');
+
             let currentQuote = null;
             let summary = '';
 
@@ -203,13 +204,13 @@ window.addEventListener('DOMContentLoaded', async () => {
 
                 if (line.startsWith('QUOTE:')) {
                     if (currentQuote) quotes.push(currentQuote);
-                    currentQuote = { text: line.substring('QUOTE:'.length).trim(), source: '', translation: '' };
+                    currentQuote = { text: line.substring(6).trim(), source: '', translation: '' };
                 } else if (line.startsWith('SOURCE:') && currentQuote) {
-                    currentQuote.source = line.substring('SOURCE:'.length).trim();
+                    currentQuote.source = line.substring(7).trim();
                 } else if (line.startsWith('CONTEXT:') && currentQuote) {
-                    currentQuote.translation = line.substring('CONTEXT:'.length).trim();
+                    currentQuote.translation = line.substring(8).trim();
                 } else if (line.startsWith('SUMMARY:')) {
-                    summary = line.substring('SUMMARY:'.length).trim();
+                    summary = line.substring(8).trim();
                 }
             }
 
@@ -233,13 +234,15 @@ window.addEventListener('DOMContentLoaded', async () => {
         <div class="quote-card">
           <div class="quote-text">${text}</div>
           <div class="quote-source">
-            <i class="fas fa-book"></i> ${referenceUrl ? `<a href="${referenceUrl}" target="_blank" rel="noopener noreferrer">${source}</a>` : source}
+            <i class="fas fa-book"></i>
+            ${referenceUrl ? `<a href="${referenceUrl}" target="_blank" rel="noopener noreferrer">${source}</a>` : source}
           </div>
           ${translation ? `
             <div class="quote-context">
               <span class="context-label">Context</span>
               <div class="context-text">${translation}</div>
-            </div>` : ''}
+            </div>` : ''
+            }
         </div>
       `;
         }).join('');
