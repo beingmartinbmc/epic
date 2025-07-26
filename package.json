@@ -4,8 +4,8 @@
   "type": "module",
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "npm run clean && vite build && node scripts/inject-config.js",
-    "build:frontend": "npm run clean && vite build && node scripts/inject-config.js",
+    "build": "npm run clean && vite build && node scripts/inject-config.js $OPENAI_PROXY_URL",
+    "build:frontend": "npm run clean && vite build && node scripts/inject-config.js $OPENAI_PROXY_URL",
     "dev": "vite",
     "preview": "vite preview"
   },
