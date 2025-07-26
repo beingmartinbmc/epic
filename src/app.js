@@ -150,7 +150,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     const textPrompt = PROMPT_MAPPING[selectedText] || prompts.userPrompts.allTexts;
                     const userPrompt = `${textPrompt}\n\nUser's situation: ${userMessage}`;
 
-                    const API_URL = API_CONFIG.OPENAI_PROXY_URL;
+                    const API_URL = window.API_CONFIG?.OPENAI_PROXY_URL;
 
                     console.log('✅ API_CONFIG:', API_CONFIG);
                     console.log('📡 Using API URL:', API_URL);
