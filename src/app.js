@@ -51,9 +51,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         const stats = getCacheStats();
         if (cacheMonitor.count) cacheMonitor.count.textContent = stats.validEntries;
         if (cacheMonitor.validEntries) cacheMonitor.validEntries.textContent = stats.validEntries;
-        if (cacheMonitor.latestCache) cacheMonitor.latestCache.textContent = stats.newestEntry
-            ? new Date(stats.newestEntry).toLocaleTimeString()
-            : 'No entries';
+        if (cacheMonitor.latestCache) cacheMonitor.latestCache.textContent = stats.newestEntry ? new Date(stats.newestEntry).toLocaleTimeString() : 'No entries';
     }
 
     updateCacheStats();
@@ -79,7 +77,6 @@ window.addEventListener('DOMContentLoaded', async () => {
         const titleIcon = document.querySelector('.divine-title i');
         const titleText = document.querySelector('.divine-title span');
         const subtitle = document.querySelector('.divine-subtitle');
-
         let iconClass = 'fas fa-om';
         let title = 'Divine Wisdom';
         let subtitleText = 'Sacred guidance from ancient texts';
@@ -114,7 +111,8 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const userMessage = document.getElementById('userMessage').value;
+
+        const userMessage = document.getElementById('userMessage').value.trim();
         const selectedText = document.getElementById('selectedText').value;
 
         loadingSpinner.style.display = 'block';
@@ -143,14 +141,16 @@ window.addEventListener('DOMContentLoaded', async () => {
     async function getReligiousGuidance(userMessage, selectedText) {
         const textPrompt = PROMPT_MAPPING[selectedText] || prompts.userPrompts.allTexts;
 
-        // Detect user's language
         const detectedCode = franc(userMessage || '');
         const LANG_NAME_MAP = {
-            hin: 'Hindi', spa: 'Spanish', fra: 'French', deu: 'German', ara: 'Arabic', ben: 'Bengali', pan: 'Punjabi',
-            guj: 'Gujarati', mar: 'Marathi', tel: 'Telugu', tam: 'Tamil', urd: 'Urdu', por: 'Portuguese', ita: 'Italian',
-            jpn: 'Japanese', kor: 'Korean', rus: 'Russian', tur: 'Turkish', zho: 'Chinese'
+            hin: 'Hindi', spa: 'Spanish', fra: 'French', deu: 'German',
+            ara: 'Arabic', ben: 'Bengali', pan: 'Punjabi', guj: 'Gujarati',
+            mar: 'Marathi', tel: 'Telugu', tam: 'Tamil', urd: 'Urdu',
+            por: 'Portuguese', ita: 'Italian', jpn: 'Japanese', kor: 'Korean',
+            rus: 'Russian', tur: 'Turkish', zho: 'Chinese'
         };
-        let langInstruction = 'IMPORTANT: Respond in the SAME LANGUAGE used in the user\'s message above.';
+
+        let langInstruction = 'IMPORTANT: Respond in English.';
         if (detectedCode && detectedCode !== 'und' && detectedCode !== 'eng') {
             const langName = LANG_NAME_MAP[detectedCode];
             if (langName) {
@@ -158,18 +158,25 @@ window.addEventListener('DOMContentLoaded', async () => {
             }
         }
 
-        const userPrompt = `${textPrompt}\n\n${langInstruction}\n\nUser's situation: ${userMessage}`;
-        const API_URL = API_CONFIG.OPENAI_PROXY_URL;
+        console.log('🌐 Detected language code:', detectedCode, '-', langInstruction);
 
-        console.log('📡 Using API URL:', API_URL);
+        const userPrompt = `${textPrompt}\n\nUser's situation: ${userMessage}`;
 
-        const response = await fetch(API_URL, {
+        const response = await fetch(API_CONFIG.OPENAI_PROXY_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
                 messages: [
-                    { role: 'system', content: prompts.system.prompt },
-                    { role: 'user', content: userPrompt }
+                    {
+                        role: 'system',
+                        content: `${prompts.system.prompt}\n\n${langInstruction}`
+                    },
+                    {
+                        role: 'user',
+                        content: userPrompt
+                    }
                 ]
             })
         });
@@ -196,11 +203,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
                 if (line.startsWith('QUOTE:')) {
                     if (currentQuote) quotes.push(currentQuote);
-                    currentQuote = {
-                        text: line.substring('QUOTE:'.length).trim(),
-                        source: '',
-                        translation: ''
-                    };
+                    currentQuote = { text: line.substring('QUOTE:'.length).trim(), source: '', translation: '' };
                 } else if (line.startsWith('SOURCE:') && currentQuote) {
                     currentQuote.source = line.substring('SOURCE:'.length).trim();
                 } else if (line.startsWith('CONTEXT:') && currentQuote) {
@@ -230,21 +233,15 @@ window.addEventListener('DOMContentLoaded', async () => {
         <div class="quote-card">
           <div class="quote-text">${text}</div>
           <div class="quote-source">
-            <i class="fas fa-book"></i> ${
-                referenceUrl
-                    ? `<a href="${referenceUrl}" target="_blank" rel="noopener noreferrer">${source}</a>`
-                    : source
-            }
+            <i class="fas fa-book"></i> ${referenceUrl ? `<a href="${referenceUrl}" target="_blank" rel="noopener noreferrer">${source}</a>` : source}
           </div>
-          ${
-                translation
-                    ? `<div class="quote-context">
-                  <span class="context-label">Context</span>
-                  <div class="context-text">${translation}</div>
-                </div>`
-                    : ''
-            }
-        </div>`;
+          ${translation ? `
+            <div class="quote-context">
+              <span class="context-label">Context</span>
+              <div class="context-text">${translation}</div>
+            </div>` : ''}
+        </div>
+      `;
         }).join('');
 
         summaryText.textContent = guidance.summary;
