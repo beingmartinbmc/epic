@@ -1,5 +1,4 @@
-// Lightweight language detection
-import { franc } from 'franc-min';
+
 
 window.addEventListener('DOMContentLoaded', async () => {
     const API_CONFIG = {
@@ -141,6 +140,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     async function getReligiousGuidance(userMessage, selectedText) {
         const textPrompt = PROMPT_MAPPING[selectedText] || prompts.userPrompts.allTexts;
 
+        const { default: franc } = await import('https://cdn.jsdelivr.net/npm/franc-min@5.1.0/+esm');
         const detectedCode = franc(userMessage || '');
         const LANG_NAME_MAP = {
             hin: 'Hindi', spa: 'Spanish', fra: 'French', deu: 'German',
