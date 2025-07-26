@@ -2,6 +2,8 @@ import prompts from './prompts.js';
 import { getReferenceUrl, parseSource } from './utils.js';
 import { findCachedResponse, cacheResponse, clearCache, getCacheStats } from './cache.js';
 
+const API_CONFIG = window.API_CONFIG || {};
+
 // Get your API key from environment variable or configuration
 
 // Theme mapping
@@ -165,7 +167,7 @@ async function getReligiousGuidance(userMessage, selectedText) {
     const userPrompt = `${textPrompt}\n\nUser's situation: ${userMessage}`;
 
     // Use proxy URL or fallback to local endpoint
-    const API_URL = window.API_CONFIG?.OPENAI_PROXY_URL || '/api/openai-proxy';
+    const API_URL = API_CONFIG.OPENAI_PROXY_URL || '/api/openai-proxy';
     
     // Debug logging
     console.log('API_CONFIG:', window.API_CONFIG);

@@ -5,13 +5,11 @@ on:
     branches:
       - main
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Ensure only one deployment runs at a time
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -24,10 +22,8 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          clean: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -41,51 +37,27 @@ jobs:
           rm -rf node_modules/.cache
           rm -rf .vite
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm ci
 
-      - name: List files before build
-        run: |
-          echo "=== Files before build ==="
-          ls -la
-          echo ""
-
-      - name: Print OPENAI_PROXY_URL for debug
-        run: |
-          echo "OPENAI_PROXY_URL is: $OPENAI_PROXY_URL"
+      - name: Debug - Show injected OPENAI_PROXY_URL
+        run: echo "OPENAI_PROXY_URL is: $OPENAI_PROXY_URL"
         env:
           OPENAI_PROXY_URL: ${{ secrets.OPENAI_PROXY_URL }}
 
-      - name: Build
+      - name: Build and inject API config
         env:
           OPENAI_PROXY_URL: ${{ secrets.OPENAI_PROXY_URL }}
-        run: |
-          echo "Building with OPENAI_PROXY_URL: $OPENAI_PROXY_URL"
-          npm run build
+        run: npm run build
 
-      - name: List files after build
+      - name: Verify API config injected
         run: |
-          echo "=== Files after build ==="
-          ls -la
-          echo ""
-          echo "=== Contents of dist directory ==="
-          ls -la dist/
-          echo ""
-
-      - name: Verify build output
-        run: |
-          echo "=== Verifying dist/index.html ==="
-          if [ ! -f "dist/index.html" ]; then
-            echo "ERROR: dist/index.html not found!"
+          echo "=== Checking dist/index.html ==="
+          grep -A 5 "window.API_CONFIG" dist/index.html || {
+            echo "❌ API_CONFIG not found in index.html"
             exit 1
-          fi
-          echo "dist/index.html exists ✅"
-          echo ""
-          echo "=== Contents of dist/index.html ==="
-          cat dist/index.html
-          echo ""
-          echo "=== Searching for API config in dist/index.html ==="
-          grep -A 5 "window.API_CONFIG" dist/index.html || echo "API config not found ❌"
+          }
+          echo "✅ API_CONFIG found in dist/index.html"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -97,4 +69,4 @@ jobs:
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4 
+        uses: actions/deploy-pages@v4
