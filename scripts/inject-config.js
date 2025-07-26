@@ -22,7 +22,10 @@ try {
   const configScript = `\n<script>\nwindow.API_CONFIG = {\n    OPENAI_PROXY_URL: '${API_URL}'\n};\n</script>\n`;
 
   // Insert right before the first script tag so it loads before app code
-  indexHtml = indexHtml.replace('<script', `${configScript}<script`);
+  indexHtml = indexHtml.replace(
+      '<script src="src/app.js" type="module"></script>',
+      `${configScript}<script src="src/app.js" type="module"></script>`
+  );
 
   fs.writeFileSync(indexPath, indexHtml);
   console.log('✅ OPENAI_PROXY_URL injected into dist/index.html');
