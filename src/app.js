@@ -4,11 +4,8 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     if (!API_CONFIG.OPENAI_PROXY_URL) {
         console.error('❌ OPENAI_PROXY_URL missing in config.');
-        const errorMessage = document.getElementById('errorMessage');
-        if (errorMessage) {
-            errorMessage.textContent = 'Missing configuration. Please try again later.';
-            errorMessage.style.display = 'block';
-        }
+        document.getElementById('errorMessage').textContent = 'Missing configuration.';
+        document.getElementById('errorMessage').style.display = 'block';
         return;
     }
 
@@ -55,16 +52,19 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     function updateCacheStats() {
         const stats = getCacheStats();
-        if (cacheMonitor.count) cacheMonitor.count.textContent = stats.validEntries;
-        if (cacheMonitor.validEntries) cacheMonitor.validEntries.textContent = stats.validEntries;
+        if (cacheMonitor.count) {
+            cacheMonitor.count.textContent = stats.validEntries;
+        }
+        if (cacheMonitor.validEntries) {
+            cacheMonitor.validEntries.textContent = stats.validEntries;
+        }
         if (cacheMonitor.latestCache) {
-            cacheMonitor.latestCache.textContent = stats.newestEntry
-                ? new Date(stats.newestEntry).toLocaleTimeString()
-                : 'No entries';
+            cacheMonitor.latestCache.textContent = stats.newestEntry ? new Date(stats.newestEntry).toLocaleTimeString() : 'No entries';
         }
     }
 
     updateCacheStats();
+
     if (cacheMonitor.clearBtn) {
         cacheMonitor.clearBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -121,9 +121,8 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-
         const userMessage = document.getElementById('userMessage').value;
-        const selectedTextValue = selectedText.value;
+        const selectedText = document.getElementById('selectedText').value;
 
         loadingSpinner.style.display = 'block';
         errorMessage.style.display = 'none';
@@ -131,12 +130,12 @@ window.addEventListener('DOMContentLoaded', async () => {
         summarySection.style.display = 'none';
 
         try {
-            let response = findCachedResponse(selectedTextValue, userMessage);
-            const fromCache = !!response;
+            let response = findCachedResponse(selectedText, userMessage);
+            let fromCache = !!response;
 
             if (!response) {
-                response = await getReligiousGuidance(userMessage, selectedTextValue);
-                cacheResponse(selectedTextValue, userMessage, response);
+                response = await getReligiousGuidance(userMessage, selectedText);
+                cacheResponse(selectedText, userMessage, response);
                 updateCacheStats();
             }
 
@@ -206,8 +205,8 @@ window.addEventListener('DOMContentLoaded', async () => {
             if (!summary) summary = prompts.fallbackSummaries.default;
 
             return { quotes, summary };
-        } catch (err) {
-            console.error('Error parsing response:', err);
+        } catch (error) {
+            console.error('Error parsing response:', error);
             throw new Error(prompts.errors.noResponse);
         }
     }
