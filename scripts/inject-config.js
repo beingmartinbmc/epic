@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const CONFIG_PATH = path.resolve(__dirname, 'dist/index.html');
+const CONFIG_PATH = path.resolve(__dirname, '../dist/index.html'); // Go up one directory to project root
 const OPENAI_PROXY_URL = process.env.OPENAI_PROXY_URL;
 
 if (!OPENAI_PROXY_URL) {
