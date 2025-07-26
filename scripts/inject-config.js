@@ -1,33 +1,25 @@
-// scripts/inject-config.js
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
 
+const CONFIG_PATH = path.resolve('dist/index.html');
 const OPENAI_PROXY_URL = process.env.OPENAI_PROXY_URL;
 
 if (!OPENAI_PROXY_URL) {
-    console.error('❌ Missing OPENAI_PROXY_URL env variable.');
-    process.exit(1);
+    throw new Error('OPENAI_PROXY_URL not set in environment variables');
 }
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const indexPath = path.resolve(__dirname, '../dist/index.html');
+const scriptTag = `<script>
+window.API_CONFIG = {
+  OPENAI_PROXY_URL: "${OPENAI_PROXY_URL}"
+};
+</script>`;
 
-let html = fs.readFileSync(indexPath, 'utf-8');
-
-// Inject global config before </head>
-const injectedScript = `
-  <script>
-    window.API_CONFIG = {
-      OPENAI_PROXY_URL: "${OPENAI_PROXY_URL}"
-    };
-  </script>
-`;
+let html = fs.readFileSync(CONFIG_PATH, 'utf8');
 
 if (html.includes('window.API_CONFIG')) {
-    console.log('⚠️  API_CONFIG already exists in index.html');
+    console.log('✅ API_CONFIG already injected.');
 } else {
-    html = html.replace('</head>', `${injectedScript}\n</head>`);
-    fs.writeFileSync(indexPath, html);
-    console.log('✅ Injected OPENAI_PROXY_URL into index.html');
+    html = html.replace('</head>', `${scriptTag}\n</head>`);
+    fs.writeFileSync(CONFIG_PATH, html);
+    console.log('✅ API_CONFIG injected successfully.');
 }
