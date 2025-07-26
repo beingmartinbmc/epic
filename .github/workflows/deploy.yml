@@ -30,6 +30,12 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
+      - name: Clean workspace
+        run: |
+          rm -rf dist
+          rm -rf node_modules/.cache
+          rm -rf .vite
+
       - name: Install Dependencies
         run: npm ci
 
@@ -37,6 +43,15 @@ jobs:
         env:
           OPENAI_PROXY_URL: ${{ secrets.OPENAI_PROXY_URL || '' }}
         run: npm run build
+
+      - name: Verify build output
+        run: |
+          echo "Build completed. Checking for sensitive data..."
+          if grep -r "sk-" dist/ 2>/dev/null; then
+            echo "ERROR: API keys found in build output!"
+            exit 1
+          fi
+          echo "Build verification passed - no sensitive data found"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
