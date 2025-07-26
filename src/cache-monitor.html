@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cache Monitor - Divine Wisdom</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="symbols-background"></div>
+    <div class="divine-container theme-universal">
+        <div class="divine-header">
+            <div class="header-content">
+                <h1 class="divine-title">
+                    <i class="fas fa-database"></i>
+                    <span>Cache Monitor</span>
+                </h1>
+                <p class="divine-subtitle">Manage cached responses</p>
+            </div>
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Divine Wisdom
+            </a>
+        </div>
+
+        <div class="divine-content">
+            <div class="cache-dashboard">
+                <div class="cache-stats-card">
+                    <h2>Cache Statistics</h2>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-label">Valid Entries</div>
+                            <div class="stat-value" id="validEntries">0</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Latest Cache</div>
+                            <div class="stat-value" id="latestCache">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cache-actions-card">
+                    <h2>Cache Management</h2>
+                    <div class="action-buttons">
+                        <button id="clearCacheBtn" class="cache-action-btn danger">
+                            <i class="fas fa-trash"></i>
+                            Clear Cache
+                        </button>
+                        <button id="refreshStatsBtn" class="cache-action-btn">
+                            <i class="fas fa-sync"></i>
+                            Refresh Stats
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="cache-monitor.js"></script>
+</body>
+</html> 
