@@ -41,7 +41,7 @@ jobs:
         run: npm ci
 
       - name: Debug - Show injected OPENAI_PROXY_URL
-        run:
+        run: |
           echo "OPENAI_PROXY_URL is: $OPENAI_PROXY_URL"
         env:
           OPENAI_PROXY_URL: ${{ secrets.OPENAI_PROXY_URL }}
