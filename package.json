@@ -5,7 +5,6 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build": "npm run clean && vite build",
-    "inject": "node scripts/inject-config.js",
     "dev": "vite",
     "preview": "vite preview"
   },

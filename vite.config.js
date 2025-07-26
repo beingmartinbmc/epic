@@ -1,10 +1,7 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vite'
 
 export default defineConfig({
-  base: '/epic/',
-  build: {
-    outDir: 'dist',
-    assetsDir: 'assets',
-    emptyOutDir: true
+  define: {
+    __OPENAI_PROXY_URL__: JSON.stringify(process.env.OPENAI_PROXY_URL || '/api/openai-proxy')
   }
-}); 
+})
