@@ -11,8 +11,13 @@ window.addEventListener('DOMContentLoaded', async () => {
     const { getReferenceUrl, parseSource } = utils;
     const { findCachedResponse, cacheResponse, clearCache, getCacheStats } = cache;
 
-    const cldFactory = await import('https://cdn.jsdelivr.net/npm/cld3-asm@0.2.1/dist/cld3.min.js');
-    const cld3 = await cldFactory.load();
+    let cld3;
+    try {
+        const cldFactory = await import('https://cdn.jsdelivr.net/npm/cld3-asm@0.2.1/dist/cld3.min.js');
+        cld3 = await cldFactory.load();
+    } catch (e) {
+        console.warn('Language detection unavailable:', e);
+    }
 
     const THEME_MAPPING = {
         'BHAGAVAD_GITA': 'theme-hindu',
@@ -39,7 +44,6 @@ window.addEventListener('DOMContentLoaded', async () => {
     const summaryText = document.getElementById('summaryText');
     const selectedText = document.getElementById('selectedText');
     const container = document.querySelector('.divine-container');
-
     const cacheMonitor = {
         count: document.getElementById('cacheCount'),
         validEntries: document.getElementById('validEntries'),
@@ -57,7 +61,6 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 
     updateCacheStats();
-
     if (cacheMonitor.clearBtn) {
         cacheMonitor.clearBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -65,7 +68,6 @@ window.addEventListener('DOMContentLoaded', async () => {
             updateCacheStats();
         });
     }
-
     setInterval(updateCacheStats, 60000);
 
     selectedText.addEventListener('change', (e) => {
@@ -79,11 +81,9 @@ window.addEventListener('DOMContentLoaded', async () => {
         const titleIcon = document.querySelector('.divine-title i');
         const titleText = document.querySelector('.divine-title span');
         const subtitle = document.querySelector('.divine-subtitle');
-
         let iconClass = 'fas fa-om';
         let title = 'Divine Wisdom';
         let subtitleText = 'Sacred guidance from ancient texts';
-
         switch (selectedValue) {
             case 'BHAGAVAD_GITA':
                 iconClass = 'fas fa-om';
@@ -106,7 +106,6 @@ window.addEventListener('DOMContentLoaded', async () => {
                 subtitleText = 'Divine wisdom from the Guru Granth Sahib';
                 break;
         }
-
         titleIcon.className = iconClass;
         titleText.textContent = title;
         subtitle.textContent = subtitleText;
@@ -115,7 +114,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const userMessage = document.getElementById('userMessage').value.trim();
-        const selectedText = document.getElementById('selectedText').value;
+        const selectedTextValue = document.getElementById('selectedText').value;
 
         loadingSpinner.style.display = 'block';
         errorMessage.style.display = 'none';
@@ -123,12 +122,12 @@ window.addEventListener('DOMContentLoaded', async () => {
         summarySection.style.display = 'none';
 
         try {
-            let response = findCachedResponse(selectedText, userMessage);
+            let response = findCachedResponse(selectedTextValue, userMessage);
             let fromCache = !!response;
 
             if (!response) {
-                response = await getReligiousGuidance(userMessage, selectedText);
-                cacheResponse(selectedText, userMessage, response);
+                response = await getReligiousGuidance(userMessage, selectedTextValue);
+                cacheResponse(selectedTextValue, userMessage, response);
                 updateCacheStats();
             }
 
@@ -142,29 +141,13 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     async function getReligiousGuidance(userMessage, selectedText) {
         const textPrompt = PROMPT_MAPPING[selectedText] || prompts.userPrompts.allTexts;
-        const prediction = cld3.findLanguage(userMessage || '');
-        const detectedCode = prediction?.language || 'und';
+        const prediction = cld3?.findLanguage?.(userMessage || '') || {};
+        const detectedCode = prediction.language || 'und';
 
         const LANG_NAME_MAP = {
-            hi: 'Hindi',
-            es: 'Spanish',
-            fr: 'French',
-            de: 'German',
-            ar: 'Arabic',
-            bn: 'Bengali',
-            pa: 'Punjabi',
-            gu: 'Gujarati',
-            mr: 'Marathi',
-            te: 'Telugu',
-            ta: 'Tamil',
-            ur: 'Urdu',
-            pt: 'Portuguese',
-            it: 'Italian',
-            ja: 'Japanese',
-            ko: 'Korean',
-            ru: 'Russian',
-            tr: 'Turkish',
-            zh: 'Chinese'
+            hi: 'Hindi', es: 'Spanish', fr: 'French', de: 'German', ar: 'Arabic', bn: 'Bengali',
+            pa: 'Punjabi', gu: 'Gujarati', mr: 'Marathi', te: 'Telugu', ta: 'Tamil', ur: 'Urdu',
+            pt: 'Portuguese', it: 'Italian', ja: 'Japanese', ko: 'Korean', ru: 'Russian', tr: 'Turkish', zh: 'Chinese'
         };
 
         let langInstruction = 'IMPORTANT: Respond in English.';
@@ -172,8 +155,6 @@ window.addEventListener('DOMContentLoaded', async () => {
             const langName = LANG_NAME_MAP[detectedCode];
             if (langName) langInstruction = `IMPORTANT: Respond in ${langName}.`;
         }
-
-        console.log('🌐 Detected language code:', detectedCode, '-', langInstruction);
 
         const userPrompt = `${textPrompt}\n\nUser's situation: ${userMessage}`;
 
@@ -234,7 +215,6 @@ window.addEventListener('DOMContentLoaded', async () => {
             const { source, text, translation } = quote;
             const { bookName, chapter, verse } = parseSource(source);
             const referenceUrl = getReferenceUrl(bookName, `${chapter}:${verse}`);
-
             return `
         <div class="quote-card">
           <div class="quote-text">${text}</div>
@@ -243,10 +223,10 @@ window.addEventListener('DOMContentLoaded', async () => {
             ${referenceUrl ? `<a href="${referenceUrl}" target="_blank" rel="noopener noreferrer">${source}</a>` : source}
           </div>
           ${translation ? `
-          <div class="quote-context">
-            <span class="context-label">Context</span>
-            <div class="context-text">${translation}</div>
-          </div>` : ''}
+            <div class="quote-context">
+              <span class="context-label">Context</span>
+              <div class="context-text">${translation}</div>
+            </div>` : ''}
         </div>
       `;
         }).join('');
