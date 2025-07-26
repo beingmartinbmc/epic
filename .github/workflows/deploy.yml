@@ -50,6 +50,12 @@ jobs:
           ls -la
           echo ""
 
+      - name: Print OPENAI_PROXY_URL for debug
+        run: |
+          echo "OPENAI_PROXY_URL is: $OPENAI_PROXY_URL"
+        env:
+          OPENAI_PROXY_URL: ${{ secrets.OPENAI_PROXY_URL }}
+
       - name: Build
         env:
           OPENAI_PROXY_URL: ${{ secrets.OPENAI_PROXY_URL }}
