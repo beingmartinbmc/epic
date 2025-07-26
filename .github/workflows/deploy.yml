@@ -49,6 +49,9 @@ jobs:
           OPENAI_PROXY_URL: ${{ secrets.OPENAI_PROXY_URL || '' }}
         run: npm run build
 
+      - name: Inject API config
+        run: node scripts/inject-config.js
+
       - name: Debug build output
         run: |
           echo "=== Debugging dist/index.html content ==="
