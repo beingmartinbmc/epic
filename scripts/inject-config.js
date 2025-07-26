@@ -4,7 +4,7 @@ import path from 'path';
 const configScript = `
 <script>
 window.API_CONFIG = {
-    OPENAI_PROXY_URL: '${process.env.OPENAI_PROXY_URL || ''}'
+    OPENAI_PROXY_URL: '${process.env.OPENAI_PROXY_URL || 'https://religious-guide-cjzb7vck2-beingmartinbmcs-projects.vercel.app/api/openai-proxy'}'
 };
 </script>
 `;
