@@ -164,63 +164,28 @@ async function getReligiousGuidance(userMessage, selectedText) {
     const textPrompt = PROMPT_MAPPING[selectedText] || prompts.userPrompts.allTexts;
     const userPrompt = `${textPrompt}\n\nUser's situation: ${userMessage}`;
 
-    // Check if we have a proxy URL or should use direct API
-    const proxyUrl = window.API_CONFIG?.OPENAI_PROXY_URL;
+    // Use proxy URL or fallback to local endpoint
+    const API_URL = window.API_CONFIG?.OPENAI_PROXY_URL || '/api/openai-proxy';
     
-    if (proxyUrl && proxyUrl.trim() !== '') {
-        // Use proxy (secure method)
-        const response = await fetch(proxyUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                messages: [
-                    { role: 'system', content: prompts.system.prompt },
-                    { role: 'user', content: userPrompt }
-                ]
-            })
-        });
+    const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            messages: [
+                { role: 'system', content: prompts.system.prompt },
+                { role: 'user', content: userPrompt }
+            ]
+        })
+    });
 
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.error?.message || prompts.errors.serviceUnavailable);
-        }
-
-        const data = await response.json();
-        return parseOpenAIResponse(data);
-    } else {
-        // Use direct API (fallback for testing)
-        const apiKey = window.API_CONFIG?.OPENAI_API_KEY;
-        if (!apiKey || apiKey === '') {
-            throw new Error('OpenAI API key not configured. Please set up GitHub secrets.');
-        }
-
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
-            },
-            body: JSON.stringify({
-                model: window.API_CONFIG?.OPENAI_MODEL || 'gpt-4o-mini',
-                messages: [
-                    { role: 'system', content: prompts.system.prompt },
-                    { role: 'user', content: userPrompt }
-                ],
-                temperature: window.API_CONFIG?.OPENAI_TEMPERATURE || 0.7,
-                max_tokens: window.API_CONFIG?.OPENAI_TOKEN || 2000
-            })
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.error?.message || prompts.errors.serviceUnavailable);
-        }
-
-        const data = await response.json();
-        return parseOpenAIResponse(data);
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error?.message || prompts.errors.serviceUnavailable);
     }
+
+    return parseOpenAIResponse(await response.json());
 }
 
 function parseOpenAIResponse(data) {

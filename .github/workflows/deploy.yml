@@ -42,11 +42,16 @@ jobs:
       - name: Build
         env:
           OPENAI_PROXY_URL: ${{ secrets.OPENAI_PROXY_URL || '' }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY || '' }}
-          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL || 'gpt-4o-mini' }}
-          OPENAI_TEMPERATURE: ${{ secrets.OPENAI_TEMPERATURE || '0.7' }}
-          OPENAI_TOKEN: ${{ secrets.OPENAI_TOKEN || '2000' }}
         run: npm run build
+
+      - name: Verify build output
+        run: |
+          echo "Build completed. Checking for sensitive data..."
+          if grep -r "sk-" dist/ 2>/dev/null; then
+            echo "ERROR: API keys found in build output!"
+            exit 1
+          fi
+          echo "Build verification passed - no sensitive data found"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
