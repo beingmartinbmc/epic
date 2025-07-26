@@ -10,7 +10,7 @@ window.API_CONFIG = {
 `;
 
 // Read the built index.html
-const indexPath = path.resolve('dist/src/index.html');
+const indexPath = path.resolve('dist/index.html');
 let indexHtml = fs.readFileSync(indexPath, 'utf-8');
 
 // Insert the config script before the first <script> tag

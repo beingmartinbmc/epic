@@ -6,9 +6,7 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: true, // Clean the output directory before building
     rollupOptions: {
-      input: {
-        main: 'src/index.html'
-      }
+      input: 'index.html' // Now it's in the root
     }
   },
   // Clear cache on build
