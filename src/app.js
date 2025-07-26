@@ -6,11 +6,13 @@ window.addEventListener('DOMContentLoaded', async () => {
     const promptsModule = await import('./prompts.js');
     const utils = await import('./utils.js');
     const cache = await import('./cache.js');
-    const { franc } = await import('https://cdn.jsdelivr.net/npm/franc-min/+esm');
 
     const prompts = promptsModule.default;
     const { getReferenceUrl, parseSource } = utils;
     const { findCachedResponse, cacheResponse, clearCache, getCacheStats } = cache;
+
+    const cldFactory = await import('https://cdn.jsdelivr.net/npm/cld3-asm@0.2.1/dist/cld3.min.js');
+    const cld3 = await cldFactory.load();
 
     const THEME_MAPPING = {
         'BHAGAVAD_GITA': 'theme-hindu',
@@ -55,6 +57,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 
     updateCacheStats();
+
     if (cacheMonitor.clearBtn) {
         cacheMonitor.clearBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -76,6 +79,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         const titleIcon = document.querySelector('.divine-title i');
         const titleText = document.querySelector('.divine-title span');
         const subtitle = document.querySelector('.divine-subtitle');
+
         let iconClass = 'fas fa-om';
         let title = 'Divine Wisdom';
         let subtitleText = 'Sacred guidance from ancient texts';
@@ -110,7 +114,6 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-
         const userMessage = document.getElementById('userMessage').value.trim();
         const selectedText = document.getElementById('selectedText').value;
 
@@ -139,26 +142,41 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     async function getReligiousGuidance(userMessage, selectedText) {
         const textPrompt = PROMPT_MAPPING[selectedText] || prompts.userPrompts.allTexts;
+        const prediction = cld3.findLanguage(userMessage || '');
+        const detectedCode = prediction?.language || 'und';
 
-        const detectedCode = franc(userMessage || '');
         const LANG_NAME_MAP = {
-            hin: 'Hindi', spa: 'Spanish', fra: 'French', deu: 'German', ara: 'Arabic',
-            ben: 'Bengali', pan: 'Punjabi', guj: 'Gujarati', mar: 'Marathi',
-            tel: 'Telugu', tam: 'Tamil', urd: 'Urdu', por: 'Portuguese', ita: 'Italian',
-            jpn: 'Japanese', kor: 'Korean', rus: 'Russian', tur: 'Turkish', zho: 'Chinese'
+            hi: 'Hindi',
+            es: 'Spanish',
+            fr: 'French',
+            de: 'German',
+            ar: 'Arabic',
+            bn: 'Bengali',
+            pa: 'Punjabi',
+            gu: 'Gujarati',
+            mr: 'Marathi',
+            te: 'Telugu',
+            ta: 'Tamil',
+            ur: 'Urdu',
+            pt: 'Portuguese',
+            it: 'Italian',
+            ja: 'Japanese',
+            ko: 'Korean',
+            ru: 'Russian',
+            tr: 'Turkish',
+            zh: 'Chinese'
         };
 
         let langInstruction = 'IMPORTANT: Respond in English.';
-        if (detectedCode && detectedCode !== 'und' && detectedCode !== 'eng') {
+        if (detectedCode !== 'und' && detectedCode !== 'en') {
             const langName = LANG_NAME_MAP[detectedCode];
-            if (langName) {
-                langInstruction = `IMPORTANT: Respond in ${langName}.`;
-            }
+            if (langName) langInstruction = `IMPORTANT: Respond in ${langName}.`;
         }
 
         console.log('🌐 Detected language code:', detectedCode, '-', langInstruction);
 
         const userPrompt = `${textPrompt}\n\nUser's situation: ${userMessage}`;
+
         const response = await fetch(API_CONFIG.OPENAI_PROXY_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -189,7 +207,6 @@ window.addEventListener('DOMContentLoaded', async () => {
             for (let line of lines) {
                 line = line.trim();
                 if (!line) continue;
-
                 if (line.startsWith('QUOTE:')) {
                     if (currentQuote) quotes.push(currentQuote);
                     currentQuote = { text: line.substring(6).trim(), source: '', translation: '' };
@@ -226,10 +243,10 @@ window.addEventListener('DOMContentLoaded', async () => {
             ${referenceUrl ? `<a href="${referenceUrl}" target="_blank" rel="noopener noreferrer">${source}</a>` : source}
           </div>
           ${translation ? `
-            <div class="quote-context">
-              <span class="context-label">Context</span>
-              <div class="context-text">${translation}</div>
-            </div>` : ''}
+          <div class="quote-context">
+            <span class="context-label">Context</span>
+            <div class="context-text">${translation}</div>
+          </div>` : ''}
         </div>
       `;
         }).join('');
