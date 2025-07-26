@@ -1,3 +1,6 @@
+// Lightweight language detection
+import { franc } from 'franc-min';
+
 window.addEventListener('DOMContentLoaded', async () => {
     const API_CONFIG = {
         OPENAI_PROXY_URL: 'https://religious-guide-j983g9ivu-beingmartinbmcs-projects.vercel.app/api/openai-proxy'
@@ -139,7 +142,23 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     async function getReligiousGuidance(userMessage, selectedText) {
         const textPrompt = PROMPT_MAPPING[selectedText] || prompts.userPrompts.allTexts;
-        const userPrompt = `${textPrompt}\n\nUser's situation: ${userMessage}`;
+
+        // Detect user's language
+        const detectedCode = franc(userMessage || '');
+        const LANG_NAME_MAP = {
+            hin: 'Hindi', spa: 'Spanish', fra: 'French', deu: 'German', ara: 'Arabic', ben: 'Bengali', pan: 'Punjabi',
+            guj: 'Gujarati', mar: 'Marathi', tel: 'Telugu', tam: 'Tamil', urd: 'Urdu', por: 'Portuguese', ita: 'Italian',
+            jpn: 'Japanese', kor: 'Korean', rus: 'Russian', tur: 'Turkish', zho: 'Chinese'
+        };
+        let langInstruction = 'IMPORTANT: Respond in the SAME LANGUAGE used in the user\'s message above.';
+        if (detectedCode && detectedCode !== 'und' && detectedCode !== 'eng') {
+            const langName = LANG_NAME_MAP[detectedCode];
+            if (langName) {
+                langInstruction = `IMPORTANT: Respond in ${langName}.`;
+            }
+        }
+
+        const userPrompt = `${textPrompt}\n\n${langInstruction}\n\nUser's situation: ${userMessage}`;
         const API_URL = API_CONFIG.OPENAI_PROXY_URL;
 
         console.log('📡 Using API URL:', API_URL);
