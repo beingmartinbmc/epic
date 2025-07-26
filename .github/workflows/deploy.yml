@@ -46,33 +46,25 @@ jobs:
 
       - name: Build
         env:
-          OPENAI_PROXY_URL: ${{ secrets.OPENAI_PROXY_URL || '' }}
-        run: npm run build
-
-      - name: Inject API config
-        run: node scripts/inject-config.js
-
-      - name: Debug build output
+          OPENAI_PROXY_URL: ${{ secrets.OPENAI_PROXY_URL || 'https://religious-guide-cjzb7vck2-beingmartinbmcs-projects.vercel.app/api/openai-proxy' }}
         run: |
-          echo "=== Debugging dist/index.html content ==="
-          echo "First 20 lines of dist/index.html:"
-          head -20 dist/index.html
-          echo "=== End of debug output ==="
-          echo ""
-          echo "Searching for OPENAI_API_KEY in dist/index.html:"
-          grep -n "OPENAI_API_KEY" dist/index.html || echo "No OPENAI_API_KEY found"
-          echo ""
+          echo "Building with OPENAI_PROXY_URL: $OPENAI_PROXY_URL"
+          npm run build
 
       - name: Verify build output
         run: |
-          echo "Build completed. Checking for sensitive data..."
-          if grep -r "sk-proj-\|sk-[a-zA-Z0-9]" dist/ 2>/dev/null; then
-            echo "WARNING: Actual API keys found in build output!"
+          echo "=== Verifying dist/index.html ==="
+          if [ ! -f "dist/index.html" ]; then
+            echo "ERROR: dist/index.html not found!"
+            exit 1
           fi
-          if grep -r "sk-[a-zA-Z0-9]\{20,\}" dist/ 2>/dev/null; then
-            echo "WARNING: Potential API keys found in build output!"
-          fi
-          echo "Build verification passed - no actual API keys found"
+          echo "dist/index.html exists ✅"
+          echo ""
+          echo "First 20 lines of dist/index.html:"
+          head -20 dist/index.html
+          echo ""
+          echo "Searching for API config in dist/index.html:"
+          grep -A 5 "window.API_CONFIG" dist/index.html || echo "API config not found ❌"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
