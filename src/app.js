@@ -6,6 +6,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     const promptsModule = await import('./prompts.js');
     const utils = await import('./utils.js');
     const cache = await import('./cache.js');
+    const { franc } = await import('https://cdn.jsdelivr.net/npm/franc-min/+esm');
 
     const prompts = promptsModule.default;
     const { getReferenceUrl, parseSource } = utils;
@@ -54,7 +55,6 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 
     updateCacheStats();
-
     if (cacheMonitor.clearBtn) {
         cacheMonitor.clearBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -76,7 +76,6 @@ window.addEventListener('DOMContentLoaded', async () => {
         const titleIcon = document.querySelector('.divine-title i');
         const titleText = document.querySelector('.divine-title span');
         const subtitle = document.querySelector('.divine-subtitle');
-
         let iconClass = 'fas fa-om';
         let title = 'Divine Wisdom';
         let subtitleText = 'Sacred guidance from ancient texts';
@@ -141,15 +140,12 @@ window.addEventListener('DOMContentLoaded', async () => {
     async function getReligiousGuidance(userMessage, selectedText) {
         const textPrompt = PROMPT_MAPPING[selectedText] || prompts.userPrompts.allTexts;
 
-        // Use global franc from script tag
-        const detectedCode = window.franc(userMessage || '');
-
+        const detectedCode = franc(userMessage || '');
         const LANG_NAME_MAP = {
             hin: 'Hindi', spa: 'Spanish', fra: 'French', deu: 'German', ara: 'Arabic',
             ben: 'Bengali', pan: 'Punjabi', guj: 'Gujarati', mar: 'Marathi',
-            tel: 'Telugu', tam: 'Tamil', urd: 'Urdu', por: 'Portuguese',
-            ita: 'Italian', jpn: 'Japanese', kor: 'Korean', rus: 'Russian',
-            tur: 'Turkish', zho: 'Chinese'
+            tel: 'Telugu', tam: 'Tamil', urd: 'Urdu', por: 'Portuguese', ita: 'Italian',
+            jpn: 'Japanese', kor: 'Korean', rus: 'Russian', tur: 'Turkish', zho: 'Chinese'
         };
 
         let langInstruction = 'IMPORTANT: Respond in English.';
@@ -163,20 +159,13 @@ window.addEventListener('DOMContentLoaded', async () => {
         console.log('🌐 Detected language code:', detectedCode, '-', langInstruction);
 
         const userPrompt = `${textPrompt}\n\nUser's situation: ${userMessage}`;
-
         const response = await fetch(API_CONFIG.OPENAI_PROXY_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 messages: [
-                    {
-                        role: 'system',
-                        content: `${prompts.system.prompt}\n\n${langInstruction}`
-                    },
-                    {
-                        role: 'user',
-                        content: userPrompt
-                    }
+                    { role: 'system', content: `${prompts.system.prompt}\n\n${langInstruction}` },
+                    { role: 'user', content: userPrompt }
                 ]
             })
         });
@@ -194,7 +183,6 @@ window.addEventListener('DOMContentLoaded', async () => {
             const content = data.choices[0].message.content;
             const quotes = [];
             const lines = content.split('\n');
-
             let currentQuote = null;
             let summary = '';
 
@@ -241,8 +229,7 @@ window.addEventListener('DOMContentLoaded', async () => {
             <div class="quote-context">
               <span class="context-label">Context</span>
               <div class="context-text">${translation}</div>
-            </div>` : ''
-            }
+            </div>` : ''}
         </div>
       `;
         }).join('');
