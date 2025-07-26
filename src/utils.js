@@ -15,7 +15,7 @@ export function getReferenceUrl(source, reference) {
     if (!chapter) return null;
 
     // Handle Quran references – be lenient on apostrophes/dashes (e.g., "Qur'an", "al-quran")
-    if (sourceNormalized.includes('quran') || sourceNormalized.includes('koran')) {
+    if (sourceNormalized.includes('quran') || sourceNormalized.includes('koran') || sourceNormalized.includes('surah') || sourceNormalized.includes('sura')) {
         if (!verse) return null;
         // Format: https://quran.com/2/255
         return `https://quran.com/${chapter}/${verse}`;

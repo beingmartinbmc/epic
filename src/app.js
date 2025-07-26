@@ -205,7 +205,8 @@ window.addEventListener('DOMContentLoaded', async () => {
         quotesGrid.innerHTML = guidance.quotes.map(quote => {
             const { source, text, translation } = quote;
             const { bookName, chapter, verse } = parseSource(source);
-            const referenceUrl = getReferenceUrl(bookName, `${chapter}:${verse}`);
+            // Pass the complete original source to maximise detection accuracy (e.g., "Surah Al-Baqarah")
+            const referenceUrl = getReferenceUrl(source, `${chapter}:${verse}`);
 
             return `
         <div class="quote-card">
