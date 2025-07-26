@@ -13,7 +13,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     let mozillaLangDetector;
     try {
-        const { LangDetect } = await import('https://cdn.jsdelivr.net/npm/@mozilla/language-detection@1.0.4/dist/langdetect.min.js');
+        const { LangDetect } = await import('https://esm.sh/@mozilla/language-detection');
         mozillaLangDetector = new LangDetect();
     } catch (e) {
         console.warn('Mozilla language detection unavailable:', e);
