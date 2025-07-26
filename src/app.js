@@ -1,8 +1,6 @@
 window.addEventListener('DOMContentLoaded', () => {
     // No fallbacks - let it break if not available
-    const API_CONFIG = {
-        OPENAI_PROXY_URL: __OPENAI_PROXY_URL__
-    };
+    const API_CONFIG = window.API_CONFIG || {};
 
     console.log('✅ API_CONFIG loaded:', API_CONFIG);
 
