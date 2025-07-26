@@ -1,9 +1,3 @@
 {
-  "version": 2,
-  "routes": [
-    {
-      "src": "/api/openai-proxy",
-      "dest": "/api/openai-proxy.js"
-    }
-  ]
+  "version": 2
 } 
