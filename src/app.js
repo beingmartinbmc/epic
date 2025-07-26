@@ -1,35 +1,9 @@
-async function waitForApiConfig(maxWaitMs = 3000) {
-    const start = Date.now();
-    return new Promise((resolve, reject) => {
-        const check = () => {
-            if (window.API_CONFIG && window.API_CONFIG.OPENAI_PROXY_URL) {
-                return resolve(window.API_CONFIG);
-            }
-            if (Date.now() - start > maxWaitMs) {
-                return reject(new Error('❌ API_CONFIG not available after waiting'));
-            }
-            requestAnimationFrame(check);
-        };
-        check();
-    });
-}
-
 window.addEventListener('DOMContentLoaded', async () => {
-    let API_CONFIG = null;
-    try {
-        API_CONFIG = await waitForApiConfig();
-        console.log('✅ API_CONFIG loaded:', API_CONFIG);
-    } catch (err) {
-        console.error(err.message);
-        const errorDiv = document.getElementById('errorMessage');
-        if (errorDiv) {
-            errorDiv.textContent = 'Missing API configuration. Please try again later.';
-            errorDiv.style.display = 'block';
-        }
-        return;
-    }
+    const API_CONFIG = {
+        OPENAI_PROXY_URL: 'https://religious-guide-j983g9ivu-beingmartinbmcs-projects.vercel.app/api/openai-proxy'
+    };
+    console.log('✅ API_CONFIG loaded:', API_CONFIG);
 
-    // 💡 Everything below this point stays as-is:
     const promptsModule = await import('./prompts.js');
     const utils = await import('./utils.js');
     const cache = await import('./cache.js');
