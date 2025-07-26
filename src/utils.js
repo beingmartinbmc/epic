@@ -7,53 +7,47 @@
 export function getReferenceUrl(source, reference) {
     if (!source || !reference) return null;
 
-    // Normalize the source string to improve matching. Remove punctuation/whitespace for easier substring checks.
-    const sourceLower = source.toLowerCase();
-    const sourceNormalized = sourceLower.replace(/[^a-z0-9]/g, '');
-    const [chapter, verse] = reference.split(':').map(part => part.trim());
-    
-    if (!chapter) return null;
+    const normalized = source.toLowerCase().replace(/[^a-z0-9]/g, '');
 
-    // Handle Quran references – be lenient on apostrophes/dashes (e.g., "Qur'an", "al-quran")
-    if (sourceNormalized.includes('quran') || sourceNormalized.includes('koran') || sourceNormalized.includes('surah') || sourceNormalized.includes('sura')) {
+    const [chapterRaw, verseRaw] = reference.split(':').map(part => part.trim());
+    if (!chapterRaw) return null;
+
+    const chapter = chapterRaw.replace(/[^0-9]/g, '');
+    const verse = verseRaw ? verseRaw.replace(/[^0-9]/g, '') : null;
+
+    // Quran Aliases
+    const quranAliases = ['quran', 'alquran', 'alqur’an', 'koran', 'surah', 'sura', 'holyquran'];
+    if (quranAliases.some(alias => normalized.includes(alias))) {
         if (!verse) return null;
-        // Format: https://quran.com/2/255
         return `https://quran.com/${chapter}/${verse}`;
     }
-    
-    // Handle Bhagavad Gita references
-    if (sourceNormalized.includes('bhagavad') || sourceNormalized.includes('gita')) {
+
+    // Bhagavad Gita Aliases
+    const gitaAliases = ['bhagavadgita', 'gita', 'bhagwatgita', 'shrimadbhagavadgita', 'bhagavad'];
+    if (gitaAliases.some(alias => normalized.includes(alias))) {
         if (!verse) return null;
-        // Clean up chapter and verse numbers to ensure they're just numbers
-        const cleanChapter = chapter.replace(/[^0-9]/g, '');
-        const cleanVerse = verse.replace(/[^0-9]/g, '');
-        // Format: https://bhagavadgita.io/chapter/2/verse/47
-        return `https://bhagavadgita.io/chapter/${cleanChapter}/verse/${cleanVerse}`;
-    }
-    
-    // Handle Guru Granth Sahib references
-    if (sourceNormalized.includes('guru') || sourceNormalized.includes('granth') || sourceNormalized.includes('sahib')) {
-        // Format: https://www.searchgurbani.com/guru-granth-sahib/ang/{page}
-        // The chapter in this case represents the Ang (page number)
-        const cleanPage = chapter.replace(/[^0-9]/g, '');
-        return `https://www.searchgurbani.com/guru-granth-sahib/ang/${cleanPage}`;
-    }
-    
-    // Handle Bible references – default fallback when we detect a probable Bible book or the word "bible"
-    // List of common Bible book names/abbreviations (not exhaustive but covers most use-cases)
-    const bibleBooksPattern = /\b(genesis|exodus|leviticus|numbers|deuteronomy|joshua|judges|ruth|samuel|kings|chronicles|ezra|nehemiah|esther|job|psalm|psalms|proverb|proverbs|ecclesiastes|song\sof\ssolomon|isaiah|jeremiah|lamentations|ezekiel|daniel|hosea|joel|amos|obadiah|jonah|micah|nahum|habakkuk|zephaniah|haggai|zechariah|malachi|matthew|mark|luke|john|acts|romans|corinthians|galatians|ephesians|philippians|colossians|thessalonians|timothy|titus|philemon|hebrews|james|peter|jude|revelation)\b/i;
-
-    if (bibleBooksPattern.test(source) || sourceLower.includes('bible')) {
-        // Clean up source to remove "Bible" if present and any extra spaces
-        const cleanSource = source.replace(/\s*bible\s*/i, '').trim();
-        // Format: https://www.biblegateway.com/passage/?search=John+3:16
-        const reference = verse ? `${chapter}:${verse}` : chapter;
-        return `https://www.biblegateway.com/passage/?search=${cleanSource.replace(/\s+/g, '+')}+${reference}`;
+        return `https://bhagavadgita.io/chapter/${chapter}/verse/${verse}`;
     }
 
-    // Unknown or unsupported source
-    return null;
+    // Guru Granth Sahib
+    const ggsAliases = ['granth', 'guru', 'sahib', 'gurugranthsahib'];
+    if (ggsAliases.some(alias => normalized.includes(alias))) {
+        return `https://www.searchgurbani.com/guru-granth-sahib/ang/${chapter}`;
+    }
+
+    // Bible detection using book names and fallback on "bible" keyword
+    const bibleBooksRegex = /\b(genesis|exodus|leviticus|numbers|deuteronomy|joshua|judges|ruth|samuel|kings|chronicles|ezra|nehemiah|esther|job|psalms?|proverbs?|ecclesiastes|songofsolomon|isaiah|jeremiah|lamentations|ezekiel|daniel|hosea|joel|amos|obadiah|jonah|micah|nahum|habakkuk|zephaniah|haggai|zechariah|malachi|matthew|mark|luke|john|acts|romans|corinthians|galatians|ephesians|philippians|colossians|thessalonians|timothy|titus|philemon|hebrews|james|peter|jude|revelation)\b/i;
+
+    if (bibleBooksRegex.test(source) || normalized.includes('bible') || normalized.includes('holybible')) {
+        const cleanSource = source.replace(/\b(Holy\s)?Bible\b/i, '').trim();
+        const formattedRef = verse ? `${chapterRaw}:${verseRaw}` : chapterRaw;
+        const book = cleanSource.replace(/\s+/g, '+');
+        return `https://www.biblegateway.com/passage/?search=${book}+${formattedRef}`;
+    }
+
+    return null; // Unknown
 }
+
 
 /**
  * Extracts chapter and verse from a source string
