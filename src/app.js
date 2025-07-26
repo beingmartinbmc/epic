@@ -11,12 +11,12 @@ window.addEventListener('DOMContentLoaded', async () => {
     const { getReferenceUrl, parseSource } = utils;
     const { findCachedResponse, cacheResponse, clearCache, getCacheStats } = cache;
 
-    let cld3;
+    let mozillaLangDetector;
     try {
-        const cldFactory = await import('https://cdn.jsdelivr.net/npm/cld3-asm@0.2.1/dist/cld3.min.js');
-        cld3 = await cldFactory.load();
+        const { LangDetect } = await import('https://cdn.jsdelivr.net/npm/@mozilla/language-detection@1.0.4/dist/langdetect.min.js');
+        mozillaLangDetector = new LangDetect();
     } catch (e) {
-        console.warn('Language detection unavailable:', e);
+        console.warn('Mozilla language detection unavailable:', e);
     }
 
     const THEME_MAPPING = {
@@ -141,8 +141,18 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     async function getReligiousGuidance(userMessage, selectedText) {
         const textPrompt = PROMPT_MAPPING[selectedText] || prompts.userPrompts.allTexts;
-        const prediction = cld3?.findLanguage?.(userMessage || '') || {};
-        const detectedCode = prediction.language || 'und';
+        let detectedCode = 'und';
+
+        if (mozillaLangDetector) {
+            try {
+                const results = mozillaLangDetector.detect(userMessage || '');
+                if (results && results.length) {
+                    detectedCode = results[0].language;
+                }
+            } catch (e) {
+                console.warn('Language detection error:', e);
+            }
+        }
 
         const LANG_NAME_MAP = {
             hi: 'Hindi', es: 'Spanish', fr: 'French', de: 'German', ar: 'Arabic', bn: 'Bengali',
