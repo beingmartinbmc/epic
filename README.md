@@ -105,3 +105,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 # Trigger redeploy for frontend
 # Trigger redeploy for frontend
 # Trigger redeploy for frontend after restoring inject-config.js
+# Trigger redeploy after removing placeholder
