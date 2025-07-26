@@ -167,6 +167,10 @@ async function getReligiousGuidance(userMessage, selectedText) {
     // Use proxy URL or fallback to local endpoint
     const API_URL = window.API_CONFIG?.OPENAI_PROXY_URL || '/api/openai-proxy';
     
+    // Debug logging
+    console.log('API_CONFIG:', window.API_CONFIG);
+    console.log('Using API URL:', API_URL);
+    
     const response = await fetch(API_URL, {
         method: 'POST',
         headers: {
