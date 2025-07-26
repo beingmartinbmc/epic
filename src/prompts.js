@@ -22,6 +22,9 @@ CRITICAL GUIDELINES:
 4. Focus on universal spiritual principles that unite humanity: love, compassion, forgiveness, patience, and inner peace.
 5. Never engage in religious debates or comparisons that could cause offense.
 
+LANGUAGE CONSISTENCY:
+• If the user's message is predominantly in a language other than English, provide the entire response (quotes, context, and summary) in that same language. Otherwise default to English.
+
 Your role is to:
 1. Listen empathetically to the user's feelings and situation.
 2. Provide compassionate, uplifting spiritual guidance using ONLY the specified sacred texts.
@@ -77,13 +80,13 @@ Keep responses uplifting, practical, and focused on spiritual growth while maint
   userPrompts: {
     bhagavadGita: 'IMPORTANT: Provide spiritual guidance and at least 5 relevant quotes ONLY from the Bhagavad Gita. Do NOT include quotes from any other religious texts (Quran, Bible, etc.). Focus exclusively on Hindu wisdom and teachings from the Bhagavad Gita. Provide 5 or more quotes that are most relevant to the user\'s situation.',
     
-    quran: 'IMPORTANT: Provide spiritual guidance and at least 5 relevant quotes ONLY from the Quran. Do NOT include quotes from any other religious texts (Bhagavad Gita, Bible, etc.). Focus exclusively on Islamic wisdom and teachings from the Quran. Provide 5 or more quotes that are most relevant to the user\'s situation.',
+    quran: 'IMPORTANT: Provide spiritual guidance and at least 5 relevant quotes ONLY from the Quran. Do NOT include quotes from any other religious texts (Bhagavad Gita, Bible, etc.). When citing Quran verses, USE ONLY THE SURAH NUMBER (no Surah names) e.g., "Quran 2:155". Focus on Islamic wisdom and provide 5 or more quotes that are most relevant to the user\'s situation.',
     
     bible: 'IMPORTANT: Provide spiritual guidance and at least 5 relevant quotes ONLY from the Bible. Do NOT include quotes from any other religious texts (Bhagavad Gita, Quran, etc.). Focus exclusively on Christian wisdom and teachings from the Bible. When citing Bible verses, use ONLY the book name without the word "Bible" (e.g., "Matthew 11:28" not "Bible Matthew 11:28"). Always use the standard book names as found in the Bible (e.g., Genesis, Exodus, Matthew, John, Psalms, etc.). Provide 5 or more quotes that are most relevant to the user\'s situation.',
     
     guruGranthSahib: 'IMPORTANT: Provide spiritual guidance and at least 5 relevant quotes ONLY from the Guru Granth Sahib. Do NOT include quotes from any other religious texts (Bhagavad Gita, Quran, Bible, etc.). Focus exclusively on Sikh wisdom and teachings from the Guru Granth Sahib. When citing verses, use the Ang (page) number as chapter and line number as verse (e.g., "Guru Granth Sahib 123:45" where 123 is the Ang number and 45 is the line number). Provide 5 or more quotes that are most relevant to the user\'s situation.',
     
-    allTexts: 'Please provide spiritual guidance and at least 5 relevant quotes from the Bhagavad Gita, Quran, Bible, and Guru Granth Sahib that can help me with my current situation. Include wisdom from multiple traditions if relevant. For Bible verses, use ONLY the book name without the word "Bible" (e.g., "Matthew 11:28" not "Bible Matthew 11:28"). Provide 5 or more quotes total, distributed across the different sacred texts.'
+    allTexts: 'Please provide spiritual guidance and at least 5 relevant quotes from the Bhagavad Gita, Quran, Bible, and Guru Granth Sahib that can help me with my current situation. Include wisdom from multiple traditions if relevant. For Quran verses, USE ONLY THE SURAH NUMBER (e.g., "Quran 2:155"), and for Bible verses, use ONLY the book name without the word "Bible" (e.g., "Matthew 11:28" not "Bible Matthew 11:28"). Provide 5 or more quotes total, distributed across the different sacred texts.'
   },
 
   fallbackSummaries: {
