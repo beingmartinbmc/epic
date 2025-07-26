@@ -44,12 +44,27 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      - name: List files before build
+        run: |
+          echo "=== Files before build ==="
+          ls -la
+          echo ""
+
       - name: Build
         env:
-          OPENAI_PROXY_URL: ${{ secrets.OPENAI_PROXY_URL || 'https://religious-guide-cjzb7vck2-beingmartinbmcs-projects.vercel.app/api/openai-proxy' }}
+          OPENAI_PROXY_URL: ${{ secrets.OPENAI_PROXY_URL || 'https://religious-guide-40aech34e-beingmartinbmcs-projects.vercel.app/api/openai-proxy' }}
         run: |
           echo "Building with OPENAI_PROXY_URL: $OPENAI_PROXY_URL"
           npm run build
+
+      - name: List files after build
+        run: |
+          echo "=== Files after build ==="
+          ls -la
+          echo ""
+          echo "=== Contents of dist directory ==="
+          ls -la dist/
+          echo ""
 
       - name: Verify build output
         run: |
@@ -60,10 +75,10 @@ jobs:
           fi
           echo "dist/index.html exists ✅"
           echo ""
-          echo "First 20 lines of dist/index.html:"
-          head -20 dist/index.html
+          echo "=== Contents of dist/index.html ==="
+          cat dist/index.html
           echo ""
-          echo "Searching for API config in dist/index.html:"
+          echo "=== Searching for API config in dist/index.html ==="
           grep -A 5 "window.API_CONFIG" dist/index.html || echo "API config not found ❌"
 
       - name: Setup Pages
