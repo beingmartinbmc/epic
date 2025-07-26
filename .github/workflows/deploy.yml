@@ -34,13 +34,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Vite project
-        run: npm run build
-
-      - name: Inject OPENAI_PROXY_URL
+      - name: Build Vite project and inject API config
         env:
           OPENAI_PROXY_URL: ${{ secrets.OPENAI_PROXY_URL }}
-        run: npm run inject
+        run: npm run build
 
       - name: Confirm API config was injected
         run: |

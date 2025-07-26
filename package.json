@@ -4,8 +4,9 @@
   "type": "module",
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "npm run clean && vite build",
+    "build:vite": "vite build",
     "inject": "node scripts/inject-config.js",
+    "build": "npm run clean && npm run build:vite && npm run inject",
     "dev": "vite",
     "preview": "vite preview"
   },
