@@ -1,14 +1,35 @@
-window.addEventListener('DOMContentLoaded', async () => {
-    const API_CONFIG = window.API_CONFIG || {};
-    console.log('✅ API_CONFIG loaded:', API_CONFIG);
+async function waitForApiConfig(maxWaitMs = 3000) {
+    const start = Date.now();
+    return new Promise((resolve, reject) => {
+        const check = () => {
+            if (window.API_CONFIG && window.API_CONFIG.OPENAI_PROXY_URL) {
+                return resolve(window.API_CONFIG);
+            }
+            if (Date.now() - start > maxWaitMs) {
+                return reject(new Error('❌ API_CONFIG not available after waiting'));
+            }
+            requestAnimationFrame(check);
+        };
+        check();
+    });
+}
 
-    if (!API_CONFIG.OPENAI_PROXY_URL) {
-        console.error('❌ OPENAI_PROXY_URL missing in config.');
-        document.getElementById('errorMessage').textContent = 'Missing configuration.';
-        document.getElementById('errorMessage').style.display = 'block';
+window.addEventListener('DOMContentLoaded', async () => {
+    let API_CONFIG = null;
+    try {
+        API_CONFIG = await waitForApiConfig();
+        console.log('✅ API_CONFIG loaded:', API_CONFIG);
+    } catch (err) {
+        console.error(err.message);
+        const errorDiv = document.getElementById('errorMessage');
+        if (errorDiv) {
+            errorDiv.textContent = 'Missing API configuration. Please try again later.';
+            errorDiv.style.display = 'block';
+        }
         return;
     }
 
+    // 💡 Everything below this point stays as-is:
     const promptsModule = await import('./prompts.js');
     const utils = await import('./utils.js');
     const cache = await import('./cache.js');
@@ -52,15 +73,11 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     function updateCacheStats() {
         const stats = getCacheStats();
-        if (cacheMonitor.count) {
-            cacheMonitor.count.textContent = stats.validEntries;
-        }
-        if (cacheMonitor.validEntries) {
-            cacheMonitor.validEntries.textContent = stats.validEntries;
-        }
-        if (cacheMonitor.latestCache) {
-            cacheMonitor.latestCache.textContent = stats.newestEntry ? new Date(stats.newestEntry).toLocaleTimeString() : 'No entries';
-        }
+        if (cacheMonitor.count) cacheMonitor.count.textContent = stats.validEntries;
+        if (cacheMonitor.validEntries) cacheMonitor.validEntries.textContent = stats.validEntries;
+        if (cacheMonitor.latestCache) cacheMonitor.latestCache.textContent = stats.newestEntry
+            ? new Date(stats.newestEntry).toLocaleTimeString()
+            : 'No entries';
     }
 
     updateCacheStats();
@@ -221,18 +238,21 @@ window.addEventListener('DOMContentLoaded', async () => {
         <div class="quote-card">
           <div class="quote-text">${text}</div>
           <div class="quote-source">
-            <i class="fas fa-book"></i>
-            ${referenceUrl
-                ? `<a href="${referenceUrl}" target="_blank" rel="noopener noreferrer">${source}</a>`
-                : source}
+            <i class="fas fa-book"></i> ${
+                referenceUrl
+                    ? `<a href="${referenceUrl}" target="_blank" rel="noopener noreferrer">${source}</a>`
+                    : source
+            }
           </div>
-          ${translation ? `
-            <div class="quote-context">
-              <span class="context-label">Context</span>
-              <div class="context-text">${translation}</div>
-            </div>` : ''}
-        </div>
-      `;
+          ${
+                translation
+                    ? `<div class="quote-context">
+                  <span class="context-label">Context</span>
+                  <div class="context-text">${translation}</div>
+                </div>`
+                    : ''
+            }
+        </div>`;
         }).join('');
 
         summaryText.textContent = guidance.summary;
