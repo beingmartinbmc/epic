@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 // Get the API URL from environment or use the Vercel URL as fallback
-const API_URL = process.env.OPENAI_PROXY_URL || 'https://religious-guide-cjzb7vck2-beingmartinbmcs-projects.vercel.app/api/openai-proxy';
+const API_URL = process.env.OPENAI_PROXY_URL || 'https://religious-guide-40aech34e-beingmartinbmcs-projects.vercel.app/api/openai-proxy';
 
 console.log('Injecting API config...');
 console.log('API URL:', API_URL);
