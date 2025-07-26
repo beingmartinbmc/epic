@@ -5,7 +5,7 @@ const CONFIG_PATH = path.resolve('dist/index.html');
 const OPENAI_PROXY_URL = process.env.OPENAI_PROXY_URL;
 
 if (!OPENAI_PROXY_URL) {
-    throw new Error('OPENAI_PROXY_URL not set in environment variables');
+    throw new Error('❌ OPENAI_PROXY_URL not set in environment variables');
 }
 
 const scriptTag = `<script>
