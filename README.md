@@ -1,87 +1,102 @@
-# Divine Spiritual Guidance
+# Religious Guide JS
 
-A beautiful web application that provides spiritual guidance and quotes from various religious texts using OpenAI's GPT-4 API.
+A spiritual guidance application that provides wisdom from sacred religious texts including the Bhagavad Gita, Quran, Bible, and Guru Granth Sahib.
 
 ## Features
 
-- Beautiful, responsive UI with dynamic themes based on selected religious text
-- Real-time spiritual guidance from multiple sacred texts:
-  - Bhagavad Gita
-  - Holy Quran
-  - Holy Bible
-  - Guru Granth Sahib
-  - All texts combined
-- Dynamic theme switching with appropriate religious symbols
-- Animated background with floating religious symbols
-- Mobile-responsive design
-- Thoughtful summaries and contextual translations
+- 🕉️ Multi-religious text support
+- 🤖 AI-powered spiritual guidance
+- 🎨 Beautiful, responsive UI with religious themes
+- 🔒 Secure API architecture
+- 💾 Intelligent local caching
+- 📱 Mobile-friendly design
+
+## Architecture
+
+This application uses a secure two-tier architecture:
+
+- **Frontend**: Static site hosted on GitHub Pages
+- **Backend**: Serverless API proxy on Vercel
+
+### Security Features
+
+✅ **Secure API Architecture**: OpenAI API key is stored server-side only  
+✅ **No Secrets in Frontend**: Client never has access to sensitive credentials  
+✅ **Environment Variables**: All sensitive data managed through secure environment variables  
+✅ **Automatic Security Scanning**: CI/CD pipeline checks for exposed secrets  
+✅ **Clean Git History**: No API keys in repository history  
 
 ## Setup
 
+### Prerequisites
+
+- Node.js 18+ 
+- npm or yarn
+- OpenAI API key
+- Vercel account (for API deployment)
+
+### Local Development
+
 1. Clone the repository:
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/your-username/religious-guide-js.git
    cd religious-guide-js
    ```
 
-2. Configure your OpenAI API key:
-   - Open `src/app.js`
-   - Find the line: `const OPENAI_API_KEY = '';`
-   - Add your OpenAI API key
-
-3. Serve the application:
-   You can use any static file server. Here are a few options:
-
-   Using Python:
+2. Install dependencies:
    ```bash
-   # Python 3
-   python -m http.server 8000
+   npm install
    ```
 
-   Using Node.js:
+3. Start the development server:
    ```bash
-   # Install serve globally
-   npm install -g serve
-   # Start the server
-   serve src
-   ```
-
-   Using PHP:
-   ```bash
-   php -S localhost:8000
+   npm run dev
    ```
 
 4. Open your browser and navigate to:
-   - `http://localhost:8000` (or whatever port you configured)
+   - `http://localhost:5173` (Vite dev server)
 
-## Security Note
+### Production Deployment
 
-⚠️ The current implementation exposes the OpenAI API key in the frontend code. For production use, you should:
+#### 1. Deploy API Proxy to Vercel
 
-1. Move the API calls to a backend server
-2. Store the API key securely in environment variables
-3. Implement proper rate limiting and error handling
-4. Add user authentication if needed
+```bash
+# Deploy to Vercel
+vercel
 
-## Deployment
+# Set environment variables
+vercel env add OPENAI_API_KEY
+vercel env add OPENAI_MODEL
+vercel env add OPENAI_TEMPERATURE
+vercel env add OPENAI_TOKEN
+```
 
-You can deploy this application to any static hosting service:
+#### 2. Configure GitHub Secrets
 
-- GitHub Pages
-- Netlify
-- Vercel
-- Firebase Hosting
-- AWS S3 + CloudFront
+Add your Vercel API endpoint as a GitHub secret:
+- Go to Repository Settings > Secrets and variables > Actions
+- Add `OPENAI_PROXY_URL` with your Vercel deployment URL
 
-Remember to secure your API key as mentioned in the security note above.
+#### 3. Deploy Frontend
+
+The frontend automatically deploys to GitHub Pages via GitHub Actions when you push to main.
+
+## Technology Stack
+
+- **Frontend**: Vanilla JavaScript, HTML5, CSS3
+- **Build Tool**: Vite
+- **Backend**: Vercel Serverless Functions
+- **AI**: OpenAI GPT API
+- **Hosting**: GitHub Pages + Vercel
+- **CI/CD**: GitHub Actions
 
 ## Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
 ## License
 
