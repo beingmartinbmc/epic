@@ -40,18 +40,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Debug - Show injected OPENAI_PROXY_URL
-        run: |
-          echo "OPENAI_PROXY_URL is: $OPENAI_PROXY_URL"
-        env:
-          OPENAI_PROXY_URL: ${{ secrets.OPENAI_PROXY_URL }}
+      - name: Build project
+        run: npm run build
 
-      - name: Build and inject API config
+      - name: Inject API config into HTML
         env:
           OPENAI_PROXY_URL: ${{ secrets.OPENAI_PROXY_URL }}
-        run: |
-          echo "🔧 Building project with OPENAI_PROXY_URL=$OPENAI_PROXY_URL"
-          npm run build
+        run: npm run inject
 
       - name: Verify API config injected
         run: |
