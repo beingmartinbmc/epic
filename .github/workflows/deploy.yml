@@ -39,7 +39,7 @@ jobs:
           OPENAI_PROXY_URL: ${{ secrets.OPENAI_PROXY_URL }}
         run: |
           echo "Building with OPENAI_PROXY_URL: $OPENAI_PROXY_URL"
-          npm run build:frontend
+          OPENAI_PROXY_URL="$OPENAI_PROXY_URL" npm run build:frontend
 
       - name: Verify build output
         run: |
