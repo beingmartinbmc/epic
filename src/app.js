@@ -349,7 +349,16 @@ window.addEventListener('DOMContentLoaded', async () => {
         quotesGrid.innerHTML = guidance.quotes.map(quote => {
             const { source, text, translation } = quote;
             const { bookName, chapter, verse } = parseSource(source);
-            const referenceUrl = getReferenceUrl(bookName, `${chapter}:${verse}`);
+            
+            // Format reference based on the source type
+            let reference;
+            if (bookName.toLowerCase().includes('guru granth sahib') || bookName.toLowerCase().includes('granth')) {
+                reference = `Ang ${chapter}`;
+            } else {
+                reference = `${chapter}:${verse}`;
+            }
+            
+            const referenceUrl = getReferenceUrl(bookName, reference);
             return `
         <div class="quote-card">
           <div class="quote-text">${text}</div>

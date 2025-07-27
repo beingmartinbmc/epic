@@ -422,11 +422,22 @@ export function getReferenceUrl(source, reference) {
     const normalizedSource = normalizeBookName(source);
     const normalized = normalizedSource.toLowerCase().replace(/[^a-z0-9]/g, '');
 
-    const [chapterRaw, verseRaw] = reference.split(':').map(part => part.trim());
-    if (!chapterRaw) return null;
-
-    const chapter = chapterRaw.replace(/[^0-9]/g, '');
-    const verse = verseRaw ? verseRaw.replace(/[^0-9]/g, '') : null;
+    // Handle different reference formats
+    let chapter, verse;
+    
+    // Check if it's a Guru Granth Sahib Ang reference (e.g., "Ang 786")
+    const angMatch = reference.match(/Ang\s+(\d+)/i);
+    if (angMatch) {
+        chapter = angMatch[1];
+        verse = null;
+    } else {
+        // Standard chapter:verse format
+        const [chapterRaw, verseRaw] = reference.split(':').map(part => part.trim());
+        if (!chapterRaw) return null;
+        
+        chapter = chapterRaw.replace(/[^0-9]/g, '');
+        verse = verseRaw ? verseRaw.replace(/[^0-9]/g, '') : null;
+    }
 
     // Quran Aliases
     const quranAliases = ['quran', 'alquran', 'alqur’an', 'koran', 'surah', 'sura', 'holyquran'];
@@ -445,6 +456,7 @@ export function getReferenceUrl(source, reference) {
     // Guru Granth Sahib
     const ggsAliases = ['granth', 'guru', 'sahib', 'gurugranthsahib'];
     if (ggsAliases.some(alias => normalized.includes(alias))) {
+        // For Guru Granth Sahib, the chapter is the Ang (page) number
         return `https://www.searchgurbani.com/guru-granth-sahib/ang/${chapter}`;
     }
 
@@ -470,8 +482,8 @@ export function getReferenceUrl(source, reference) {
 export function parseSource(source) {
     if (!source) return { bookName: '', chapter: '', verse: '' };
 
-    // Match patterns like "Book Name 2:47" or "Book Name Chapter 2 Verse 47"
-    const matches = source.match(/^(.*?)(?:\s+(\d+):(\d+)|(?:\s+Chapter\s+(\d+)\s+Verse\s+(\d+)))$/i);
+    // Match patterns like "Book Name 2:47", "Book Name Chapter 2 Verse 47", or "Book Name Ang 786"
+    const matches = source.match(/^(.*?)(?:\s+(\d+):(\d+)|(?:\s+Chapter\s+(\d+)\s+Verse\s+(\d+))|(?:\s+Ang\s+(\d+)))$/i);
     
     if (!matches) return { bookName: source, chapter: '', verse: '' };
 
@@ -480,7 +492,7 @@ export function parseSource(source) {
 
     return {
         bookName: bookName,
-        chapter: matches[2] || matches[4] || '',
+        chapter: matches[2] || matches[4] || matches[6] || '',
         verse: matches[3] || matches[5] || ''
     };
 } 
