@@ -395,12 +395,15 @@ const BOOK_NAME_MAPPINGS = {
     'यजुर्वेद': 'Yajurveda',
     'सामवेद': 'Samaveda',
     'अथर्ववेद': 'Atharvaveda',
-    // English - Vedas
-    'Vedas': 'Vedas',
+    // English - Vedas (with and without space)
     'Rigveda': 'Rigveda',
+    'Rig Veda': 'Rigveda',
     'Yajurveda': 'Yajurveda',
+    'Yajur Veda': 'Yajurveda',
     'Samaveda': 'Samaveda',
-    'Atharvaveda': 'Atharvaveda'
+    'Sama Veda': 'Samaveda',
+    'Atharvaveda': 'Atharvaveda',
+    'Atharva Veda': 'Atharvaveda'
 };
 
 
@@ -443,6 +446,11 @@ export function getReferenceUrl(source, reference) {
     if (angMatch) {
         chapter = angMatch[1];
         verse = null;
+    } else if (/^\d+\.\d+(?:\.\d+)?$/.test(reference)) {
+        // Handle dot notation for Vedas (e.g., 10.85.23)
+        const parts = reference.split('.');
+        chapter = parts[0];
+        verse = parts.slice(1).join('.') || null;
     } else {
         // Standard chapter:verse format
         const [chapterRaw, verseRaw] = reference.split(':').map(part => part.trim());
