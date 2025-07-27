@@ -256,7 +256,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
             if (!response) {
                 response = await getReligiousGuidance(userMessage, selectedTextValue);
-                cacheResponse(selectedTextValue, userMessage, response);
+                // The cacheResponse call is now handled within getReligiousGuidance
                 updateCacheStats();
             }
 
@@ -320,7 +320,13 @@ window.addEventListener('DOMContentLoaded', async () => {
             throw new Error(errorData.error?.message || prompts.errors.serviceUnavailable);
         }
 
-        return parseOpenAIResponse(await response.json());
+        const parsed = parseOpenAIResponse(await response.json());
+        // Only cache if at least one quote with text, source, and translation, and a non-empty summary
+        const validQuotes = parsed.quotes && parsed.quotes.length > 0 && parsed.quotes.every(q => q.text && q.source && q.translation);
+        if (validQuotes && parsed.summary) {
+            cacheResponse(userMessage, selectedText, parsed);
+        }
+        return parsed;
     }
 
     function parseOpenAIResponse(data) {
