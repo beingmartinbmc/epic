@@ -486,22 +486,31 @@ export function getReferenceUrl(source, reference) {
 
     for (const veda of vedaAliases) {
         if (normalized.includes(veda)) {
-            if (!chapter || !verse) return null;
+            if (!chapter) return null;
 
             if (veda === 'rigveda') {
-                // Optional subverse support, if you extract it
+                if (!verse) return null;
                 const subversePart = subverse ? `.${subverse}` : '';
                 return `https://www.sacred-texts.com/hin/rigveda/rv${chapter}.${verse}${subversePart}.htm`;
             }
 
-            // fallback to GitaSupersite for other Vedas
-            const vedaCode = veda === 'yajurveda' ? 'yv'
-                : veda === 'samaveda' ? 'sv'
-                    : 'av'; // atharvaveda
+            if (veda === 'atharvaveda') {
+                const padded = String(chapter).padStart(2, '0');
+                return `https://www.sacred-texts.com/hin/av/avbook${padded}.htm`;
+            }
 
-            return `https://www.gitasupersite.iitk.ac.in/s?text=${vedaCode}&language=english&field=1&sc=0&it=regular&searchText=${chapter}.${verse}`;
+            if (veda === 'samaveda') {
+                const padded = String(chapter).padStart(2, '0');
+                return `https://www.sacred-texts.com/hin/sv/sv${padded}.htm`;
+            }
+
+            if (veda === 'yajurveda') {
+                // No structured chapters available
+                return `https://www.sacred-texts.com/hin/yv/index.htm`;
+            }
         }
     }
+
 
 
 
