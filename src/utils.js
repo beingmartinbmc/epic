@@ -489,9 +489,11 @@ export function getReferenceUrl(source, reference) {
             if (!chapter) return null;
 
             if (veda === 'rigveda') {
-                if (!verse) return null;
-                const subversePart = subverse ? `.${subverse}` : '';
-                return `https://www.sacred-texts.com/hin/rigveda/rv${chapter}.${verse}${subversePart}.htm`;
+                if (!chapter || !verse) return null;
+                // Rigveda format: rv{book}{hymn}.htm (both zero-padded to 3 digits)
+                const paddedBook = String(chapter).padStart(3, '0');
+                const paddedHymn = String(verse).padStart(3, '0');
+                return `https://www.sacred-texts.com/hin/rigveda/rv${paddedBook}${paddedHymn}.htm`;
             }
 
             if (veda === 'atharvaveda') {
@@ -500,13 +502,15 @@ export function getReferenceUrl(source, reference) {
             }
 
             if (veda === 'samaveda') {
+                if (!chapter) return null;
                 const padded = String(chapter).padStart(2, '0');
                 return `https://www.sacred-texts.com/hin/sv/sv${padded}.htm`;
             }
 
             if (veda === 'yajurveda') {
-                // No structured chapters available
-                return `https://www.sacred-texts.com/hin/yv/index.htm`;
+                if (!chapter) return null;
+                const padded = String(chapter).padStart(2, '0');
+                return `https://www.sacred-texts.com/hin/yv/yv${padded}.htm`;
             }
         }
     }
