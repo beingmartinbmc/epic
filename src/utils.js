@@ -487,13 +487,22 @@ export function getReferenceUrl(source, reference) {
     for (const veda of vedaAliases) {
         if (normalized.includes(veda)) {
             if (!chapter || !verse) return null;
-            const prefix = veda === 'rigveda' ? 'rv'
-                : veda === 'yajurveda' ? 'yv'
-                    : veda === 'samaveda' ? 'sv'
-                        : 'av'; // atharvaveda
-            return `https://www.sacred-texts.com/hin/${veda}/${prefix}${chapter}.${verse}.htm`;
+
+            // sacred-texts.com only has Rigveda with structured URLs
+            if (veda === 'rigveda') {
+                return `https://www.sacred-texts.com/hin/rigveda/rv${chapter}.${verse}.htm`;
+            }
+
+            // For others, link to GitaSupersite search page
+            const vedaCode = veda === 'yajurveda' ? 'yv'
+                : veda === 'samaveda' ? 'sv'
+                    : 'av'; // atharvaveda
+
+            // GitaSupersite only uses 'rv', 'sv', 'yv', 'av' codes for searching
+            return `https://www.gitasupersite.iitk.ac.in/s?text=${vedaCode}&language=english&field=1&sc=0&it=regular&searchText=${chapter}.${verse}`;
         }
     }
+
 
     // Bible detection using book names and fallback on "bible" keyword
     const bibleBooksRegex = /\b(genesis|exodus|leviticus|numbers|deuteronomy|joshua|judges|ruth|samuel|kings|chronicles|ezra|nehemiah|esther|job|psalms?|proverbs?|ecclesiastes|songofsolomon|isaiah|jeremiah|lamentations|ezekiel|daniel|hosea|joel|amos|obadiah|jonah|micah|nahum|habakkuk|zephaniah|haggai|zechariah|malachi|matthew|mark|luke|john|acts|romans|corinthians|galatians|ephesians|philippians|colossians|thessalonians|timothy|titus|philemon|hebrews|james|peter|jude|revelation)\b/i;
