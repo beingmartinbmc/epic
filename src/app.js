@@ -11,9 +11,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     const { getReferenceUrl, parseSource } = utils;
     const { findCachedResponse, cacheResponse, clearCache, getCacheStats } = cache;
 
-    let mozillaLangDetector;
-    let cld3Detector;
-    let francDetector;
+
     
     // Simple language detection using character sets
     function detectLanguageSimple(text) {
