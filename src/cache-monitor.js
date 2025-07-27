@@ -2,7 +2,7 @@ import { clearCache, getCacheStats, getAllCacheEntries } from './cache.js';
 
 // Cache monitor elements
 const elements = {
-    validEntries: document.getElementById('validEntries'),
+    validEntriesCount: document.getElementById('validEntriesCount'),
     latestCache: document.getElementById('latestCache'),
     clearBtn: document.getElementById('clearCacheBtn'),
     refreshBtn: document.getElementById('refreshStatsBtn'),
@@ -10,27 +10,40 @@ const elements = {
     validEntriesContainer: document.getElementById('validEntries')
 };
 
+// Debug: Check if all elements are found
+console.log('Cache monitor elements:', elements);
+
 // Update cache statistics
 function updateCacheStats() {
     const stats = getCacheStats();
+    console.log('Cache stats:', stats);
     
-    elements.validEntries.textContent = stats.validEntries;
-    elements.latestCache.textContent = stats.newestEntry ? 
-        new Date(stats.newestEntry).toLocaleString() : 
-        'No entries';
+    if (elements.validEntriesCount) {
+        elements.validEntriesCount.textContent = stats.validEntries;
+    }
+    if (elements.latestCache) {
+        elements.latestCache.textContent = stats.newestEntry ? 
+            new Date(stats.newestEntry).toLocaleString() : 
+            'No entries';
+    }
 }
 
 // Update cache entries display
 function updateCacheEntries() {
     const validEntries = getAllCacheEntries();
+    console.log('Valid entries:', validEntries);
     
     // Update count
-    elements.validCount.textContent = validEntries.length;
+    if (elements.validCount) {
+        elements.validCount.textContent = validEntries.length;
+    }
     
     // Display cache entries
-    elements.validEntriesContainer.innerHTML = validEntries.length > 0 ? 
-        validEntries.map(entry => createEntryCard(entry)).join('') :
-        '<div class="no-entries">No cache entries found.</div>';
+    if (elements.validEntriesContainer) {
+        elements.validEntriesContainer.innerHTML = validEntries.length > 0 ? 
+            validEntries.map(entry => createEntryCard(entry)).join('') :
+            '<div class="no-entries">No cache entries found.</div>';
+    }
 }
 
 // Create entry card HTML
@@ -88,34 +101,68 @@ function getSourceTextName(selectedText) {
     return sourceMap[selectedText] || selectedText;
 }
 
-// Initialize cache monitor
-function initCacheMonitor() {
-    updateCacheStats();
-    updateCacheEntries();
+
+
+// Debug: Check localStorage directly
+function debugLocalStorage() {
+    try {
+        const rawCache = localStorage.getItem('religious_guidance_cache');
+        console.log('Raw localStorage cache:', rawCache);
+        if (rawCache) {
+            const parsedCache = JSON.parse(rawCache);
+            console.log('Parsed cache:', parsedCache);
+            console.log('Cache length:', parsedCache.length);
+        }
+    } catch (error) {
+        console.error('Error reading localStorage:', error);
+    }
 }
 
-// Initialize
-initCacheMonitor();
-
-// Handle cache clear button
-elements.clearBtn.addEventListener('click', () => {
-    if (confirm('Are you sure you want to clear all cached responses?')) {
-        clearCache();
+// Initialize cache monitor
+function initCacheMonitor() {
+    try {
+        console.log('Initializing cache monitor...');
+        debugLocalStorage();
         updateCacheStats();
         updateCacheEntries();
+        console.log('Cache monitor initialized successfully');
+    } catch (error) {
+        console.error('Error initializing cache monitor:', error);
     }
-});
+}
+
+// Initialize when DOM is loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCacheMonitor);
+} else {
+    initCacheMonitor();
+}
+
+// Handle cache clear button
+if (elements.clearBtn) {
+    elements.clearBtn.addEventListener('click', () => {
+        if (confirm('Are you sure you want to clear all cached responses?')) {
+            clearCache();
+            updateCacheStats();
+            updateCacheEntries();
+        }
+    });
+}
 
 // Handle refresh button
-elements.refreshBtn.addEventListener('click', () => {
-    updateCacheStats();
-    updateCacheEntries();
-    // Add a brief animation to show refresh
-    elements.refreshBtn.classList.add('rotating');
-    setTimeout(() => {
-        elements.refreshBtn.classList.remove('rotating');
-    }, 500);
-});
+if (elements.refreshBtn) {
+    elements.refreshBtn.addEventListener('click', () => {
+        updateCacheStats();
+        updateCacheEntries();
+        // Add a brief animation to show refresh
+        elements.refreshBtn.classList.add('rotating');
+        setTimeout(() => {
+            elements.refreshBtn.classList.remove('rotating');
+        }, 500);
+    });
+}
+
+
 
 
 
@@ -140,11 +187,9 @@ ${JSON.stringify(entry.response, null, 2)}
 };
 
 window.deleteEntry = function(timestamp) {
-    if (confirm('Are you sure you want to delete this cache entry?')) {
-        const cache = JSON.parse(localStorage.getItem('religious_guidance_cache') || '[]');
-        const filteredCache = cache.filter(e => e.timestamp.toString() !== timestamp);
-        localStorage.setItem('religious_guidance_cache', JSON.stringify(filteredCache));
-        updateCacheStats();
-        updateCacheEntries();
-    }
+    const cache = JSON.parse(localStorage.getItem('religious_guidance_cache') || '[]');
+    const filteredCache = cache.filter(e => e.timestamp.toString() !== timestamp);
+    localStorage.setItem('religious_guidance_cache', JSON.stringify(filteredCache));
+    updateCacheStats();
+    updateCacheEntries();
 }; 
