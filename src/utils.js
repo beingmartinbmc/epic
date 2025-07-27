@@ -481,27 +481,17 @@ export function getReferenceUrl(source, reference) {
         return `https://www.searchgurbani.com/guru-granth-sahib/ang/${chapter}`;
     }
 
-    // Vedas Aliases
-    const vedasAliases = ['vedas', 'rigveda', 'yajurveda', 'samaveda', 'atharvaveda', 'ऋग्वेद', 'यजुर्वेद', 'सामवेद', 'अथर्ववेद'];
-    if (vedasAliases.some(alias => normalized.includes(alias))) {
-        // Try to construct a reference URL for the Vedas
-        // Example: https://www.sacred-texts.com/hin/rigveda/rv{chapter}.{verse}.htm
-        // We'll use Rigveda as an example; adapt as needed for other Vedas
-        if (normalized.includes('rigveda')) {
+    // Vedas - Check for exact matches first, then aliases
+    const vedaAliases = ['rigveda', 'yajurveda', 'samaveda', 'atharvaveda'];
+
+    for (const veda of vedaAliases) {
+        if (normalized.includes(veda)) {
             if (!chapter || !verse) return null;
-            return `https://www.sacred-texts.com/hin/rigveda/rv${chapter}.${verse}.htm`;
-        } else if (normalized.includes('yajurveda')) {
-            if (!chapter || !verse) return null;
-            return `https://www.sacred-texts.com/hin/yajurveda/yv${chapter}.${verse}.htm`;
-        } else if (normalized.includes('samaveda')) {
-            if (!chapter || !verse) return null;
-            return `https://www.sacred-texts.com/hin/samaveda/sv${chapter}.${verse}.htm`;
-        } else if (normalized.includes('atharvaveda')) {
-            if (!chapter || !verse) return null;
-            return `https://www.sacred-texts.com/hin/atharvaveda/av${chapter}.${verse}.htm`;
-        } else {
-            // General Vedas reference (fallback)
-            return `https://www.sacred-texts.com/hin/vedas/index.htm`;
+            const prefix = veda === 'rigveda' ? 'rv'
+                : veda === 'yajurveda' ? 'yv'
+                    : veda === 'samaveda' ? 'sv'
+                        : 'av'; // atharvaveda
+            return `https://www.sacred-texts.com/hin/${veda}/${prefix}${chapter}.${verse}.htm`;
         }
     }
 
