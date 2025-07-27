@@ -490,9 +490,21 @@ export function getReferenceUrl(source, reference) {
 
             if (veda === 'rigveda') {
                 if (!chapter || !verse) return null;
-                // Rigveda format: rv{book}{hymn}.htm (both zero-padded to 3 digits)
+                // Rigveda format: rv{book}{hymn}.htm (book padded to 3 digits, hymn padded to 2 digits)
+                // For "Rigveda 10.71.1", we want Book 10, Hymn 71, so rv10071.htm
                 const paddedBook = String(chapter).padStart(3, '0');
-                const paddedHymn = String(verse).padStart(3, '0');
+                const paddedHymn = String(verse).padStart(2, '0');
+                
+                // Known hymn counts for each book (approximate)
+                const bookHymnCounts = {
+                    1: 191, 2: 43, 3: 62, 4: 58, 5: 87, 6: 75, 7: 104, 8: 103, 9: 114, 10: 99
+                };
+                
+                // If the hymn number exceeds the known count for that book, link to book index
+                if (bookHymnCounts[parseInt(chapter)] && parseInt(verse) > bookHymnCounts[parseInt(chapter)]) {
+                    return `https://www.sacred-texts.com/hin/rigveda/rvi${String(chapter).padStart(2, '0')}.htm`;
+                }
+                
                 return `https://www.sacred-texts.com/hin/rigveda/rv${paddedBook}${paddedHymn}.htm`;
             }
 
