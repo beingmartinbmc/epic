@@ -519,9 +519,22 @@ export function getReferenceUrl(source, reference) {
 export function parseSource(source) {
     if (!source) return { bookName: '', chapter: '', verse: '' };
 
-    // Match patterns like "Book Name 2:47", "Book Name Chapter 2 Verse 47", or "Book Name Ang 786"
+    // Support patterns like 'Rig Veda 10.191.2', 'Yajur Veda 19.22', 'Sama Veda 7.26.3', 'Atharva Veda 6.107.7'
+    // as well as existing patterns
+    // Try Vedas pattern first
+    const vedasMatch = source.match(/^(Rig Veda|Yajur Veda|Sama Veda|Atharva Veda)\s+(\d+)(?:\.(\d+))?(?:\.(\d+))?/i);
+    if (vedasMatch) {
+        // For Rig Veda, chapter = book, verse = hymn, subverse (if present)
+        // e.g. Rig Veda 10.191.2 => bookName: Rigveda, chapter: 10, verse: 191.2
+        const bookName = normalizeBookName(vedasMatch[1].replace(' ', ''));
+        const chapter = vedasMatch[2] || '';
+        let verse = vedasMatch[3] || '';
+        if (vedasMatch[4]) verse += '.' + vedasMatch[4];
+        return { bookName, chapter, verse };
+    }
+
+    // Existing patterns
     const matches = source.match(/^(.*?)(?:\s+(\d+):(\d+)|(?:\s+Chapter\s+(\d+)\s+Verse\s+(\d+))|(?:\s+Ang\s+(\d+)))$/i);
-    
     if (!matches) return { bookName: source, chapter: '', verse: '' };
 
     // Normalize the book name to handle translated names
