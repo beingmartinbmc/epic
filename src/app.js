@@ -15,25 +15,101 @@ window.addEventListener('DOMContentLoaded', async () => {
     let cld3Detector;
     let francDetector;
     
-    try {
-        const { LangDetect } = await import('https://esm.sh/@mozilla/language-detection');
-        mozillaLangDetector = new LangDetect();
-    } catch (e) {
-        console.warn('Mozilla language detection unavailable:', e);
-    }
-    
-    try {
-        const { LanguageDetector } = await import('cld3-asm');
-        cld3Detector = new LanguageDetector();
-    } catch (e) {
-        console.warn('CLD3 language detection unavailable:', e);
-    }
-    
-    try {
-        const franc = await import('franc-min');
-        francDetector = franc.default;
-    } catch (e) {
-        console.warn('Franc language detection unavailable:', e);
+    // Simple language detection using character sets
+    function detectLanguageSimple(text) {
+        if (!text || text.trim().length === 0) return { language: 'en', confidence: 0 };
+        
+        const textLower = text.toLowerCase();
+        
+        // Hindi/Devanagari script detection
+        if (/[\u0900-\u097F]/.test(text)) {
+            return { language: 'hi', confidence: 0.9 };
+        }
+        
+        // Arabic script detection
+        if (/[\u0600-\u06FF]/.test(text)) {
+            return { language: 'ar', confidence: 0.9 };
+        }
+        
+        // Chinese characters detection
+        if (/[\u4E00-\u9FFF]/.test(text)) {
+            return { language: 'zh', confidence: 0.9 };
+        }
+        
+        // Japanese characters detection
+        if (/[\u3040-\u309F\u30A0-\u30FF]/.test(text)) {
+            return { language: 'ja', confidence: 0.9 };
+        }
+        
+        // Korean characters detection
+        if (/[\uAC00-\uD7AF]/.test(text)) {
+            return { language: 'ko', confidence: 0.9 };
+        }
+        
+        // Thai characters detection
+        if (/[\u0E00-\u0E7F]/.test(text)) {
+            return { language: 'th', confidence: 0.9 };
+        }
+        
+        // Russian characters detection
+        if (/[\u0400-\u04FF]/.test(text)) {
+            return { language: 'ru', confidence: 0.9 };
+        }
+        
+        // Greek characters detection
+        if (/[\u0370-\u03FF]/.test(text)) {
+            return { language: 'el', confidence: 0.9 };
+        }
+        
+        // Hebrew characters detection
+        if (/[\u0590-\u05FF]/.test(text)) {
+            return { language: 'he', confidence: 0.9 };
+        }
+        
+        // Common Spanish words
+        const spanishWords = ['hola', 'gracias', 'por favor', 'buenos días', 'buenas noches', 'adiós', 'sí', 'no', 'me', 'te', 'se', 'que', 'de', 'la', 'el', 'un', 'una', 'y', 'o', 'pero', 'como', 'cuando', 'donde', 'quien', 'que', 'cual', 'cuyo', 'cuyas', 'cuyos', 'cuyas'];
+        const spanishCount = spanishWords.filter(word => textLower.includes(word)).length;
+        if (spanishCount >= 2) {
+            return { language: 'es', confidence: 0.8 };
+        }
+        
+        // Common French words
+        const frenchWords = ['bonjour', 'merci', 's\'il vous plaît', 'au revoir', 'oui', 'non', 'je', 'tu', 'il', 'elle', 'nous', 'vous', 'ils', 'elles', 'le', 'la', 'les', 'un', 'une', 'des', 'et', 'ou', 'mais', 'comme', 'quand', 'où', 'qui', 'que', 'quoi', 'dont', 'duquel', 'de laquelle'];
+        const frenchCount = frenchWords.filter(word => textLower.includes(word)).length;
+        if (frenchCount >= 2) {
+            return { language: 'fr', confidence: 0.8 };
+        }
+        
+        // Common German words
+        const germanWords = ['hallo', 'danke', 'bitte', 'auf wiedersehen', 'ja', 'nein', 'ich', 'du', 'er', 'sie', 'es', 'wir', 'ihr', 'sie', 'der', 'die', 'das', 'ein', 'eine', 'und', 'oder', 'aber', 'wie', 'wann', 'wo', 'wer', 'was', 'welcher', 'welche', 'welches'];
+        const germanCount = germanWords.filter(word => textLower.includes(word)).length;
+        if (germanCount >= 2) {
+            return { language: 'de', confidence: 0.8 };
+        }
+        
+        // Common Italian words
+        const italianWords = ['ciao', 'grazie', 'prego', 'arrivederci', 'sì', 'no', 'io', 'tu', 'lui', 'lei', 'noi', 'voi', 'loro', 'il', 'la', 'lo', 'gli', 'le', 'un', 'una', 'e', 'o', 'ma', 'come', 'quando', 'dove', 'chi', 'che', 'cosa', 'quale'];
+        const italianCount = italianWords.filter(word => textLower.includes(word)).length;
+        if (italianCount >= 2) {
+            return { language: 'it', confidence: 0.8 };
+        }
+        
+        // Common Portuguese words
+        const portugueseWords = ['olá', 'obrigado', 'por favor', 'adeus', 'sim', 'não', 'eu', 'tu', 'ele', 'ela', 'nós', 'vós', 'eles', 'elas', 'o', 'a', 'os', 'as', 'um', 'uma', 'e', 'ou', 'mas', 'como', 'quando', 'onde', 'quem', 'que', 'o que', 'qual'];
+        const portugueseCount = portugueseWords.filter(word => textLower.includes(word)).length;
+        if (portugueseCount >= 2) {
+            return { language: 'pt', confidence: 0.8 };
+        }
+        
+        // Common Dutch words
+        const dutchWords = ['hallo', 'dank je', 'alsjeblieft', 'tot ziens', 'ja', 'nee', 'ik', 'jij', 'hij', 'zij', 'het', 'wij', 'jullie', 'zij', 'de', 'het', 'een', 'en', 'of', 'maar', 'hoe', 'wanneer', 'waar', 'wie', 'wat', 'welke'];
+        const dutchCount = dutchWords.filter(word => textLower.includes(word)).length;
+        if (dutchCount >= 2) {
+            return { language: 'nl', confidence: 0.8 };
+        }
+        
+        // Default to English
+        return { language: 'en', confidence: 0.5 };
     }
 
     const THEME_MAPPING = {
@@ -173,47 +249,10 @@ window.addEventListener('DOMContentLoaded', async () => {
             ne: 'Nepali', si: 'Sinhala', my: 'Burmese', km: 'Khmer', lo: 'Lao'
         };
 
-        let detectedLanguage = 'en';
-        let confidence = 0;
-
-        // Try Mozilla detector first
-        if (mozillaLangDetector) {
-            try {
-                const results = mozillaLangDetector.detect(userMessage || '');
-                if (results && results.length > 0) {
-                    detectedLanguage = results[0].language;
-                    confidence = results[0].confidence || 0;
-                }
-            } catch (e) {
-                console.warn('Mozilla language detection error:', e);
-            }
-        }
-
-        // Fallback to CLD3 if Mozilla failed or confidence is low
-        if ((detectedLanguage === 'und' || confidence < 0.5) && cld3Detector) {
-            try {
-                const result = cld3Detector.detect(userMessage || '');
-                if (result && result.language && result.language !== 'und') {
-                    detectedLanguage = result.language;
-                    confidence = result.probability || 0;
-                }
-            } catch (e) {
-                console.warn('CLD3 language detection error:', e);
-            }
-        }
-
-        // Fallback to Franc if both failed
-        if ((detectedLanguage === 'und' || confidence < 0.3) && francDetector) {
-            try {
-                const result = francDetector(userMessage || '');
-                if (result && result !== 'und') {
-                    detectedLanguage = result;
-                    confidence = 0.5; // Franc doesn't provide confidence
-                }
-            } catch (e) {
-                console.warn('Franc language detection error:', e);
-            }
-        }
+        // Use simple language detection
+        const detectionResult = detectLanguageSimple(userMessage);
+        const detectedLanguage = detectionResult.language;
+        const confidence = detectionResult.confidence;
 
         let langInstruction = 'IMPORTANT: Respond in English.';
         if (detectedLanguage !== 'und' && detectedLanguage !== 'en' && confidence > 0.3) {
