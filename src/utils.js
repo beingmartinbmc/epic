@@ -519,11 +519,34 @@ export function getReferenceUrl(source, reference) {
 export function parseSource(source) {
     if (!source) return { bookName: '', chapter: '', verse: '' };
 
+    // If the source contains a comma, try to extract the specific Veda part
+    if (/the vedas/i.test(source) && /,/.test(source)) {
+        // e.g. 'The Vedas, Rig Veda 10.129.1'
+        const parts = source.split(',');
+        // Try to find the part that matches a Veda pattern
+        for (let part of parts) {
+            part = part.trim();
+            const vedaPattern = /^(Rig\s*-?\s*Veda|Yajur\s*-?\s*Veda|Sama\s*-?\s*Veda|Atharva\s*-?\s*Veda|Rigveda|Yajurveda|Samaveda|Atharvaveda)\s*(\d+)(?:\.(\d+))?(?:\.(\d+))?/i;
+            const vedasMatch = part.match(vedaPattern);
+            if (vedasMatch) {
+                let rawBook = vedasMatch[1].replace(/\s*-?\s*/g, '').toLowerCase();
+                let bookName = '';
+                if (rawBook.startsWith('rig')) bookName = 'Rigveda';
+                else if (rawBook.startsWith('yajur')) bookName = 'Yajurveda';
+                else if (rawBook.startsWith('sama')) bookName = 'Samaveda';
+                else if (rawBook.startsWith('atharva')) bookName = 'Atharvaveda';
+                const chapter = vedasMatch[2] || '';
+                let verse = vedasMatch[3] || '';
+                if (vedasMatch[4]) verse += '.' + vedasMatch[4];
+                return { bookName, chapter, verse };
+            }
+        }
+    }
+
     // Accept both 'Rigveda 10.129.2' and 'Rig Veda 10.129.2' and similar for other Vedas
     const vedaPattern = /^(Rig\s*-?\s*Veda|Yajur\s*-?\s*Veda|Sama\s*-?\s*Veda|Atharva\s*-?\s*Veda|Rigveda|Yajurveda|Samaveda|Atharvaveda)\s*(\d+)(?:\.(\d+))?(?:\.(\d+))?/i;
     const vedasMatch = source.match(vedaPattern);
     if (vedasMatch) {
-        // Normalize book name to one word, lowercase, then capitalize first letter
         let rawBook = vedasMatch[1].replace(/\s*-?\s*/g, '').toLowerCase();
         let bookName = '';
         if (rawBook.startsWith('rig')) bookName = 'Rigveda';
