@@ -4,105 +4,110 @@ A spiritual guidance application that provides wisdom from sacred religious text
 
 ## Features
 
-- 🕉️ Multi-religious text support
-- 🤖 AI-powered spiritual guidance
-- 🎨 Beautiful, responsive UI with religious themes
-- 🔒 Secure API architecture
-- 💾 Intelligent local caching
-- 📱 Mobile-friendly design
+### 🌍 Multi-Language Support
+The application automatically detects the user's input language and responds in the same language. This ensures a personalized experience for users worldwide.
 
-## Architecture
+**Supported Languages:**
+- **Indic Languages**: Hindi, Bengali, Punjabi, Gujarati, Marathi, Telugu, Tamil, Urdu, Nepali, Sinhala
+- **European Languages**: Spanish, French, German, Portuguese, Italian, Dutch, Swedish, Danish, Norwegian, Finnish, Polish, Czech, Slovak, Hungarian, Romanian, Bulgarian, Croatian, Serbian, Slovenian, Estonian, Latvian, Lithuanian, Maltese, Greek
+- **Asian Languages**: Japanese, Korean, Chinese, Thai, Vietnamese, Indonesian, Malay, Filipino, Burmese, Khmer, Lao
+- **Middle Eastern**: Arabic, Hebrew, Turkish
+- **African Languages**: Swahili, Amharic, Hausa, Yoruba, Igbo
+- **And many more...**
 
-This application uses a secure two-tier architecture:
+**Language Detection Libraries Used:**
+1. **Mozilla Language Detection** - Primary detector with high accuracy
+2. **CLD3 (Compact Language Detector)** - Fallback detector for better coverage
+3. **Franc-min** - Lightweight fallback for edge cases
 
-- **Frontend**: Static site hosted on GitHub Pages
-- **Backend**: Serverless API proxy on Vercel
+### 📚 Sacred Texts Integration
+- **Bhagavad Gita** - Hindu spiritual wisdom
+- **Holy Quran** - Islamic guidance and teachings
+- **Holy Bible** - Christian spiritual wisdom
+- **Guru Granth Sahib** - Sikh teachings and wisdom
+- **All Texts** - Universal spiritual guidance from multiple traditions
 
-### Security Features
+### 🎨 Themed Interface
+Each sacred text has its own visual theme:
+- Hindu theme for Bhagavad Gita
+- Islamic theme for Quran
+- Christian theme for Bible
+- Sikh theme for Guru Granth Sahib
+- Universal theme for all texts
 
-✅ **Secure API Architecture**: OpenAI API key is stored server-side only  
-✅ **No Secrets in Frontend**: Client never has access to sensitive credentials  
-✅ **Environment Variables**: All sensitive data managed through secure environment variables  
-✅ **Automatic Security Scanning**: CI/CD pipeline checks for exposed secrets  
-✅ **Clean Git History**: No API keys in repository history  
+### 💾 Intelligent Caching
+- Caches responses to improve performance
+- Reduces API calls for repeated questions
+- Cache monitoring and management tools
 
-## Setup
+## Getting Started
 
-### Prerequisites
-
-- Node.js 18+ 
-- npm or yarn
-- OpenAI API key
-- Vercel account (for API deployment)
-
-### Local Development
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/religious-guide-js.git
-   cd religious-guide-js
-   ```
-
-2. Install dependencies:
+1. **Install Dependencies:**
    ```bash
    npm install
    ```
 
-3. Start the development server:
+2. **Start Development Server:**
    ```bash
    npm run dev
    ```
 
-4. Open your browser and navigate to:
-   - `http://localhost:5173` (Vite dev server)
+3. **Build for Production:**
+   ```bash
+   npm run build
+   ```
 
-### Production Deployment
+## Language Detection Testing
 
-#### 1. Deploy API Proxy to Vercel
+You can test the language detection functionality using the included test file:
 
 ```bash
-# Deploy to Vercel
-vercel
-
-# Set environment variables
-vercel env add OPENAI_API_KEY
-vercel env add OPENAI_MODEL
-vercel env add OPENAI_TEMPERATURE
-vercel env add OPENAI_TOKEN
+# Open the test file in your browser
+open test-language-detection.html
 ```
 
-#### 2. Configure GitHub Secrets
+This will allow you to:
+- Test language detection with various languages
+- See which detector is being used
+- Verify confidence levels
+- Test the response language mapping
 
-Add your Vercel API endpoint as a GitHub secret:
-- Go to Repository Settings > Secrets and variables > Actions
-- Add `OPENAI_PROXY_URL` with your Vercel deployment URL
+## API Configuration
 
-#### 3. Deploy Frontend
+The application uses a proxy API for OpenAI integration. Configure the API endpoint in `src/app.js`:
 
-The frontend automatically deploys to GitHub Pages via GitHub Actions when you push to main.
+```javascript
+const API_CONFIG = {
+    OPENAI_PROXY_URL: 'your-api-endpoint-here'
+};
+```
 
-## Technology Stack
+## Project Structure
 
-- **Frontend**: Vanilla JavaScript, HTML5, CSS3
-- **Build Tool**: Vite
-- **Backend**: Vercel Serverless Functions
-- **AI**: OpenAI GPT API
-- **Hosting**: GitHub Pages + Vercel
-- **CI/CD**: GitHub Actions
+```
+religious-guide-js/
+├── src/
+│   ├── app.js              # Main application logic
+│   ├── prompts.js          # AI prompts configuration
+│   ├── cache.js            # Caching functionality
+│   ├── utils.js            # Utility functions
+│   ├── config.js           # Configuration settings
+│   └── styles.css          # Styling
+├── api/
+│   └── openai-proxy.js     # API proxy implementation
+├── index.html              # Main HTML file
+├── test-language-detection.html  # Language detection test
+└── package.json            # Dependencies and scripts
+```
 
 ## Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Test thoroughly
+4. Test the language detection with various languages
 5. Submit a pull request
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details. # Trigger redeploy
-# Trigger redeploy
-# Trigger redeploy for frontend
-# Trigger redeploy for frontend
-# Trigger redeploy for frontend after restoring inject-config.js
-# Trigger redeploy after removing placeholder
+This project is licensed under the MIT License.
