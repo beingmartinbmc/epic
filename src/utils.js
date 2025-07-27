@@ -465,7 +465,7 @@ export function getReferenceUrl(source, reference) {
 
     if (bibleBooksRegex.test(normalizedSource) || normalized.includes('bible') || normalized.includes('holybible')) {
         const cleanSource = normalizedSource.replace(/\b(Holy\s)?Bible\b/i, '').trim();
-        const formattedRef = verse ? `${chapterRaw}:${verseRaw}` : chapterRaw;
+        const formattedRef = verse ? `${chapter}:${verse}` : chapter;
         const book = cleanSource.replace(/\s+/g, '+');
         return `https://www.biblegateway.com/passage/?search=${book}+${formattedRef}`;
     }
