@@ -519,14 +519,19 @@ export function getReferenceUrl(source, reference) {
 export function parseSource(source) {
     if (!source) return { bookName: '', chapter: '', verse: '' };
 
-    // Support patterns like 'Rig Veda 10.191.2', 'Yajur Veda 19.22', 'Sama Veda 7.26.3', 'Atharva Veda 6.107.7'
-    // as well as existing patterns
-    // Try Vedas pattern first
-    const vedasMatch = source.match(/^(Rig Veda|Yajur Veda|Sama Veda|Atharva Veda)\s+(\d+)(?:\.(\d+))?(?:\.(\d+))?/i);
+    // Support patterns like 'Rig Veda 10.191.2', 'Yajur Veda 19.22', 'Sama Veda 7.26.3', 'Atharva Veda 6.107.7', 'Rigveda 10.191.2', etc.
+    // Normalize Veda names to match BOOK_NAME_MAPPINGS and getReferenceUrl expectations
+    const vedaPattern = /^(Rig\s*-?\s*Veda|Yajur\s*-?\s*Veda|Sama\s*-?\s*Veda|Atharva\s*-?\s*Veda|Rigveda|Yajurveda|Samaveda|Atharvaveda)\s+(\d+)(?:\.(\d+))?(?:\.(\d+))?/i;
+    const vedasMatch = source.match(vedaPattern);
     if (vedasMatch) {
-        // For Rig Veda, chapter = book, verse = hymn, subverse (if present)
-        // e.g. Rig Veda 10.191.2 => bookName: Rigveda, chapter: 10, verse: 191.2
-        const bookName = normalizeBookName(vedasMatch[1].replace(' ', ''));
+        // Normalize book name to one word, lowercase, then capitalize first letter
+        let rawBook = vedasMatch[1].replace(/\s*-?\s*/g, '').toLowerCase();
+        // Capitalize first letter and ensure correct full name
+        let bookName = '';
+        if (rawBook.startsWith('rig')) bookName = 'Rigveda';
+        else if (rawBook.startsWith('yajur')) bookName = 'Yajurveda';
+        else if (rawBook.startsWith('sama')) bookName = 'Samaveda';
+        else if (rawBook.startsWith('atharva')) bookName = 'Atharvaveda';
         const chapter = vedasMatch[2] || '';
         let verse = vedasMatch[3] || '';
         if (vedasMatch[4]) verse += '.' + vedasMatch[4];

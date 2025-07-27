@@ -365,6 +365,8 @@ window.addEventListener('DOMContentLoaded', async () => {
             let reference;
             if (bookName.toLowerCase().includes('guru granth sahib') || bookName.toLowerCase().includes('granth')) {
                 reference = `Ang ${chapter}`;
+            } else if (["rigveda","yajurveda","samaveda","atharvaveda"].includes(bookName.toLowerCase())) {
+                reference = `${chapter}.${verse}`;
             } else {
                 reference = `${chapter}:${verse}`;
             }

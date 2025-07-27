@@ -83,7 +83,7 @@ SUMMARY: [2–3 sentences relating the quotes to the user's situation. Avoid mar
 
     guruGranthSahib: `IMPORTANT: Provide at least 5 relevant quotes ONLY from the Guru Granth Sahib. Do NOT use quotes from any other scriptures. Use Ang (page) number as the chapter, and the line number as the verse (e.g., Guru Granth Sahib 123:45). Focus on Sikh teachings and wisdom. TRANSLATE ALL QUOTES INTO THE USER'S LANGUAGE - do not keep quotes in English when user writes in another language.`,
 
-    allTexts: `IMPORTANT: Provide spiritual guidance using at least 5 quotes TOTAL from a combination of the Bhagavad Gita, Quran, Bible, and Guru Granth Sahib. Include a diverse mix from multiple faiths to highlight shared spiritual wisdom. Do NOT include non-scriptural quotes. Always follow the exact quote format. TRANSLATE ALL QUOTES INTO THE USER'S LANGUAGE - do not keep quotes in English when user writes in another language.`
+    allTexts: `IMPORTANT: Provide spiritual guidance using at least 5 quotes TOTAL, with at least one quote from EACH of the following: The Bhagavad Gita, The Vedas, The Quran, The Bible, and The Guru Granth Sahib. Use a round-robin approach to ensure each tradition is represented. Do NOT include non-scriptural quotes. Always follow the exact quote format. TRANSLATE ALL QUOTES INTO THE USER'S LANGUAGE - do not keep quotes in English when user writes in another language.`
   },
 
   fallbackSummaries: {
