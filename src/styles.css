@@ -59,21 +59,6 @@
     --divine-gradient: linear-gradient(135deg, #FFD700 0%, #DAA520 100%);
 }
 
-/* macOS System Fonts */
-@supports (font-variation-settings: normal) {
-    :root {
-        --system-font: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        --system-font-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
-    }
-}
-
-@supports not (font-variation-settings: normal) {
-    :root {
-        --system-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        --system-font-mono: 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
-    }
-}
-
 body {
     background: linear-gradient(-45deg, 
         rgba(235, 188, 121, 1),
@@ -84,12 +69,7 @@ body {
     );
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
-    font-family: var(--system-font);
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    font-family: 'Georgia', 'Times New Roman', serif;
     min-height: 100vh;
     margin: 0;
     padding: 20px;
@@ -152,9 +132,8 @@ body {
 }
 
 .divine-title {
-    font-family: var(--system-font);
     font-size: 3rem;
-    font-weight: 600;
+    font-weight: 300;
     margin: 0;
     position: relative;
     z-index: 1;
@@ -163,18 +142,14 @@ body {
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    letter-spacing: -0.02em;
 }
 
 .divine-subtitle {
-    font-family: var(--system-font);
     font-size: 1.2rem;
-    font-weight: 400;
     margin: 0.5rem 0 0 0;
     opacity: 0.9;
     position: relative;
     z-index: 1;
-    letter-spacing: 0.01em;
 }
 
 /* Cache Indicator */
@@ -337,7 +312,6 @@ body {
 }
 
 .form-label {
-    font-family: var(--system-font);
     font-weight: 600;
     color: var(--divine-dark);
     margin-bottom: 0.8rem;
@@ -351,9 +325,7 @@ body {
     border: 2px solid var(--divine-light-gold);
     border-radius: 15px;
     padding: 1rem 1.2rem;
-    font-family: var(--system-font);
     font-size: 1rem;
-    font-weight: 400;
     transition: all 0.3s ease;
     background: var(--divine-white);
     width: 100%;
@@ -371,7 +343,6 @@ body {
     border: none;
     border-radius: 15px;
     padding: 1rem 2.5rem;
-    font-family: var(--system-font);
     font-size: 1.2rem;
     font-weight: 600;
     color: white;
@@ -429,7 +400,6 @@ body {
 }
 
 .quotes-header h5 {
-    font-family: var(--system-font);
     font-size: 1.5rem;
     color: var(--divine-purple);
     font-weight: 600;
@@ -452,9 +422,7 @@ body {
 }
 
 .quote-text {
-    font-family: var(--system-font);
     font-size: 1.2rem;
-    font-weight: 400;
     line-height: 1.8;
     color: #2d3748;
     font-style: italic;
@@ -479,7 +447,6 @@ body {
     background: linear-gradient(135deg, var(--divine-purple) 0%, #8b5cf6 100%);
     color: white;
     border-radius: 8px;
-    font-family: var(--system-font);
     font-weight: 600;
     font-size: 0.95rem;
     margin: 1rem 0;
@@ -504,7 +471,6 @@ body {
 }
 
 .context-label {
-    font-family: var(--system-font);
     font-weight: 600;
     color: var(--divine-purple);
     margin-bottom: 1rem;
@@ -513,11 +479,9 @@ body {
 }
 
 .context-text {
-    font-family: var(--system-font);
     color: #4a5568;
     line-height: 1.8;
     font-size: 1rem;
-    font-weight: 400;
 }
 
 /* Summary Section */
@@ -532,7 +496,6 @@ body {
 }
 
 .summary-header h5 {
-    font-family: var(--system-font);
     color: var(--divine-dark);
     margin: 0;
     background: white;
@@ -540,7 +503,6 @@ body {
     position: relative;
     z-index: 2;
     display: inline-block;
-    font-weight: 600;
 }
 
 .summary-content {
@@ -760,7 +722,6 @@ body {
 
     .divine-title {
         font-size: 2.2rem;
-        font-weight: 600;
     }
 
     .divine-content {
@@ -813,7 +774,6 @@ body {
     border: 2px solid rgba(255, 255, 255, 0.6);
     display: inline-block;
     transition: all 0.3s ease;
-    font-family: var(--system-font);
     font-weight: 500;
     color: rgba(0, 0, 0, 0.8);
     text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
