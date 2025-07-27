@@ -207,6 +207,13 @@ window.addEventListener('DOMContentLoaded', async () => {
         const userMessage = document.getElementById('userMessage').value.trim();
         const selectedTextValue = document.getElementById('selectedText').value;
 
+        // Check if user message has less than 5 words
+        const wordCount = userMessage.split(/\s+/).filter(word => word.length > 0).length;
+        if (wordCount < 5) {
+            showError('Please type more details. Share at least 5 words about your situation so I can provide meaningful guidance.');
+            return;
+        }
+
         loadingSpinner.style.display = 'block';
         errorMessage.style.display = 'none';
         quotesSection.style.display = 'none';
