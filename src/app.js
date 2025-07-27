@@ -64,44 +64,68 @@ window.addEventListener('DOMContentLoaded', async () => {
             return { language: 'he', confidence: 0.9 };
         }
         
-        // Common Spanish words
+        // Common Spanish words (example, similar for French, German, Italian, Portuguese, Dutch)
         const spanishWords = ['hola', 'gracias', 'por favor', 'buenos días', 'buenas noches', 'adiós', 'sí', 'no', 'me', 'te', 'se', 'que', 'de', 'la', 'el', 'un', 'una', 'y', 'o', 'pero', 'como', 'cuando', 'donde', 'quien', 'que', 'cual', 'cuyo', 'cuyas', 'cuyos', 'cuyas'];
-        const spanishCount = spanishWords.filter(word => textLower.includes(word)).length;
+        const spanishCount = spanishWords.filter(word => {
+            // Use word boundaries to avoid false matches
+            const regex = new RegExp(`\\b${word}\\b`, 'i');
+            return regex.test(textLower);
+        }).length;
         if (spanishCount >= 2) {
             return { language: 'es', confidence: 0.8 };
         }
         
         // Common French words
         const frenchWords = ['bonjour', 'merci', 's\'il vous plaît', 'au revoir', 'oui', 'non', 'je', 'tu', 'il', 'elle', 'nous', 'vous', 'ils', 'elles', 'le', 'la', 'les', 'un', 'une', 'des', 'et', 'ou', 'mais', 'comme', 'quand', 'où', 'qui', 'que', 'quoi', 'dont', 'duquel', 'de laquelle'];
-        const frenchCount = frenchWords.filter(word => textLower.includes(word)).length;
+        const frenchCount = frenchWords.filter(word => {
+            // Use word boundaries to avoid false matches
+            const regex = new RegExp(`\\b${word}\\b`, 'i');
+            return regex.test(textLower);
+        }).length;
         if (frenchCount >= 2) {
             return { language: 'fr', confidence: 0.8 };
         }
         
         // Common German words
         const germanWords = ['hallo', 'danke', 'bitte', 'auf wiedersehen', 'ja', 'nein', 'ich', 'du', 'er', 'sie', 'es', 'wir', 'ihr', 'sie', 'der', 'die', 'das', 'ein', 'eine', 'und', 'oder', 'aber', 'wie', 'wann', 'wo', 'wer', 'was', 'welcher', 'welche', 'welches'];
-        const germanCount = germanWords.filter(word => textLower.includes(word)).length;
+        const germanCount = germanWords.filter(word => {
+            // Use word boundaries to avoid false matches
+            const regex = new RegExp(`\\b${word}\\b`, 'i');
+            return regex.test(textLower);
+        }).length;
         if (germanCount >= 2) {
             return { language: 'de', confidence: 0.8 };
         }
         
         // Common Italian words
         const italianWords = ['ciao', 'grazie', 'prego', 'arrivederci', 'sì', 'no', 'io', 'tu', 'lui', 'lei', 'noi', 'voi', 'loro', 'il', 'la', 'lo', 'gli', 'le', 'un', 'una', 'e', 'o', 'ma', 'come', 'quando', 'dove', 'chi', 'che', 'cosa', 'quale'];
-        const italianCount = italianWords.filter(word => textLower.includes(word)).length;
+        const italianCount = italianWords.filter(word => {
+            // Use word boundaries to avoid false matches
+            const regex = new RegExp(`\\b${word}\\b`, 'i');
+            return regex.test(textLower);
+        }).length;
         if (italianCount >= 2) {
             return { language: 'it', confidence: 0.8 };
         }
         
-        // Common Portuguese words
-        const portugueseWords = ['olá', 'obrigado', 'por favor', 'adeus', 'sim', 'não', 'eu', 'tu', 'ele', 'ela', 'nós', 'vós', 'eles', 'elas', 'o', 'a', 'os', 'as', 'um', 'uma', 'e', 'ou', 'mas', 'como', 'quando', 'onde', 'quem', 'que', 'o que', 'qual'];
-        const portugueseCount = portugueseWords.filter(word => textLower.includes(word)).length;
+        // Common Portuguese words - using word boundaries to avoid false matches
+        const portugueseWords = ['olá', 'obrigado', 'por favor', 'adeus', 'sim', 'não', 'eu', 'tu', 'ele', 'ela', 'nós', 'vós', 'eles', 'elas', 'um', 'uma', 'e', 'ou', 'mas', 'como', 'quando', 'onde', 'quem', 'que', 'o que', 'qual'];
+        const portugueseCount = portugueseWords.filter(word => {
+            // Use word boundaries to avoid false matches like "to" matching "o"
+            const regex = new RegExp(`\\b${word}\\b`, 'i');
+            return regex.test(textLower);
+        }).length;
         if (portugueseCount >= 2) {
             return { language: 'pt', confidence: 0.8 };
         }
         
         // Common Dutch words
         const dutchWords = ['hallo', 'dank je', 'alsjeblieft', 'tot ziens', 'ja', 'nee', 'ik', 'jij', 'hij', 'zij', 'het', 'wij', 'jullie', 'zij', 'de', 'het', 'een', 'en', 'of', 'maar', 'hoe', 'wanneer', 'waar', 'wie', 'wat', 'welke'];
-        const dutchCount = dutchWords.filter(word => textLower.includes(word)).length;
+        const dutchCount = dutchWords.filter(word => {
+            // Use word boundaries to avoid false matches
+            const regex = new RegExp(`\\b${word}\\b`, 'i');
+            return regex.test(textLower);
+        }).length;
         if (dutchCount >= 2) {
             return { language: 'nl', confidence: 0.8 };
         }
