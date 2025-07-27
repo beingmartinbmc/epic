@@ -745,54 +745,58 @@ body {
     text-align: center;
     margin-top: 2rem;
     padding: 1rem;
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 0.9rem;
-    font-weight: 400;
-    letter-spacing: 0.5px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .powered-by-footer p {
     margin: 0;
-    padding: 0.5rem 1rem;
-    background: rgba(255, 255, 255, 0.25);
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 0.6rem 1.2rem;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 25px;
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 255, 255, 0.6);
     display: inline-block;
     transition: all 0.3s ease;
     font-weight: 500;
+    color: rgba(0, 0, 0, 0.8);
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .powered-by-footer p:hover {
-    background: rgba(255, 255, 255, 0.35);
-    transform: translateY(-1px);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-    color: rgba(255, 255, 255, 1);
+    background: rgba(255, 255, 255, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    color: rgba(0, 0, 0, 1);
 }
 
 .powered-by-footer .author-link {
-    margin-top: 0.5rem;
-    font-size: 0.8rem;
+    margin-top: 0.3rem;
+    font-size: 0.85rem;
 }
 
 .powered-by-footer .author-link a {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(0, 0, 0, 0.8);
     text-decoration: none;
-    padding: 0.3rem 0.8rem;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 255, 255, 0.6);
     transition: all 0.3s ease;
     display: inline-block;
-    font-weight: 400;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .powered-by-footer .author-link a:hover {
-    color: rgba(255, 255, 255, 1);
-    background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    color: rgba(0, 0, 0, 1);
+    background: rgba(255, 255, 255, 0.7);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
     text-decoration: none;
 } 
