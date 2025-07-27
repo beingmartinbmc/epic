@@ -124,6 +124,63 @@ export function clearCache() {
 }
 
 /**
+ * Gets all cache entries for display
+ * @returns {Array} Array of cache entries with formatted data
+ */
+export function getAllCacheEntries() {
+    const cache = getCacheData();
+    const now = Date.now();
+    
+    return cache
+        .filter(entry => (now - entry.timestamp) < CACHE_EXPIRY)
+        .sort((a, b) => b.timestamp - a.timestamp)
+        .map(entry => ({
+            ...entry,
+            formattedTime: new Date(entry.timestamp).toLocaleString(),
+            timeAgo: getTimeAgo(entry.timestamp),
+            isExpired: false
+        }));
+}
+
+/**
+ * Gets expired cache entries
+ * @returns {Array} Array of expired cache entries
+ */
+export function getExpiredCacheEntries() {
+    const cache = getCacheData();
+    const now = Date.now();
+    
+    return cache
+        .filter(entry => (now - entry.timestamp) >= CACHE_EXPIRY)
+        .sort((a, b) => b.timestamp - a.timestamp)
+        .map(entry => ({
+            ...entry,
+            formattedTime: new Date(entry.timestamp).toLocaleString(),
+            timeAgo: getTimeAgo(entry.timestamp),
+            isExpired: true
+        }));
+}
+
+/**
+ * Calculates time ago from timestamp
+ * @param {number} timestamp 
+ * @returns {string} Formatted time ago string
+ */
+function getTimeAgo(timestamp) {
+    const now = Date.now();
+    const diff = now - timestamp;
+    
+    const minutes = Math.floor(diff / (1000 * 60));
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    
+    if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`;
+    if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    return 'Just now';
+}
+
+/**
  * Gets cache statistics
  * @returns {Object} Cache statistics
  */
@@ -131,10 +188,15 @@ export function getCacheStats() {
     const cache = getCacheData();
     const now = Date.now();
     
+    const validEntries = cache.filter(entry => (now - entry.timestamp) < CACHE_EXPIRY);
+    const expiredEntries = cache.filter(entry => (now - entry.timestamp) >= CACHE_EXPIRY);
+    
     return {
         totalEntries: cache.length,
-        validEntries: cache.filter(entry => (now - entry.timestamp) < CACHE_EXPIRY).length,
+        validEntries: validEntries.length,
+        expiredEntries: expiredEntries.length,
         oldestEntry: cache.length > 0 ? new Date(Math.min(...cache.map(e => e.timestamp))) : null,
-        newestEntry: cache.length > 0 ? new Date(Math.max(...cache.map(e => e.timestamp))) : null
+        newestEntry: cache.length > 0 ? new Date(Math.max(...cache.map(e => e.timestamp))) : null,
+        cacheSize: JSON.stringify(cache).length // Approximate size in bytes
     };
 } 
