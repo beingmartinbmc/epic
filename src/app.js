@@ -283,13 +283,17 @@ window.addEventListener('DOMContentLoaded', async () => {
         const detectedLanguage = detectionResult.language;
         const confidence = detectionResult.confidence;
 
-        let langInstruction = 'IMPORTANT: Respond in English.';
+        console.log('Language detection:', { detectedLanguage, confidence, userMessage });
+
+        let langInstruction = 'CRITICAL: You MUST respond in ENGLISH ONLY. All quotes, context, and summary must be in English.';
         if (detectedLanguage !== 'und' && detectedLanguage !== 'en' && confidence > 0.3) {
             const langName = LANG_NAME_MAP[detectedLanguage];
             if (langName) {
-                langInstruction = `IMPORTANT: Respond in ${langName}. The user wrote in ${langName}, so provide your ENTIRE response (quotes, context, and summary) in ${langName}. TRANSLATE THE QUOTES INTO ${langName} - do not keep quotes in English.`;
+                langInstruction = `CRITICAL: Respond in ${langName} ONLY. The user wrote in ${langName}, so provide your ENTIRE response (quotes, context, and summary) in ${langName}. TRANSLATE THE QUOTES INTO ${langName} - do not keep quotes in English.`;
             }
         }
+
+        console.log('Language instruction:', langInstruction);
 
         const userPrompt = `${textPrompt}\n\nUser's situation: ${userMessage}`;
 
