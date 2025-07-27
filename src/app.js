@@ -136,6 +136,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     const THEME_MAPPING = {
         'BHAGAVAD_GITA': 'theme-hindu',
+        'VEDAS': 'theme-hindu',
         'QURAN': 'theme-islamic',
         'BIBLE': 'theme-christian',
         'GURU_GRANTH_SAHIB': 'theme-sikh',
@@ -144,6 +145,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     const PROMPT_MAPPING = {
         'BHAGAVAD_GITA': prompts.userPrompts.bhagavadGita,
+        'VEDAS': prompts.userPrompts.vedas,
         'QURAN': prompts.userPrompts.quran,
         'BIBLE': prompts.userPrompts.bible,
         'GURU_GRANTH_SAHIB': prompts.userPrompts.guruGranthSahib,
@@ -204,6 +206,11 @@ window.addEventListener('DOMContentLoaded', async () => {
                 iconClass = 'fas fa-om';
                 title = 'Hindu Wisdom';
                 subtitleText = 'Sacred guidance from the Bhagavad Gita';
+                break;
+            case 'VEDAS':
+                iconClass = 'fas fa-om';
+                title = 'Hindu Wisdom';
+                subtitleText = 'Sacred guidance from the Vedas';
                 break;
             case 'QURAN':
                 iconClass = 'fas fa-star-and-crescent';
