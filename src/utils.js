@@ -488,20 +488,21 @@ export function getReferenceUrl(source, reference) {
         if (normalized.includes(veda)) {
             if (!chapter || !verse) return null;
 
-            // sacred-texts.com only has Rigveda with structured URLs
             if (veda === 'rigveda') {
-                return `https://www.sacred-texts.com/hin/rigveda/rv${chapter}.${verse}.htm`;
+                // Optional subverse support, if you extract it
+                const subversePart = subverse ? `.${subverse}` : '';
+                return `https://www.sacred-texts.com/hin/rigveda/rv${chapter}.${verse}${subversePart}.htm`;
             }
 
-            // For others, link to GitaSupersite search page
+            // fallback to GitaSupersite for other Vedas
             const vedaCode = veda === 'yajurveda' ? 'yv'
                 : veda === 'samaveda' ? 'sv'
                     : 'av'; // atharvaveda
 
-            // GitaSupersite only uses 'rv', 'sv', 'yv', 'av' codes for searching
             return `https://www.gitasupersite.iitk.ac.in/s?text=${vedaCode}&language=english&field=1&sc=0&it=regular&searchText=${chapter}.${verse}`;
         }
     }
+
 
 
     // Bible detection using book names and fallback on "bible" keyword
