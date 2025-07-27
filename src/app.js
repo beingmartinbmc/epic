@@ -12,11 +12,28 @@ window.addEventListener('DOMContentLoaded', async () => {
     const { findCachedResponse, cacheResponse, clearCache, getCacheStats } = cache;
 
     let mozillaLangDetector;
+    let cld3Detector;
+    let francDetector;
+    
     try {
         const { LangDetect } = await import('https://esm.sh/@mozilla/language-detection');
         mozillaLangDetector = new LangDetect();
     } catch (e) {
         console.warn('Mozilla language detection unavailable:', e);
+    }
+    
+    try {
+        const { LanguageDetector } = await import('cld3-asm');
+        cld3Detector = new LanguageDetector();
+    } catch (e) {
+        console.warn('CLD3 language detection unavailable:', e);
+    }
+    
+    try {
+        const franc = await import('franc-min');
+        francDetector = franc.default;
+    } catch (e) {
+        console.warn('Franc language detection unavailable:', e);
     }
 
     const THEME_MAPPING = {
@@ -141,29 +158,69 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     async function getReligiousGuidance(userMessage, selectedText) {
         const textPrompt = PROMPT_MAPPING[selectedText] || prompts.userPrompts.allTexts;
-        let detectedCode = 'und';
-
-        if (mozillaLangDetector) {
-            try {
-                const results = mozillaLangDetector.detect(userMessage || '');
-                if (results && results.length) {
-                    detectedCode = results[0].language;
-                }
-            } catch (e) {
-                console.warn('Language detection error:', e);
-            }
-        }
 
         const LANG_NAME_MAP = {
             hi: 'Hindi', es: 'Spanish', fr: 'French', de: 'German', ar: 'Arabic', bn: 'Bengali',
             pa: 'Punjabi', gu: 'Gujarati', mr: 'Marathi', te: 'Telugu', ta: 'Tamil', ur: 'Urdu',
-            pt: 'Portuguese', it: 'Italian', ja: 'Japanese', ko: 'Korean', ru: 'Russian', tr: 'Turkish', zh: 'Chinese'
+            pt: 'Portuguese', it: 'Italian', ja: 'Japanese', ko: 'Korean', ru: 'Russian', tr: 'Turkish',
+            zh: 'Chinese', 'zh-CN': 'Chinese', 'zh-TW': 'Chinese', 'zh-HK': 'Chinese',
+            nl: 'Dutch', sv: 'Swedish', da: 'Danish', no: 'Norwegian', fi: 'Finnish',
+            pl: 'Polish', cs: 'Czech', sk: 'Slovak', hu: 'Hungarian', ro: 'Romanian',
+            bg: 'Bulgarian', hr: 'Croatian', sr: 'Serbian', sl: 'Slovenian', et: 'Estonian',
+            lv: 'Latvian', lt: 'Lithuanian', mt: 'Maltese', el: 'Greek', he: 'Hebrew',
+            th: 'Thai', vi: 'Vietnamese', id: 'Indonesian', ms: 'Malay', fil: 'Filipino',
+            sw: 'Swahili', am: 'Amharic', ha: 'Hausa', yo: 'Yoruba', ig: 'Igbo',
+            ne: 'Nepali', si: 'Sinhala', my: 'Burmese', km: 'Khmer', lo: 'Lao'
         };
 
+        let detectedLanguage = 'en';
+        let confidence = 0;
+
+        // Try Mozilla detector first
+        if (mozillaLangDetector) {
+            try {
+                const results = mozillaLangDetector.detect(userMessage || '');
+                if (results && results.length > 0) {
+                    detectedLanguage = results[0].language;
+                    confidence = results[0].confidence || 0;
+                }
+            } catch (e) {
+                console.warn('Mozilla language detection error:', e);
+            }
+        }
+
+        // Fallback to CLD3 if Mozilla failed or confidence is low
+        if ((detectedLanguage === 'und' || confidence < 0.5) && cld3Detector) {
+            try {
+                const result = cld3Detector.detect(userMessage || '');
+                if (result && result.language && result.language !== 'und') {
+                    detectedLanguage = result.language;
+                    confidence = result.probability || 0;
+                }
+            } catch (e) {
+                console.warn('CLD3 language detection error:', e);
+            }
+        }
+
+        // Fallback to Franc if both failed
+        if ((detectedLanguage === 'und' || confidence < 0.3) && francDetector) {
+            try {
+                const result = francDetector(userMessage || '');
+                if (result && result !== 'und') {
+                    detectedLanguage = result;
+                    confidence = 0.5; // Franc doesn't provide confidence
+                }
+            } catch (e) {
+                console.warn('Franc language detection error:', e);
+            }
+        }
+
         let langInstruction = 'IMPORTANT: Respond in English.';
-        if (detectedCode !== 'und' && detectedCode !== 'en') {
-            const langName = LANG_NAME_MAP[detectedCode];
-            if (langName) langInstruction = `IMPORTANT: Respond in ${langName}.`;
+        if (detectedLanguage !== 'und' && detectedLanguage !== 'en' && confidence > 0.3) {
+            const langName = LANG_NAME_MAP[detectedLanguage];
+            if (langName) {
+                langInstruction = `IMPORTANT: Respond in ${langName}. The user wrote in ${langName}, so provide your entire response (quotes, context, and summary) in ${langName}.`;
+            }
         }
 
         const userPrompt = `${textPrompt}\n\nUser's situation: ${userMessage}`;
