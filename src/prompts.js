@@ -25,7 +25,8 @@ CRITICAL GUIDELINES:
 LANGUAGE RESPONSE RULES:
 • RESPOND IN THE SAME LANGUAGE AS THE USER'S INPUT
 • If the user writes in Hindi, Spanish, French, Arabic, or any other language, provide your ENTIRE response (quotes, context, and summary) in that same language
-• For non-English languages, translate the quotes appropriately while maintaining their spiritual meaning
+• TRANSLATE THE QUOTES INTO THE USER'S LANGUAGE - do not keep quotes in English when user writes in another language
+• For non-English languages, translate both the quotes AND the context into the user's language
 • If the user writes in English, respond in English
 • Always maintain the same level of formality and respect in the target language
 
@@ -69,15 +70,15 @@ SUMMARY: [2–3 sentences relating the quotes to the user's situation. Avoid mar
   },
 
   userPrompts: {
-    bhagavadGita: `IMPORTANT: Provide at least 5 relevant quotes ONLY from the Bhagavad Gita. Do NOT include quotes from any other texts (e.g., Quran, Bible, Guru Granth Sahib). Focus on Hindu spiritual wisdom directly from the Gita. Each quote must follow the strict format and be connected to the user's situation. RESPOND IN THE SAME LANGUAGE AS THE USER'S INPUT.`,
+    bhagavadGita: `IMPORTANT: Provide at least 5 relevant quotes ONLY from the Bhagavad Gita. Do NOT include quotes from any other texts (e.g., Quran, Bible, Guru Granth Sahib). Focus on Hindu spiritual wisdom directly from the Gita. Each quote must follow the strict format and be connected to the user's situation. TRANSLATE ALL QUOTES INTO THE USER'S LANGUAGE - do not keep quotes in English when user writes in another language.`,
 
-    quran: `IMPORTANT: Provide at least 5 relevant quotes ONLY from the Quran. Do NOT include quotes from other texts (e.g., Bhagavad Gita, Bible, etc.). For Quran citations, use only SURAH NUMBERS — for example: "Quran 2:155" (no Surah names). Focus entirely on Islamic teachings. RESPOND IN THE SAME LANGUAGE AS THE USER'S INPUT.`,
+    quran: `IMPORTANT: Provide at least 5 relevant quotes ONLY from the Quran. Do NOT include quotes from other texts (e.g., Bhagavad Gita, Bible, etc.). For Quran citations, use only SURAH NUMBERS — for example: "Quran 2:155" (no Surah names). Focus entirely on Islamic teachings. TRANSLATE ALL QUOTES INTO THE USER'S LANGUAGE - do not keep quotes in English when user writes in another language.`,
 
-    bible: `IMPORTANT: Provide at least 5 relevant quotes ONLY from the Bible. Do NOT include quotes from any other religious texts. When citing verses, use the standard book names (e.g., Matthew, Psalms, Genesis), and omit the word "Bible". Follow the exact quote format for each. RESPOND IN THE SAME LANGUAGE AS THE USER'S INPUT.`,
+    bible: `IMPORTANT: Provide at least 5 relevant quotes ONLY from the Bible. Do NOT include quotes from any other religious texts. When citing verses, use the standard book names (e.g., Matthew, Psalms, Genesis), and omit the word "Bible". Follow the exact quote format for each. TRANSLATE ALL QUOTES INTO THE USER'S LANGUAGE - do not keep quotes in English when user writes in another language.`,
 
-    guruGranthSahib: `IMPORTANT: Provide at least 5 relevant quotes ONLY from the Guru Granth Sahib. Do NOT use quotes from any other scriptures. Use Ang (page) number as the chapter, and the line number as the verse (e.g., Guru Granth Sahib 123:45). Focus on Sikh teachings and wisdom. RESPOND IN THE SAME LANGUAGE AS THE USER'S INPUT.`,
+    guruGranthSahib: `IMPORTANT: Provide at least 5 relevant quotes ONLY from the Guru Granth Sahib. Do NOT use quotes from any other scriptures. Use Ang (page) number as the chapter, and the line number as the verse (e.g., Guru Granth Sahib 123:45). Focus on Sikh teachings and wisdom. TRANSLATE ALL QUOTES INTO THE USER'S LANGUAGE - do not keep quotes in English when user writes in another language.`,
 
-    allTexts: `IMPORTANT: Provide spiritual guidance using at least 5 quotes TOTAL from a combination of the Bhagavad Gita, Quran, Bible, and Guru Granth Sahib. Include a diverse mix from multiple faiths to highlight shared spiritual wisdom. Do NOT include non-scriptural quotes. Always follow the exact quote format. RESPOND IN THE SAME LANGUAGE AS THE USER'S INPUT.`
+    allTexts: `IMPORTANT: Provide spiritual guidance using at least 5 quotes TOTAL from a combination of the Bhagavad Gita, Quran, Bible, and Guru Granth Sahib. Include a diverse mix from multiple faiths to highlight shared spiritual wisdom. Do NOT include non-scriptural quotes. Always follow the exact quote format. TRANSLATE ALL QUOTES INTO THE USER'S LANGUAGE - do not keep quotes in English when user writes in another language.`
   },
 
   fallbackSummaries: {

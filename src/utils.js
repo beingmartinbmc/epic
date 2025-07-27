@@ -23,7 +23,7 @@ export function getReferenceUrl(source, reference) {
     }
 
     // Bhagavad Gita Aliases
-    const gitaAliases = ['bhagavadgita', 'gita', 'bhagwatgita', 'shrimadbhagavadgita', 'bhagavad'];
+    const gitaAliases = ['bhagavadgita', 'gita', 'bhagwatgita', 'shrimadbhagavadgita', 'bhagavad', 'भगवद गीता', 'भगवद', 'गीता'];
     if (gitaAliases.some(alias => normalized.includes(alias))) {
         if (!verse) return null;
         return `https://bhagavadgita.io/chapter/${chapter}/verse/${verse}`;

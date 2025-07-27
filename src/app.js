@@ -256,7 +256,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         if (detectedLanguage !== 'und' && detectedLanguage !== 'en' && confidence > 0.3) {
             const langName = LANG_NAME_MAP[detectedLanguage];
             if (langName) {
-                langInstruction = `IMPORTANT: Respond in ${langName}. The user wrote in ${langName}, so provide your entire response (quotes, context, and summary) in ${langName}.`;
+                langInstruction = `IMPORTANT: Respond in ${langName}. The user wrote in ${langName}, so provide your ENTIRE response (quotes, context, and summary) in ${langName}. TRANSLATE THE QUOTES INTO ${langName} - do not keep quotes in English.`;
             }
         }
 
