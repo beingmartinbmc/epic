@@ -535,8 +535,10 @@ export function getReferenceUrl(source, reference) {
 
     if (bibleBooksRegex.test(normalizedSource) || normalized.includes('bible') || normalized.includes('holybible')) {
         const cleanSource = normalizedSource.replace(/\b(Holy\s)?Bible\b/i, '').trim();
+        // Remove "The" from the beginning of Bible book names
+        const cleanBookName = cleanSource.replace(/^The\s+/i, '');
         const formattedRef = verse ? `${chapter}:${verse}` : chapter;
-        const book = cleanSource.replace(/\s+/g, '+');
+        const book = cleanBookName.replace(/\s+/g, '+');
         return `https://www.biblegateway.com/passage/?search=${book}+${formattedRef}`;
     }
 
