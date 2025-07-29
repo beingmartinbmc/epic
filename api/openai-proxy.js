@@ -17,8 +17,9 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Extract user input from the request
-    const userInput = req.body.messages;
+    // Extract user input from the request - get the actual user message
+    const messages = req.body.messages;
+    const userMessage = messages.find(msg => msg.role === 'user')?.content || 'No user message found';
     
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -45,10 +46,11 @@ export default async function handler(req, res) {
           temperature: parseFloat(process.env.OPENAI_TEMPERATURE),
           maxTokens: parseInt(process.env.OPENAI_TOKEN),
           usage: data.usage || {},
-          requestId: data.id
+          requestId: data.id,
+          fullMessages: messages // Store the full conversation for context
         };
         
-        await storeConversation(userInput, modelOutput, metadata);
+        await storeConversation(userMessage, modelOutput, metadata);
       } catch (mongoError) {
         console.error('Failed to store conversation in MongoDB:', mongoError);
         // Don't fail the request if MongoDB storage fails
