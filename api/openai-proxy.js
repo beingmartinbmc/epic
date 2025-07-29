@@ -1,3 +1,5 @@
+import { storeConversation } from './mongodb.js';
+
 export default async function handler(req, res) {
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
@@ -15,6 +17,9 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Extract user input from the request
+    const userInput = req.body.messages;
+    
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -30,6 +35,26 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
+    
+    // Store conversation in MongoDB if the API call was successful
+    if (data.choices && data.choices.length > 0) {
+      try {
+        const modelOutput = data.choices[0].message;
+        const metadata = {
+          model: process.env.OPENAI_MODEL,
+          temperature: parseFloat(process.env.OPENAI_TEMPERATURE),
+          maxTokens: parseInt(process.env.OPENAI_TOKEN),
+          usage: data.usage || {},
+          requestId: data.id
+        };
+        
+        await storeConversation(userInput, modelOutput, metadata);
+      } catch (mongoError) {
+        console.error('Failed to store conversation in MongoDB:', mongoError);
+        // Don't fail the request if MongoDB storage fails
+      }
+    }
+    
     res.setHeader('Access-Control-Allow-Origin', 'https://beingmartinbmc.github.io');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     return res.status(200).json(data);
