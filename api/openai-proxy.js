@@ -21,6 +21,23 @@ export default async function handler(req, res) {
     const messages = req.body.messages;
     const userMessage = messages.find(msg => msg.role === 'user')?.content || 'No user message found';
     
+    // Extract selected text option from the user message
+    let selectedText = 'ALL'; // default
+    if (userMessage.includes('from EACH of the following:')) {
+      // This indicates "All Sacred Texts" was selected
+      selectedText = 'ALL';
+    } else if (userMessage.includes('Bhagavad Gita')) {
+      selectedText = 'BHAGAVAD_GITA';
+    } else if (userMessage.includes('Vedas')) {
+      selectedText = 'VEDAS';
+    } else if (userMessage.includes('Quran')) {
+      selectedText = 'QURAN';
+    } else if (userMessage.includes('Bible')) {
+      selectedText = 'BIBLE';
+    } else if (userMessage.includes('Guru Granth Sahib')) {
+      selectedText = 'GURU_GRANTH_SAHIB';
+    }
+    
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -42,12 +59,12 @@ export default async function handler(req, res) {
       try {
         const modelOutput = data.choices[0].message;
         const metadata = {
+          selectedText: selectedText,
           model: process.env.OPENAI_MODEL,
           temperature: parseFloat(process.env.OPENAI_TEMPERATURE),
           maxTokens: parseInt(process.env.OPENAI_TOKEN),
           usage: data.usage || {},
-          requestId: data.id,
-          fullMessages: messages // Store the full conversation for context
+          requestId: data.id
         };
         
         await storeConversation(userMessage, modelOutput, metadata);

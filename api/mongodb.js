@@ -72,11 +72,22 @@ export async function storeConversation(userInput, modelOutput, metadata = {}) {
     const db = await getDB();
     const collection = db.collection('conversations');
     
+    // Extract the actual user question from the combined prompt
+    let actualUserInput = userInput;
+    if (userInput.includes("User's situation:")) {
+      actualUserInput = userInput.split("User's situation:")[1]?.trim() || userInput;
+    }
+    
     const conversation = {
-      userInput,
-      modelOutput,
+      userInput: actualUserInput,
+      aiResponse: modelOutput.content,
       timestamp: new Date(),
-      ...metadata
+      optionChosen: metadata.selectedText || 'ALL',
+      model: metadata.model,
+      temperature: metadata.temperature,
+      maxTokens: metadata.maxTokens,
+      usage: metadata.usage || {},
+      requestId: metadata.requestId
     };
     
     const result = await collection.insertOne(conversation);
