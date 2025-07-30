@@ -30,6 +30,7 @@ const BOOK_NAME_MAPPINGS = {
     'व्यवस्थाविवरण': 'Deuteronomy',
     'यहोशू': 'Joshua',
     'न्यायियों': 'Judges',
+    'यूलूसेज': 'Judges',
     'रूत': 'Ruth',
     'शमूएल': 'Samuel',
     'राजाओं': 'Kings',
@@ -441,8 +442,8 @@ export function getReferenceUrl(source, reference) {
     // Handle different reference formats
     let chapter, verse;
     
-    // Check if it's a Guru Granth Sahib Ang reference (e.g., "Ang 786")
-    const angMatch = reference.match(/Ang\s+(\d+)/i);
+    // Check if it's a Guru Granth Sahib Ang reference (e.g., "Ang 786" or "अंग 1")
+    const angMatch = reference.match(/(?:Ang|अंग)\s*(\d+)/i);
     if (angMatch) {
         chapter = angMatch[1];
         verse = null;
@@ -460,9 +461,11 @@ export function getReferenceUrl(source, reference) {
         verse = verseRaw ? verseRaw.replace(/[^0-9]/g, '') : null;
     }
 
-    // Quran Aliases
-    const quranAliases = ['quran', 'alquran', 'alqur’an', 'koran', 'surah', 'sura', 'holyquran'];
-    if (quranAliases.some(alias => normalized.includes(alias))) {
+    // Quran Aliases - Handle both English and transliterated names
+    const quranAliases = ['quran', 'alquran', 'alqur\'an', 'koran', 'surah', 'sura', 'holyquran', 'सूरह', 'सूरा'];
+    if (quranAliases.some(alias => normalized.includes(alias)) || 
+        normalizedSource.toLowerCase().includes('surah') || 
+        normalizedSource.toLowerCase().includes('sura')) {
         if (!verse) return null;
         return `https://quran.com/${chapter}/${verse}`;
     }
@@ -474,9 +477,11 @@ export function getReferenceUrl(source, reference) {
         return `https://bhagavadgita.io/chapter/${chapter}/verse/${verse}`;
     }
 
-    // Guru Granth Sahib
-    const ggsAliases = ['granth', 'guru', 'sahib', 'gurugranthsahib'];
-    if (ggsAliases.some(alias => normalized.includes(alias))) {
+    // Guru Granth Sahib - Handle both English and transliterated names
+    const ggsAliases = ['granth', 'guru', 'sahib', 'gurugranthsahib', 'गुरु ग्रंथ साहिब', 'गुरु', 'ग्रंथ', 'साहिब'];
+    if (ggsAliases.some(alias => normalized.includes(alias)) || 
+        normalizedSource.toLowerCase().includes('guru granth sahib') ||
+        normalizedSource.toLowerCase().includes('गुरु ग्रंथ साहिब')) {
         // For Guru Granth Sahib, the chapter is the Ang (page) number
         return `https://www.searchgurbani.com/guru-granth-sahib/ang/${chapter}`;
     }
@@ -527,19 +532,55 @@ export function getReferenceUrl(source, reference) {
         }
     }
 
-
-
-
     // Bible detection using book names and fallback on "bible" keyword
-    const bibleBooksRegex = /\b(genesis|exodus|leviticus|numbers|deuteronomy|joshua|judges|ruth|samuel|kings|chronicles|ezra|nehemiah|esther|job|psalms?|proverbs?|ecclesiastes|songofsolomon|isaiah|jeremiah|lamentations|ezekiel|daniel|hosea|joel|amos|obadiah|jonah|micah|nahum|habakkuk|zephaniah|haggai|zechariah|malachi|matthew|mark|luke|john|acts|romans|corinthians|galatians|ephesians|philippians|colossians|thessalonians|timothy|titus|philemon|hebrews|james|peter|jude|revelation)\b/i;
+    // Handle both English and transliterated names
+    const bibleBooksRegex = /\b(genesis|exodus|leviticus|numbers|deuteronomy|joshua|judges|ruth|samuel|kings|chronicles|ezra|nehemiah|esther|job|psalms?|proverbs?|ecclesiastes|songofsolomon|isaiah|jeremiah|lamentations|ezekiel|daniel|hosea|joel|amos|obadiah|jonah|micah|nahum|habakkuk|zephaniah|haggai|zechariah|malachi|matthew|mark|luke|john|acts|romans|corinthians|galatians|ephesians|philippians|colossians|thessalonians|timothy|titus|philemon|hebrews|james|peter|jude|revelation|यूलूसेज|यूहन्ना|मत्ती|मरकुस|लूका|प्रेरितों|रोमियों|कुरिन्थियों|गलातियों|इफिसियों|फिलिप्पियों|कुलुस्सियों|थिस्स्सलुनीकियों|तीमुथियुस|तीतुस|फिलेमोन|इब्रानियों|याकूब|पतरस|यहूदा|प्रकाशितवाक्य)\b/i;
 
-    if (bibleBooksRegex.test(normalizedSource) || normalized.includes('bible') || normalized.includes('holybible')) {
+    if (bibleBooksRegex.test(normalizedSource) || 
+        normalized.includes('bible') || 
+        normalized.includes('holybible') ||
+        normalizedSource.toLowerCase().includes('यूलूसेज')) {
+        
         const cleanSource = normalizedSource.replace(/\b(Holy\s)?Bible\b/i, '').trim();
         // Remove "The" from the beginning of Bible book names
         const cleanBookName = cleanSource.replace(/^The\s+/i, '');
         const formattedRef = verse ? `${chapter}:${verse}` : chapter;
-        const book = cleanBookName.replace(/\s+/g, '+');
-        return `https://www.biblegateway.com/passage/?search=${book}+${formattedRef}`;
+        
+        // Handle transliterated book names
+        const bookNameMap = {
+            'यूलूसेज': 'Judges',
+            'यूहन्ना': 'John',
+            'मत्ती': 'Matthew',
+            'मरकुस': 'Mark',
+            'लूका': 'Luke',
+            'प्रेरितों': 'Acts',
+            'रोमियों': 'Romans',
+            'कुरिन्थियों': 'Corinthians',
+            'गलातियों': 'Galatians',
+            'इफिसियों': 'Ephesians',
+            'फिलिप्पियों': 'Philippians',
+            'कुलुस्सियों': 'Colossians',
+            'थिस्स्सलुनीकियों': 'Thessalonians',
+            'तीमुथियुस': 'Timothy',
+            'तीतुस': 'Titus',
+            'फिलेमोन': 'Philemon',
+            'इब्रानियों': 'Hebrews',
+            'याकूब': 'James',
+            'पतरस': 'Peter',
+            'यहूदा': 'Jude',
+            'प्रकाशितवाक्य': 'Revelation'
+        };
+        
+        let book = cleanBookName;
+        for (const [hindi, english] of Object.entries(bookNameMap)) {
+            if (cleanBookName.includes(hindi)) {
+                book = english;
+                break;
+            }
+        }
+        
+        const formattedBook = book.replace(/\s+/g, '+');
+        return `https://www.biblegateway.com/passage/?search=${formattedBook}+${formattedRef}`;
     }
 
     return null; // Unknown
