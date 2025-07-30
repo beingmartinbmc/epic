@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', async () => {
     const API_CONFIG = {
-        OPENAI_PROXY_URL: 'https://religious-guide-fh54claso-beingmartinbmcs-projects.vercel.app/api/openai-proxy'
+        OPENAI_PROXY_URL: 'https://religious-guide-irao51bky-beingmartinbmcs-projects.vercel.app/api/openai-proxy'
     };
 
     const promptsModule = await import('./prompts.js');
@@ -258,6 +258,35 @@ window.addEventListener('DOMContentLoaded', async () => {
                 response = await getReligiousGuidance(userMessage, selectedTextValue);
                 // The cacheResponse call is now handled within getReligiousGuidance
                 updateCacheStats();
+            }
+
+            // Check if the response is repetitive and clear cache if needed
+            if (response && response.quotes) {
+                const sources = response.quotes.map(q => q.source);
+                const repetitivePatterns = [
+                    // Bhagavad Gita
+                    'Bhagavad Gita 2:48', 'Bhagavad Gita 2:47', 'Bhagavad Gita 3:35',
+                    // Bible
+                    'John 3:16', 'Psalm 23', 'Matthew 6:33',
+                    // Quran
+                    'Quran 1:1', 'Quran 2:255', 'Quran 2:286',
+                    // Guru Granth Sahib
+                    'Guru Granth Sahib 1:1', 'Guru Granth Sahib 62:3',
+                    // Vedas
+                    'Rigveda 1:1:1', 'Atharvaveda 10:8:44'
+                ];
+                const repetitiveCount = sources.filter(source => 
+                    repetitivePatterns.some(pattern => source.includes(pattern))
+                ).length;
+                
+                // If more than 2 quotes are repetitive, clear cache and retry
+                if (repetitiveCount >= 2 && !fromCache) {
+                    clearCache();
+                    updateCacheStats();
+                    
+                    // Retry once without cache
+                    response = await getReligiousGuidance(userMessage, selectedTextValue);
+                }
             }
 
             displayGuidance(response, fromCache);

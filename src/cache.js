@@ -25,6 +25,65 @@ function calculateSimilarity(str1, str2) {
 }
 
 /**
+ * Checks if a response contains repetitive quotes
+ * @param {Object} response Response object with quotes array
+ * @returns {boolean} True if response appears repetitive
+ */
+function isRepetitiveResponse(response) {
+    if (!response.quotes || response.quotes.length < 2) return false;
+    
+    // Check for common repetitive patterns
+    const sources = response.quotes.map(q => q.source);
+    const uniqueSources = new Set(sources);
+    
+    // If more than 60% of quotes are from the same source, consider it repetitive
+    if (uniqueSources.size / sources.length < 0.4) return true;
+    
+    // Check for specific repetitive quotes from all sacred texts
+    const repetitivePatterns = [
+        // Bhagavad Gita - commonly overused verses
+        'Bhagavad Gita 2:48',
+        'Bhagavad Gita 2:47',
+        'Bhagavad Gita 3:35',
+        'Bhagavad Gita 4:7',
+        'Bhagavad Gita 4:8',
+        'Bhagavad Gita 9:27',
+        'Bhagavad Gita 18:66',
+        
+        // Bible - commonly overused verses
+        'John 3:16',
+        'Psalm 23',
+        'Matthew 6:33',
+        'Matthew 11:28',
+        'Philippians 4:13',
+        'Jeremiah 29:11',
+        
+        // Quran - commonly overused verses
+        'Quran 1:1',
+        'Quran 2:255',
+        'Quran 2:286',
+        'Quran 55:1',
+        'Quran 112:1',
+        
+        // Guru Granth Sahib - commonly overused verses
+        'Guru Granth Sahib 1:1',
+        'Guru Granth Sahib 62:3',
+        'Guru Granth Sahib 1:2',
+        
+        // Vedas - commonly overused verses
+        'Rigveda 1:1:1',
+        'Atharvaveda 10:8:44'
+    ];
+    
+    const repetitiveCount = sources.filter(source => 
+        repetitivePatterns.some(pattern => source.includes(pattern))
+    ).length;
+    
+    // If more than 40% are known repetitive quotes, consider it repetitive
+    return repetitiveCount / sources.length > 0.4;
+}
+
+/**
  * Gets cache data from localStorage
  * @returns {Array} Array of cache entries
  */
@@ -83,8 +142,11 @@ export function findCachedResponse(selectedText, userMessage, similarityThreshol
         if (entry.selectedText === selectedText) {
             const similarity = calculateSimilarity(entry.userMessage, userMessage);
             if (similarity > similarityThreshold && similarity > highestSimilarity) {
-                highestSimilarity = similarity;
-                bestMatch = entry;
+                // Check if the cached response is not repetitive
+                if (!isRepetitiveResponse(entry.response)) {
+                    highestSimilarity = similarity;
+                    bestMatch = entry;
+                }
             }
         }
     }
@@ -99,6 +161,11 @@ export function findCachedResponse(selectedText, userMessage, similarityThreshol
  * @param {Object} response Response data to cache
  */
 export function cacheResponse(selectedText, userMessage, response) {
+    // Don't cache repetitive responses
+    if (isRepetitiveResponse(response)) {
+        return;
+    }
+    
     const cache = getCacheData();
     
     // Add new entry
