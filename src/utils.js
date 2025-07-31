@@ -640,6 +640,107 @@ export function getReferenceUrl(source, reference) {
         return `https://www.biblegateway.com/passage/?search=${formattedBook}+${formattedRef}`;
     }
 
+    // Buddhist Texts - Tripitaka, Nikayas, and other Buddhist scriptures
+    const buddhistAliases = ['tripitaka', 'tipitaka', 'palicanon', 'buddhistscriptures', 'buddhistcanon', 'dhammapada', 'suttapitaka', 'vinayapitaka', 'abhidhammapitaka', 'majjhimanikaya', 'dighanikaya', 'samyuttanikaya', 'anguttaranikaya', 'त्रिपिटक', 'तीपिटक', 'पालि कैनन', 'बौद्ध ग्रंथ', 'धम्मपद', 'सुत्त पिटक', 'विनय पिटक', 'अभिधम्म पिटक'];
+    
+    if (buddhistAliases.some(alias => normalized.includes(alias)) || 
+        normalizedSource.toLowerCase().includes('nikaya') ||
+        normalizedSource.toLowerCase().includes('pitaka') ||
+        normalizedSource.toLowerCase().includes('dhammapada')) {
+        
+        // Handle different Buddhist text formats
+        const sourceLower = normalizedSource.toLowerCase();
+        
+        // Dhammapada
+        if (sourceLower.includes('dhammapada') || sourceLower.includes('धम्मपद')) {
+            if (!verse) return null;
+            return `https://www.dhammatalks.org/suttas/KN/Dhp/Ch${chapter.padStart(2, '0')}.html`;
+        }
+        
+        // Majjhima Nikaya
+        if (sourceLower.includes('majjhima') || sourceLower.includes('majjhima nikaya')) {
+            if (!verse) return null;
+            return `https://www.dhammatalks.org/suttas/MN/MN${chapter}.html`;
+        }
+        
+        // Digha Nikaya
+        if (sourceLower.includes('digha') || sourceLower.includes('digha nikaya')) {
+            if (!verse) return null;
+            return `https://www.dhammatalks.org/suttas/DN/DN${chapter.padStart(2, '0')}.html`;
+        }
+        
+        // Samyutta Nikaya
+        if (sourceLower.includes('samyutta') || sourceLower.includes('samyutta nikaya')) {
+            if (!verse) return null;
+            return `https://www.dhammatalks.org/suttas/SN/SN${chapter}_${verse}.html`;
+        }
+        
+        // Anguttara Nikaya
+        if (sourceLower.includes('anguttara') || sourceLower.includes('anguttara nikaya')) {
+            if (!verse) return null;
+            return `https://www.dhammatalks.org/suttas/AN/AN${chapter}_${verse}.html`;
+        }
+        
+        // Vinaya Pitaka
+        if (sourceLower.includes('vinaya') || sourceLower.includes('vinaya pitaka') || sourceLower.includes('विनय पिटक')) {
+            if (!verse) return null;
+            return `https://www.dhammatalks.org/suttas/Vin/Mv/Mv${chapter}.html`;
+        }
+        
+        // Khuddakapāṭha
+        if (sourceLower.includes('khuddakapatha') || sourceLower.includes('khuddaka patha')) {
+            if (!verse) return null;
+            return `https://www.dhammatalks.org/suttas/KN/Khp/khp${chapter}.html`;
+        }
+        
+        // Udāna
+        if (sourceLower.includes('udana') || sourceLower.includes('udāna')) {
+            if (!verse) return null;
+            return `https://www.dhammatalks.org/suttas/KN/Ud/ud${chapter}_${verse}.html`;
+        }
+        
+        // Itivuttaka
+        if (sourceLower.includes('itivuttaka') || sourceLower.includes('iti')) {
+            if (!verse) return null;
+            return `https://www.dhammatalks.org/suttas/KN/Iti/iti${chapter}.html`;
+        }
+        
+        // Sutta Nipāta
+        if (sourceLower.includes('sutta nipata') || sourceLower.includes('suttanipata') || sourceLower.includes('stnp')) {
+            if (!verse) return null;
+            return `https://www.dhammatalks.org/suttas/KN/StNp/StNp${chapter}_${verse}.html`;
+        }
+        
+        // Theragāthā
+        if (sourceLower.includes('theragatha') || sourceLower.includes('theragāthā') || sourceLower.includes('thag')) {
+            if (!verse) return null;
+            return `https://www.dhammatalks.org/suttas/KN/Thag/thag${chapter}_${verse}.html`;
+        }
+        
+        // Therīgāthā
+        if (sourceLower.includes('therigatha') || sourceLower.includes('therīgāthā') || sourceLower.includes('thig')) {
+            if (!verse) return null;
+            return `https://www.dhammatalks.org/suttas/KN/Thig/thig${chapter}_${verse}.html`;
+        }
+        
+        // Sutta Pitaka
+        if (sourceLower.includes('sutta pitaka') || sourceLower.includes('सुत्त पिटक')) {
+            if (!verse) return null;
+            return `https://www.dhammatalks.org/suttas/`;
+        }
+        
+        // Abhidhamma Pitaka
+        if (sourceLower.includes('abhidhamma') || sourceLower.includes('abhidhamma pitaka') || sourceLower.includes('अभिधम्म पिटक')) {
+            if (!verse) return null;
+            return `https://www.dhammatalks.org/suttas/`;
+        }
+        
+        // General Tripitaka fallback
+        if (sourceLower.includes('tripitaka') || sourceLower.includes('tipitaka') || sourceLower.includes('त्रिपिटक') || sourceLower.includes('तीपिटक')) {
+            return `https://www.dhammatalks.org/suttas/`;
+        }
+    }
+
     return null; // Unknown
 }
 
