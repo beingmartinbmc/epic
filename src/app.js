@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', async () => {
     const API_CONFIG = {
-        OPENAI_PROXY_URL: 'https://religious-guide-irao51bky-beingmartinbmcs-projects.vercel.app/api/openai-proxy'
+        OPENAI_PROXY_URL: 'https://religious-guide-erf4al3sq-beingmartinbmcs-projects.vercel.app/api/openai-proxy'
     };
 
     const promptsModule = await import('./prompts.js');

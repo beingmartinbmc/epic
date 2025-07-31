@@ -39,17 +39,21 @@ WRONG FORMAT (DO NOT USE):\
 - "Quote text" [Bible verse]\
 \
 RIGHT FORMAT (EXACTLY LIKE THIS):\
-QUOTE: "You have the right to perform your prescribed duties, but you are not entitled to the fruits of your actions."\
-SOURCE: Bhagavad Gita 2:47\
-CONTEXT: Lord Krishna teaches Arjuna about the importance of detachment from results. This wisdom comes at a crucial moment on the battlefield when Arjuna is struggling with doubt and confusion. Krishna explains that our duty is to act with pure intention, without being attached to the outcomes. This teaching helps us understand that our worth is not determined by success or failure, but by our sincere effort and dedication.\
+QUOTE: "The mind acts like an enemy for those who do not control it."\
+SOURCE: Bhagavad Gita 6:6\
+CONTEXT: Lord Krishna explains to Arjuna the importance of mastering the mind through meditation and self-discipline. This teaching comes during Krishna's discourse on the practice of yoga and meditation. He emphasizes that an uncontrolled mind can become our greatest obstacle, leading us away from our spiritual goals. This wisdom is particularly relevant for anyone struggling with negative thoughts, anxiety, or lack of focus in their spiritual journey.\
 \
-QUOTE: "For I know the plans I have for you," declares the Lord, "plans to prosper you and not to harm you, plans to give you a hope and a future."\
-SOURCE: Jeremiah 29:11\
-CONTEXT: God speaks through the prophet Jeremiah to the Israelites who are in exile, feeling lost and hopeless. This message comes as a divine reassurance during one of their darkest periods. It reminds us that even in our most difficult times, there is a greater purpose at work. The context shows God's deep care for His people, offering hope when circumstances seem bleakest.\
+QUOTE: "And whoever fears Allah - He will make for him a way out and will provide for him from where he does not expect."\
+SOURCE: Quran 65:2-3\
+CONTEXT: These verses from Surah At-Talaq (The Divorce) offer profound comfort about divine provision and guidance. They were revealed during a time when the early Muslim community faced significant challenges and uncertainties. The verses assure believers that maintaining consciousness of Allah opens unexpected doors of opportunity and sustenance. This teaching reminds us that divine help often comes from sources we never anticipated.\
 \
-QUOTE: "Those who serve and remember Waheguru with love in their hearts, are blessed with peace and contentment."\
-SOURCE: Guru Granth Sahib 45:12\
-CONTEXT: This divine wisdom appears in the Guru Granth Sahib, where Guru Nanak Dev Ji emphasizes the importance of remembering the Divine with love and devotion. The teaching comes in a section that discusses the path to true peace and happiness. It reminds us that sincere devotion and remembrance of the Divine brings inner peace and contentment. This teaching is fundamental to Sikh spirituality, emphasizing the direct connection between devotional practice and personal well-being.\
+QUOTE: "The Lord is my shepherd, I shall not want. He makes me lie down in green pastures, he leads me beside quiet waters, he refreshes my soul."\
+SOURCE: Psalms 23:1-3\
+CONTEXT: King David composed this psalm during a period of deep reflection on God's care and provision. Written from the perspective of a shepherd who understood the intimate relationship between shepherd and sheep, David expresses complete trust in divine guidance. The imagery of green pastures and quiet waters represents spiritual nourishment and peace that comes from following divine guidance, even in difficult circumstances.\
+\
+QUOTE: "One who performs selfless service, without thought of reward, shall attain his Lord and Master."\
+SOURCE: Guru Granth Sahib 286:12\
+CONTEXT: This teaching from the Guru Granth Sahib emphasizes the spiritual significance of seva (selfless service) in Sikh tradition. The verse appears in a section that discusses the path to spiritual liberation through service to others. It teaches that true spiritual progress comes not from seeking personal gain, but from serving humanity with pure intentions. This wisdom is fundamental to Sikh philosophy and the practice of langar (community kitchen).\
 \
 QUOTE COUNT REQUIREMENT: You MUST provide exactly 5 quotes minimum. If you can find more relevant quotes, provide up to 7-8 quotes. Never provide fewer than 5 quotes.\
 \
