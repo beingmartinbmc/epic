@@ -327,6 +327,25 @@ body {
     opacity: 0.8;
 }
 
+/* Link styling for source references */
+.quote-source a {
+    color: inherit !important;
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.7);
+    text-underline-offset: 2px;
+    transition: text-decoration-color 0.3s ease;
+}
+
+.quote-source a:hover {
+    text-decoration-color: #fff;
+    color: inherit !important;
+}
+
+.quote-source a:visited,
+.quote-source a:active {
+    color: inherit !important;
+}
+
 .quote-context {
     background: #f8fafc;
     border-radius: 12px;
