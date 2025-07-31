@@ -14,37 +14,87 @@ const ResponseSection = ({ response, isLoading }) => {
     return null;
   }
 
-  // Parse the response to extract quotes, sources, and context
+  // Improved parsing logic to handle different response formats
   const parseResponse = (text) => {
-    const sections = text.split('\n\n');
     const quotes = [];
     let summary = '';
+    let currentQuote = {};
 
-    sections.forEach(section => {
-      const lines = section.split('\n');
-      const quoteData = {};
+    // Split by lines and process each line
+    const lines = text.split('\n');
+    
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      
+      if (!line) continue;
 
-      lines.forEach(line => {
-        if (line.startsWith('QUOTE:')) {
-          quoteData.quote = line.replace('QUOTE:', '').trim();
-        } else if (line.startsWith('SOURCE:')) {
-          quoteData.source = line.replace('SOURCE:', '').trim();
-        } else if (line.startsWith('CONTEXT:')) {
-          quoteData.context = line.replace('CONTEXT:', '').trim();
-        } else if (line.startsWith('SUMMARY:')) {
-          summary = line.replace('SUMMARY:', '').trim();
-        } else if (line.trim() && !quoteData.quote && !quoteData.source && !quoteData.context) {
-          // This might be the main guidance text
-          if (!quoteData.quote) {
-            quoteData.quote = line.trim();
+      if (line.startsWith('QUOTE:')) {
+        // If we have a previous quote, save it
+        if (currentQuote.quote) {
+          quotes.push({ ...currentQuote });
+        }
+        // Start new quote
+        currentQuote = {
+          quote: line.replace('QUOTE:', '').trim()
+        };
+      } else if (line.startsWith('SOURCE:')) {
+        currentQuote.source = line.replace('SOURCE:', '').trim();
+      } else if (line.startsWith('CONTEXT:')) {
+        currentQuote.context = line.replace('CONTEXT:', '').trim();
+      } else if (line.startsWith('SUMMARY:')) {
+        summary = line.replace('SUMMARY:', '').trim();
+      } else if (line.startsWith('"') && line.endsWith('"')) {
+        // Handle quoted text without QUOTE: prefix
+        if (currentQuote.quote) {
+          quotes.push({ ...currentQuote });
+        }
+        currentQuote = {
+          quote: line
+        };
+      } else if (currentQuote.quote && !currentQuote.source && line.includes(':')) {
+        // Try to identify source from context
+        if (line.includes('Bhagavad Gita') || line.includes('Quran') || line.includes('Bible') || 
+            line.includes('Rigveda') || line.includes('Guru Granth Sahib') || line.includes('Tripitaka')) {
+          currentQuote.source = line;
+        } else {
+          currentQuote.context = line;
+        }
+      } else if (currentQuote.quote && !currentQuote.context && line.length > 50) {
+        // Long lines are likely context
+        currentQuote.context = line;
+      }
+    }
+
+    // Add the last quote if it exists
+    if (currentQuote.quote) {
+      quotes.push(currentQuote);
+    }
+
+    // If no structured quotes found, try alternative parsing
+    if (quotes.length === 0) {
+      const sections = text.split('\n\n');
+      sections.forEach(section => {
+        const sectionLines = section.split('\n');
+        const quoteData = {};
+        
+        sectionLines.forEach(line => {
+          const trimmedLine = line.trim();
+          if (trimmedLine.startsWith('QUOTE:')) {
+            quoteData.quote = trimmedLine.replace('QUOTE:', '').trim();
+          } else if (trimmedLine.startsWith('SOURCE:')) {
+            quoteData.source = trimmedLine.replace('SOURCE:', '').trim();
+          } else if (trimmedLine.startsWith('CONTEXT:')) {
+            quoteData.context = trimmedLine.replace('CONTEXT:', '').trim();
+          } else if (trimmedLine.startsWith('SUMMARY:')) {
+            summary = trimmedLine.replace('SUMMARY:', '').trim();
           }
+        });
+        
+        if (quoteData.quote) {
+          quotes.push(quoteData);
         }
       });
-
-      if (quoteData.quote) {
-        quotes.push(quoteData);
-      }
-    });
+    }
 
     return { quotes, summary };
   };
@@ -124,6 +174,8 @@ const ResponseSection = ({ response, isLoading }) => {
               __html: response
                 .replace(/QUOTE:/g, '<span class="quote-marker">QUOTE:</span>')
                 .replace(/SOURCE:/g, '<span class="source-marker">SOURCE:</span>')
+                .replace(/CONTEXT:/g, '<span class="context-marker">CONTEXT:</span>')
+                .replace(/SUMMARY:/g, '<span class="summary-marker">SUMMARY:</span>')
                 .replace(/\n/g, '<br/>')
             }}
           />

@@ -461,6 +461,26 @@ body {
     font-size: 0.9rem;
 }
 
+.context-marker {
+    background: var(--divine-blue);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    display: inline-block;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+.summary-marker {
+    background: var(--divine-gold);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    display: inline-block;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+
 @keyframes glow {
     0% {
         text-shadow: 0 0 5px var(--divine-gold), 0 0 10px var(--divine-gold), 0 0 15px var(--divine-gold);
