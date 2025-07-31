@@ -98,6 +98,7 @@ const BOOK_NAME_MAPPINGS = {
     'Hechos': 'Acts',
     'Corintios': 'Corinthians',
     'Efesios': 'Ephesians',
+    'Filipenses': 'Philippians',
     'Colosenses': 'Colossians',
     'Tesalonicenses': 'Thessalonians',
     'Timoteo': 'Timothy',
@@ -415,7 +416,7 @@ const BOOK_NAME_MAPPINGS = {
     'Tripitaka': 'Tripitaka',
     'The Tripitaka': 'Tripitaka',
     'Tipitaka': 'Tripitaka',
-    'The Tipitaka': 'Tripitaka',
+    'The Tipitaka': 'Tipitaka',
     'Pali Canon': 'Tripitaka',
     'The Pali Canon': 'Tripitaka',
     'Buddhist Scriptures': 'Tripitaka',
@@ -464,6 +465,8 @@ const BOOK_NAME_MAPPINGS = {
     'Atharva Veda': 'Atharvaveda'
 };
 
+// Simple cache for book name normalization
+const bookNameCache = new Map();
 
 /**
  * Normalizes a book name by translating it to English if it's in another language
@@ -473,14 +476,22 @@ const BOOK_NAME_MAPPINGS = {
 function normalizeBookName(bookName) {
     if (!bookName) return '';
     
+    // Check cache first
+    if (bookNameCache.has(bookName)) {
+        return bookNameCache.get(bookName);
+    }
+    
     // First check if it's already in English
     const englishBookNames = Object.values(BOOK_NAME_MAPPINGS);
     if (englishBookNames.includes(bookName)) {
+        bookNameCache.set(bookName, bookName);
         return bookName;
     }
     
     // Check if it's a translated name and return the English equivalent
-    return BOOK_NAME_MAPPINGS[bookName] || bookName;
+    const result = BOOK_NAME_MAPPINGS[bookName] || bookName;
+    bookNameCache.set(bookName, result);
+    return result;
 }
 
 /**

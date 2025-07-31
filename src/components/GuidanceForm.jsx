@@ -1,6 +1,6 @@
 import React from 'react';
 
-const GuidanceForm = ({ 
+const GuidanceForm = React.memo(({ 
   userInput, 
   setUserInput, 
   selectedText, 
@@ -52,6 +52,6 @@ const GuidanceForm = ({
       </button>
     </form>
   );
-};
+});
 
 export default GuidanceForm; 

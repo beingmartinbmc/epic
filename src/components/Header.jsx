@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
-const Header = ({ selectedText }) => {
-  const getHeaderContent = (text) => {
-    switch (text) {
+const Header = React.memo(({ selectedText }) => {
+  const headerContent = useMemo(() => {
+    switch (selectedText) {
       case 'BHAGAVAD_GITA':
         return {
           icon: 'fas fa-om',
@@ -47,9 +47,7 @@ const Header = ({ selectedText }) => {
           subtitle: 'Sacred guidance from ancient texts'
         };
     }
-  };
-
-  const headerContent = getHeaderContent(selectedText);
+  }, [selectedText]);
 
   return (
     <div className="divine-header">
@@ -66,6 +64,6 @@ const Header = ({ selectedText }) => {
       </div>
     </div>
   );
-};
+});
 
 export default Header; 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Header from './components/Header';
 import GuidanceForm from './components/GuidanceForm';
 import ResponseSection from './components/ResponseSection';
@@ -14,16 +14,16 @@ function App() {
   const { isLoading, response, seekGuidance } = useGuidance();
   useTheme(selectedText);
 
-  // Handle text selection change
-  const handleTextChange = (event) => {
+  // Handle text selection change - memoized with useCallback
+  const handleTextChange = useCallback((event) => {
     setSelectedText(event.target.value);
-  };
+  }, []);
 
-  // Handle form submission
-  const handleSubmit = async (event) => {
+  // Handle form submission - memoized with useCallback
+  const handleSubmit = useCallback(async (event) => {
     event.preventDefault();
     await seekGuidance(userInput, selectedText);
-  };
+  }, [userInput, selectedText, seekGuidance]);
 
   return (
     <>
