@@ -2,7 +2,7 @@
   "name": "epic-frontend",
   "version": "1.0.0",
   "type": "module",
-  "description": "Frontend for Epic Religious Guidance Application",
+  "description": "React-based Frontend for Epic Religious Guidance Application",
   "scripts": {
     "clean": "rm -rf dist",
     "build": "npm run clean && vite build",
@@ -10,15 +10,19 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
     "vite": "^5.0.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.0.0",
     "bootstrap": "^5.3.0",
     "cld3-asm": "^4.0.0",
-    "franc-min": "^6.2.0"
+    "franc-min": "^6.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "keywords": [
+    "react",
     "frontend",
     "religious",
     "spiritual",

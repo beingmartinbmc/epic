@@ -3,146 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Divine Spiritual Guidance</title>
+    <title>Epic - Divine Wisdom</title>
     
-    <!-- Divine Favicon -->
+    <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
     <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
     
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="src/styles.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<div class="divine-background"></div>
-<div class="divine-container theme-universal">
-    <div class="divine-header">
-        <div style="position: absolute; top: 1rem; left: 1rem;">
-            <a href="src/cache-monitor.html" class="cache-link">
-                <i class="fas fa-database"></i> Cache Monitor
-            </a>
-        </div>
-
-        <div class="header-content">
-            <h1 class="divine-title">
-                <i class="fas fa-om"></i>
-                <span>Divine Wisdom</span>
-            </h1>
-            <p class="divine-subtitle">Sacred guidance from ancient texts</p>
-        </div>
-    </div>
-
-    <div class="divine-content">
-        <form id="guidanceForm">
-            <div class="form-group">
-                <label for="userMessage" class="form-label">
-                    <i class="fas fa-heart"></i> Share your heart's journey
-                </label>
-                <textarea
-                        id="userMessage"
-                        class="form-control"
-                        rows="5"
-                        placeholder="Tell me about your feelings, struggles, or what's on your mind..."
-                        required></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="selectedText" class="form-label">
-                    <i class="fas fa-book-open"></i> Choose your sacred source
-                </label>
-                <select id="selectedText" class="form-select" required>
-                    <option value="">Select divine wisdom...</option>
-                    <option value="BHAGAVAD_GITA">Bhagavad Gita</option>
-                    <option value="VEDAS">The Vedas</option>
-                    <option value="QURAN">Holy Quran</option>
-                    <option value="BIBLE">Holy Bible</option>
-                    <option value="GURU_GRANTH_SAHIB">Guru Granth Sahib</option>
-                    <option value="TRIPITAKA">The Tripitaka</option>
-                    <option value="ALL">All Sacred Texts</option>
-                </select>
-            </div>
-
-            <button type="submit" class="divine-btn">
-                <i class="fas fa-search"></i> Seek Divine Guidance
-            </button>
-        </form>
-
-        <!-- Loading Spinner -->
-        <div id="loadingSpinner" class="loading" style="display: none;">
-            <div class="spinner"></div>
-            <p>Seeking divine wisdom...</p>
-        </div>
-
-        <!-- Error Message -->
-        <div id="errorMessage" class="error-message" style="display: none;"></div>
-
-        <!-- Quotes Section -->
-        <div id="quotesSection" class="quotes-section" style="display: none;">
-            <div class="quotes-header">
-                <h5><i class="fas fa-quote-left"></i> Sacred Wisdom</h5>
-            </div>
-            <div id="quotesGrid" class="quotes-grid">
-                <!-- Quotes will be inserted here by JavaScript -->
-            </div>
-        </div>
-
-        <!-- Summary Section -->
-        <div id="summarySection" class="summary-section" style="display: none;">
-            <div class="summary-header">
-                <h5>
-                    <i class="fas fa-lightbulb"></i>
-                    <span>SPIRITUAL SUMMARY</span>
-                </h5>
-            </div>
-            <div class="summary-content">
-                <p id="summaryText"></p>
-            </div>
-        </div>
-
-        <!-- Cache Management Section -->
-        <div class="cache-management" style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; text-align: center;">
-            <h6 style="color: #fff; margin-bottom: 10px;">
-                <i class="fas fa-database"></i> Cache Management
-            </h6>
-            <div style="display: flex; justify-content: center; gap: 15px; align-items: center;">
-                <span style="color: #ccc; font-size: 0.9em;">
-                    Cached responses: <span id="cacheCount">0</span>
-                </span>
-                <button id="clearCacheBtn" class="btn btn-sm btn-outline-light" style="font-size: 0.8em;">
-                    <i class="fas fa-trash"></i> Clear Cache
-                </button>
-            </div>
-            <small style="color: #999; display: block; margin-top: 5px;">
-                Clearing cache may help with repetitive quotes
-            </small>
-        </div>
-
-    </div>
-</div>
-
-<!-- Powered by GPT-4 Footer -->
-<div class="powered-by-footer">
-    <p>Powered by GPT-4.1</p>
-    <p class="author-link">
-        <a href="https://beingmartinbmc.github.io/Portfolio/#/" target="_blank" rel="noopener noreferrer">
-            About the Author
-        </a>
-    </p>
-    <!-- Elegant Global Reach Indicator -->
-    <div class="elegant-global-indicator">
-        <a href="http://s01.flagcounter.com/more/xG" target="_blank" rel="noopener noreferrer" title="Global Wisdom Seekers">
-            <span class="global-icon">🌍</span>
-            <span class="global-text">Global Reach</span>
-        </a>
-        <!-- Hidden flag counter for tracking -->
-        <img src="https://s01.flagcounter.com/count2/xG/bg_FFFFFF/txt_000000/border_CCBC87/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="" style="display: none;">
-    </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- app entry point (hardcoded config used) -->
-<script type="module" src="src/app.js"></script>
+    <div id="root"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>
