@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import prompts from '../prompts.js';
-import { getReferenceUrl } from '../utils.js';
+import { getReferenceUrl, parseSource } from '../utils.js';
 
 const API_CONFIG = {
   OPENAI_PROXY_URL: 'https://epic-backend-1fms2ays2-beingmartinbmcs-projects.vercel.app/api/openai-proxy'
@@ -33,7 +33,10 @@ export const useGuidance = () => {
         const processedLines = lines.map(line => {
           if (line.startsWith('SOURCE:')) {
             const sourceText = line.replace('SOURCE:', '').trim();
-            const url = getReferenceUrl(sourceText);
+            // Parse the source to extract book name and reference
+            const { bookName, chapter, verse } = parseSource(sourceText);
+            const reference = verse ? `${chapter}:${verse}` : chapter;
+            const url = getReferenceUrl(bookName, reference);
             if (url) {
               return `SOURCE: <a href="${url}" target="_blank" rel="noopener noreferrer">${sourceText}</a>`;
             }

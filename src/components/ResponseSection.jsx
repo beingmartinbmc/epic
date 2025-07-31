@@ -42,7 +42,21 @@ const ResponseSection = ({ response, isLoading }) => {
       } else if (line.startsWith('CONTEXT:')) {
         currentQuote.context = line.replace('CONTEXT:', '').trim();
       } else if (line.startsWith('SUMMARY:')) {
-        summary = line.replace('SUMMARY:', '').trim();
+        // Extract summary and continue reading until we hit another section or end
+        let summaryText = line.replace('SUMMARY:', '').trim();
+        let j = i + 1;
+        while (j < lines.length) {
+          const nextLine = lines[j].trim();
+          if (nextLine && (nextLine.startsWith('QUOTE:') || nextLine.startsWith('SOURCE:') || nextLine.startsWith('CONTEXT:'))) {
+            break;
+          }
+          if (nextLine) {
+            summaryText += ' ' + nextLine;
+          }
+          j++;
+        }
+        summary = summaryText.trim();
+        i = j - 1; // Adjust index to continue from where we left off
       } else if (line.startsWith('"') && line.endsWith('"')) {
         // Handle quoted text without QUOTE: prefix
         if (currentQuote.quote) {
@@ -96,6 +110,21 @@ const ResponseSection = ({ response, isLoading }) => {
       });
     }
 
+    // If still no summary found, try to find it at the end of the text
+    if (!summary) {
+      // Look for SUMMARY: at the end of the text
+      const summaryMatch = text.match(/SUMMARY:\s*(.+?)(?=\n\n|\nQUOTE:|$)/s);
+      if (summaryMatch) {
+        summary = summaryMatch[1].trim();
+      } else {
+        // Try a more specific pattern for the API response format
+        const endSummaryMatch = text.match(/SUMMARY:\s*\n(.+?)(?=\n\n|$)/s);
+        if (endSummaryMatch) {
+          summary = endSummaryMatch[1].trim();
+        }
+      }
+    }
+
     return { quotes, summary };
   };
 
@@ -119,7 +148,7 @@ const ResponseSection = ({ response, isLoading }) => {
                   <div className="quote-source-container">
                     <div className="quote-source">
                       <i className="fas fa-book"></i>
-                      <span>{quote.source}</span>
+                      <span dangerouslySetInnerHTML={{ __html: quote.source }} />
                     </div>
                   </div>
                 )}
