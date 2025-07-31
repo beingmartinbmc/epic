@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', async () => {
     const API_CONFIG = {
-    OPENAI_PROXY_URL: 'https://epic-backend-jrfycme2x-beingmartinbmcs-projects.vercel.app/api/openai-proxy'
+    OPENAI_PROXY_URL: 'https://epic-backend-r0499bqwe-beingmartinbmcs-projects.vercel.app/api/openai-proxy'
 };
 
     const promptsModule = await import('./prompts.js');
