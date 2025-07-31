@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { getReferenceUrl, parseSource } from '../utils.js';
 
-const ResponseSection = ({ response, isLoading }) => {
+const ResponseSection = React.memo(({ response, isLoading }) => {
   if (isLoading) {
     return (
       <div id="loadingSpinner" className="loading" style={{ display: 'block' }}>
@@ -14,132 +15,153 @@ const ResponseSection = ({ response, isLoading }) => {
     return null;
   }
 
-  // Improved parsing logic to handle different response formats
-  const parseResponse = (text) => {
-    const quotes = [];
-    let summary = '';
-    let currentQuote = {};
+  // Memoized parsing to avoid re-processing on every render
+  const parsedData = useMemo(() => {
+    // Improved parsing logic to handle different response formats
+    const parseResponse = (text) => {
+      const quotes = [];
+      let summary = '';
+      let currentQuote = {};
 
-    // Split by lines and process each line
-    const lines = text.split('\n');
-    
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i].trim();
+      // Split by lines and process each line
+      const lines = text.split('\n');
       
-      if (!line) continue;
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        
+        if (!line) continue;
 
-      if (line.startsWith('QUOTE:')) {
-        // If we have a previous quote, save it
-        if (currentQuote.quote) {
-          quotes.push({ ...currentQuote });
-        }
-        // Start new quote
-        currentQuote = {
-          quote: line.replace('QUOTE:', '').trim()
-        };
-      } else if (line.startsWith('SOURCE:')) {
-        currentQuote.source = line.replace('SOURCE:', '').trim();
-      } else if (line.startsWith('CONTEXT:')) {
-        currentQuote.context = line.replace('CONTEXT:', '').trim();
-      } else if (line.startsWith('SUMMARY:')) {
-        // Extract summary and continue reading until we hit another section or end
-        let summaryText = line.replace('SUMMARY:', '').trim();
-        let j = i + 1;
-        while (j < lines.length) {
-          const nextLine = lines[j].trim();
-          if (nextLine && (nextLine.startsWith('QUOTE:') || nextLine.startsWith('SOURCE:') || nextLine.startsWith('CONTEXT:'))) {
-            break;
+        if (line.startsWith('QUOTE:')) {
+          // If we have a previous quote, save it
+          if (currentQuote.quote) {
+            quotes.push({ ...currentQuote });
           }
-          if (nextLine) {
-            summaryText += ' ' + nextLine;
+          // Start new quote
+          currentQuote = {
+            quote: line.replace('QUOTE:', '').trim()
+          };
+        } else if (line.startsWith('SOURCE:')) {
+          currentQuote.source = line.replace('SOURCE:', '').trim();
+        } else if (line.startsWith('CONTEXT:')) {
+          currentQuote.context = line.replace('CONTEXT:', '').trim();
+        } else if (line.startsWith('SUMMARY:')) {
+          // Extract summary and continue reading until we hit another section or end
+          let summaryText = line.replace('SUMMARY:', '').trim();
+          let j = i + 1;
+          while (j < lines.length) {
+            const nextLine = lines[j].trim();
+            if (nextLine && (nextLine.startsWith('QUOTE:') || nextLine.startsWith('SOURCE:') || nextLine.startsWith('CONTEXT:'))) {
+              break;
+            }
+            if (nextLine) {
+              summaryText += ' ' + nextLine;
+            }
+            j++;
           }
-          j++;
-        }
-        summary = summaryText.trim();
-        i = j - 1; // Adjust index to continue from where we left off
-      } else if (line.startsWith('"') && line.endsWith('"')) {
-        // Handle quoted text without QUOTE: prefix
-        if (currentQuote.quote) {
-          quotes.push({ ...currentQuote });
-        }
-        currentQuote = {
-          quote: line
-        };
-      } else if (currentQuote.quote && !currentQuote.source && line.includes(':')) {
-        // Try to identify source from context
-        if (line.includes('Bhagavad Gita') || line.includes('Quran') || line.includes('Bible') || 
-            line.includes('Rigveda') || line.includes('Guru Granth Sahib') || line.includes('Tripitaka')) {
-          currentQuote.source = line;
-        } else {
+          summary = summaryText.trim();
+          i = j - 1; // Adjust index to continue from where we left off
+        } else if (line.startsWith('"') && line.endsWith('"')) {
+          // Handle quoted text without QUOTE: prefix
+          if (currentQuote.quote) {
+            quotes.push({ ...currentQuote });
+          }
+          currentQuote = {
+            quote: line
+          };
+        } else if (currentQuote.quote && !currentQuote.source && line.includes(':')) {
+          // Try to identify source from context
+          if (line.includes('Bhagavad Gita') || line.includes('Quran') || line.includes('Bible') || 
+              line.includes('Rigveda') || line.includes('Guru Granth Sahib') || line.includes('Tripitaka')) {
+            currentQuote.source = line;
+          } else {
+            currentQuote.context = line;
+          }
+        } else if (currentQuote.quote && !currentQuote.context && line.length > 50) {
+          // Long lines are likely context
           currentQuote.context = line;
         }
-      } else if (currentQuote.quote && !currentQuote.context && line.length > 50) {
-        // Long lines are likely context
-        currentQuote.context = line;
       }
-    }
 
-    // Add the last quote if it exists
-    if (currentQuote.quote) {
-      quotes.push(currentQuote);
-    }
+      // Add the last quote if it exists
+      if (currentQuote.quote) {
+        quotes.push(currentQuote);
+      }
 
-    // If no structured quotes found, try alternative parsing
-    if (quotes.length === 0) {
-      const sections = text.split('\n\n');
-      sections.forEach(section => {
-        const sectionLines = section.split('\n');
-        const quoteData = {};
-        
-        sectionLines.forEach(line => {
-          const trimmedLine = line.trim();
-          if (trimmedLine.startsWith('QUOTE:')) {
-            quoteData.quote = trimmedLine.replace('QUOTE:', '').trim();
-          } else if (trimmedLine.startsWith('SOURCE:')) {
-            quoteData.source = trimmedLine.replace('SOURCE:', '').trim();
-          } else if (trimmedLine.startsWith('CONTEXT:')) {
-            quoteData.context = trimmedLine.replace('CONTEXT:', '').trim();
-          } else if (trimmedLine.startsWith('SUMMARY:')) {
-            summary = trimmedLine.replace('SUMMARY:', '').trim();
+      // If no structured quotes found, try alternative parsing
+      if (quotes.length === 0) {
+        const sections = text.split('\n\n');
+        sections.forEach(section => {
+          const sectionLines = section.split('\n');
+          const quoteData = {};
+          
+          sectionLines.forEach(line => {
+            const trimmedLine = line.trim();
+            if (trimmedLine.startsWith('QUOTE:')) {
+              quoteData.quote = trimmedLine.replace('QUOTE:', '').trim();
+            } else if (trimmedLine.startsWith('SOURCE:')) {
+              quoteData.source = trimmedLine.replace('SOURCE:', '').trim();
+            } else if (trimmedLine.startsWith('CONTEXT:')) {
+              quoteData.context = trimmedLine.replace('CONTEXT:', '').trim();
+            } else if (trimmedLine.startsWith('SUMMARY:')) {
+              summary = trimmedLine.replace('SUMMARY:', '').trim();
+            }
+          });
+          
+          if (quoteData.quote) {
+            quotes.push(quoteData);
           }
         });
-        
-        if (quoteData.quote) {
-          quotes.push(quoteData);
-        }
-      });
-    }
+      }
 
-    // If still no summary found, try to find it at the end of the text
-    if (!summary) {
-      // Look for SUMMARY: at the end of the text
-      const summaryMatch = text.match(/SUMMARY:\s*(.+?)(?=\n\n|\nQUOTE:|$)/s);
-      if (summaryMatch) {
-        summary = summaryMatch[1].trim();
-      } else {
-        // Try a more specific pattern for the API response format
-        const endSummaryMatch = text.match(/SUMMARY:\s*\n(.+?)(?=\n\n|$)/s);
-        if (endSummaryMatch) {
-          summary = endSummaryMatch[1].trim();
+      // If still no summary found, try to find it at the end of the text
+      if (!summary) {
+        // Look for SUMMARY: at the end of the text
+        const summaryMatch = text.match(/SUMMARY:\s*(.+?)(?=\n\n|\nQUOTE:|$)/s);
+        if (summaryMatch) {
+          summary = summaryMatch[1].trim();
+        } else {
+          // Try a more specific pattern for the API response format
+          const endSummaryMatch = text.match(/SUMMARY:\s*\n(.+?)(?=\n\n|$)/s);
+          if (endSummaryMatch) {
+            summary = endSummaryMatch[1].trim();
+          }
         }
       }
-    }
 
-    return { quotes, summary };
-  };
+      return { quotes, summary };
+    };
 
-  const { quotes, summary } = parseResponse(response);
+    return parseResponse(response);
+  }, [response]);
+
+  const { quotes, summary } = parsedData;
+
+  // Memoized link processing for quotes
+  const processedQuotes = useMemo(() => {
+    return quotes.map(quote => {
+      if (quote.source) {
+        const { bookName, chapter, verse } = parseSource(quote.source);
+        const reference = verse ? `${chapter}:${verse}` : chapter;
+        const url = getReferenceUrl(bookName, reference);
+        return {
+          ...quote,
+          sourceUrl: url
+        };
+      }
+      return quote;
+    });
+  }, [quotes]);
 
   return (
     <>
       {/* Quotes Section */}
-      {quotes.length > 0 && (
+      {processedQuotes.length > 0 && (
         <div id="quotesSection" className="quotes-section" style={{ display: 'block' }}>
           <div className="quotes-header">
             <h5><i className="fas fa-quote-left"></i> Sacred Wisdom</h5>
           </div>
           <div id="quotesGrid" className="quotes-grid">
-            {quotes.map((quote, index) => (
+            {processedQuotes.map((quote, index) => (
               <div key={index} className="quote-card">
                 <div className="quote-text">
                   {quote.quote}
@@ -148,7 +170,13 @@ const ResponseSection = ({ response, isLoading }) => {
                   <div className="quote-source-container">
                     <div className="quote-source">
                       <i className="fas fa-book"></i>
-                      <span dangerouslySetInnerHTML={{ __html: quote.source }} />
+                      {quote.sourceUrl ? (
+                        <a href={quote.sourceUrl} target="_blank" rel="noopener noreferrer">
+                          {quote.source}
+                        </a>
+                      ) : (
+                        <span>{quote.source}</span>
+                      )}
                     </div>
                   </div>
                 )}
@@ -187,7 +215,7 @@ const ResponseSection = ({ response, isLoading }) => {
       )}
 
       {/* Fallback for raw text if parsing didn't work */}
-      {quotes.length === 0 && !summary && (
+      {processedQuotes.length === 0 && !summary && (
         <div className="guidance-container" style={{ marginTop: '3rem', background: 'linear-gradient(135deg, var(--divine-cream) 0%, #FFF8F0 100%)', borderRadius: '20px', padding: '2.5rem', border: '2px solid var(--divine-light-gold)', position: 'relative', overflow: 'hidden' }}>
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: 'var(--divine-gradient)' }}></div>
           <div className="guidance-header">
@@ -212,6 +240,6 @@ const ResponseSection = ({ response, isLoading }) => {
       )}
     </>
   );
-};
+});
 
 export default ResponseSection; 
