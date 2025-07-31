@@ -1,3 +1,6 @@
+/* Import Journal Styles */
+@import url('./journal-styles.css');
+
 /* Base styles */
 :root {
     /* Default Hindu/Om theme */
@@ -1283,4 +1286,6 @@ body {
     .counter-stats .stat-label {
         font-size: 0.8rem;
     }
-} 
+}
+
+ 
