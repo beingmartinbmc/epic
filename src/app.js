@@ -6,12 +6,10 @@ window.addEventListener('DOMContentLoaded', async () => {
     const promptsModule = await import('./prompts.js');
     const utils = await import('./utils.js');
     const cache = await import('./cache.js');
-    const JournalUI = await import('./journal-ui.js');
 
     const prompts = promptsModule.default;
     const { getReferenceUrl, parseSource } = utils;
     const { findCachedResponse, cacheResponse, clearCache, getCacheStats } = cache;
-    const journalUI = new JournalUI.default();
 
 
     
