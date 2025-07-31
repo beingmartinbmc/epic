@@ -1,8 +1,8 @@
-# Religious Guide JS
+# Epic Frontend
 
-A spiritual guidance application that provides wisdom from sacred religious texts including the Bhagavad Gita, Quran, Bible, and Guru Granth Sahib.
+Frontend for the Epic Religious Guidance Application - A spiritual guidance application that provides wisdom from sacred religious texts.
 
-## Features
+## 🌟 Features
 
 ### 🌍 Multi-Language Support
 The application automatically detects the user's input language and responds in the same language. This ensures a personalized experience for users worldwide.
@@ -22,17 +22,20 @@ The application automatically detects the user's input language and responds in 
 
 ### 📚 Sacred Texts Integration
 - **Bhagavad Gita** - Hindu spiritual wisdom
+- **The Vedas** - Ancient Hindu scriptures
 - **Holy Quran** - Islamic guidance and teachings
 - **Holy Bible** - Christian spiritual wisdom
 - **Guru Granth Sahib** - Sikh teachings and wisdom
-- **All Texts** - Universal spiritual guidance from multiple traditions
+- **The Tripitaka** - Buddhist scriptures and teachings
+- **All Sacred Texts** - Universal spiritual guidance from multiple traditions
 
 ### 🎨 Themed Interface
 Each sacred text has its own visual theme:
-- Hindu theme for Bhagavad Gita
+- Hindu theme for Bhagavad Gita & Vedas
 - Islamic theme for Quran
 - Christian theme for Bible
 - Sikh theme for Guru Granth Sahib
+- Buddhist theme for Tripitaka
 - Universal theme for all texts
 
 ### 💾 Intelligent Caching
@@ -40,7 +43,7 @@ Each sacred text has its own visual theme:
 - Reduces API calls for repeated questions
 - Cache monitoring and management tools
 
-## Getting Started
+## 🚀 Getting Started
 
 1. **Install Dependencies:**
    ```bash
@@ -57,35 +60,27 @@ Each sacred text has its own visual theme:
    npm run build
    ```
 
-## Language Detection Testing
+## 🌐 Deployment
 
-You can test the language detection functionality using the included test file:
+This frontend is deployed on **GitHub Pages** and automatically builds on every push to the main branch.
 
-```bash
-# Open the test file in your browser
-open test-language-detection.html
-```
+## 🔗 Backend Integration
 
-This will allow you to:
-- Test language detection with various languages
-- See which detector is being used
-- Verify confidence levels
-- Test the response language mapping
+This frontend connects to the Epic Backend API deployed on Vercel. The API endpoint is configured in `src/app.js`.
 
-## API Configuration
+## 🛠️ Technology Stack
 
-The application uses a proxy API for OpenAI integration. Configure the API endpoint in `src/app.js`:
+- **Framework**: Vanilla JavaScript (ES6+)
+- **Build Tool**: Vite
+- **Styling**: CSS3 with Bootstrap 5
+- **Icons**: Font Awesome
+- **Language Detection**: Multiple libraries for accuracy
+- **Deployment**: GitHub Pages
 
-```javascript
-const API_CONFIG = {
-    OPENAI_PROXY_URL: 'your-api-endpoint-here'
-};
-```
-
-## Project Structure
+## 📁 Project Structure
 
 ```
-religious-guide-js/
+epic-frontend/
 ├── src/
 │   ├── app.js              # Main application logic
 │   ├── prompts.js          # AI prompts configuration
@@ -93,21 +88,21 @@ religious-guide-js/
 │   ├── utils.js            # Utility functions
 │   ├── config.js           # Configuration settings
 │   └── styles.css          # Styling
-├── api/
-│   └── openai-proxy.js     # API proxy implementation
 ├── index.html              # Main HTML file
-├── test-language-detection.html  # Language detection test
+├── vite.config.js          # Vite configuration
 └── package.json            # Dependencies and scripts
 ```
 
-## Contributing
+## 🔧 Configuration
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test the language detection with various languages
-5. Submit a pull request
+The API endpoint is configured in `src/app.js`:
 
-## License
+```javascript
+const API_CONFIG = {
+    OPENAI_PROXY_URL: 'https://your-backend-url.vercel.app/api/openai-proxy'
+};
+```
+
+## 📄 License
 
 This project is licensed under the MIT License.
