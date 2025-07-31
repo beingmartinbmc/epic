@@ -82,6 +82,16 @@ const BOOK_NAME_MAPPINGS = {
     'ग्रंथ साहिब': 'Guru Granth Sahib',
     'गुरु ग्रंथ साहिब जी': 'Guru Granth Sahib',
 
+    // Hindi - Tripitaka
+    'त्रिपिटक': 'Tripitaka',
+    'तीपिटक': 'Tripitaka',
+    'पालि कैनन': 'Tripitaka',
+    'बौद्ध ग्रंथ': 'Tripitaka',
+    'धम्मपद': 'Dhammapada',
+    'सुत्त पिटक': 'Sutta Pitaka',
+    'विनय पिटक': 'Vinaya Pitaka',
+    'अभिधम्म पिटक': 'Abhidhamma Pitaka',
+
     // Spanish - Bible
     'Mateo': 'Matthew',
     'Juan': 'John',
@@ -125,6 +135,13 @@ const BOOK_NAME_MAPPINGS = {
 
     // Spanish - Guru Granth Sahib
     'El Guru Granth Sahib': 'Guru Granth Sahib',
+
+    // Spanish - Tripitaka
+    'El Tripitaka': 'Tripitaka',
+    'El Tipitaka': 'Tripitaka',
+    'El Canon Pali': 'Tripitaka',
+    'Las Escrituras Budistas': 'Tripitaka',
+    'El Dhammapada': 'Dhammapada',
 
     // Portuguese - Bible
     'Mateus': 'Matthew',
@@ -185,6 +202,13 @@ const BOOK_NAME_MAPPINGS = {
     // Portuguese - Guru Granth Sahib
     'O Guru Granth Sahib': 'Guru Granth Sahib',
 
+    // Portuguese - Tripitaka
+    'O Tripitaka': 'Tripitaka',
+    'O Tipitaka': 'Tripitaka',
+    'O Canon Pali': 'Tripitaka',
+    'As Escrituras Budistas': 'Tripitaka',
+    'O Dhammapada': 'Dhammapada',
+
     // French - Bible
     'Matthieu': 'Matthew',
     'Marc': 'Mark',
@@ -243,6 +267,13 @@ const BOOK_NAME_MAPPINGS = {
     // French - Guru Granth Sahib
     'Le Guru Granth Sahib': 'Guru Granth Sahib',
 
+    // French - Tripitaka
+    'Le Tripitaka': 'Tripitaka',
+    'Le Tipitaka': 'Tripitaka',
+    'Le Canon Pali': 'Tripitaka',
+    'Les Ecritures Bouddhiques': 'Tripitaka',
+    'Le Dhammapada': 'Dhammapada',
+
     // German - Bible
     'Matthäus': 'Matthew',
     'Markus': 'Mark',
@@ -297,6 +328,13 @@ const BOOK_NAME_MAPPINGS = {
 
     // German - Guru Granth Sahib
     'Der Guru Granth Sahib': 'Guru Granth Sahib',
+
+    // German - Tripitaka
+    'Der Tripitaka': 'Tripitaka',
+    'Der Tipitaka': 'Tripitaka',
+    'Der Pali-Kanon': 'Tripitaka',
+    'Die Buddhistischen Schriften': 'Tripitaka',
+    'Der Dhammapada': 'Dhammapada',
 
     // English - Bible
     'Matthew': 'Matthew',
@@ -372,6 +410,25 @@ const BOOK_NAME_MAPPINGS = {
     'Granth Sahib': 'Guru Granth Sahib',
     'Adi Granth': 'Guru Granth Sahib',
     'The Guru Granth Sahib': 'Guru Granth Sahib',
+
+    // English - Tripitaka
+    'Tripitaka': 'Tripitaka',
+    'The Tripitaka': 'Tripitaka',
+    'Tipitaka': 'Tripitaka',
+    'The Tipitaka': 'Tripitaka',
+    'Pali Canon': 'Tripitaka',
+    'The Pali Canon': 'Tripitaka',
+    'Buddhist Scriptures': 'Tripitaka',
+    'Buddhist Canon': 'Tripitaka',
+    'Dhammapada': 'Dhammapada',
+    'The Dhammapada': 'Dhammapada',
+    'Sutta Pitaka': 'Sutta Pitaka',
+    'Vinaya Pitaka': 'Vinaya Pitaka',
+    'Abhidhamma Pitaka': 'Abhidhamma Pitaka',
+    'Majjhima Nikaya': 'Majjhima Nikaya',
+    'Digha Nikaya': 'Digha Nikaya',
+    'Samyutta Nikaya': 'Samyutta Nikaya',
+    'Anguttara Nikaya': 'Anguttara Nikaya',
 
     // Arabic - Quran
     'القرآن': 'Quran',

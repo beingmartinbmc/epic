@@ -140,6 +140,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         'QURAN': 'theme-islamic',
         'BIBLE': 'theme-christian',
         'GURU_GRANTH_SAHIB': 'theme-sikh',
+        'TRIPITAKA': 'theme-buddhist',
         'ALL': 'theme-universal'
     };
 
@@ -149,6 +150,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         'QURAN': prompts.userPrompts.quran,
         'BIBLE': prompts.userPrompts.bible,
         'GURU_GRANTH_SAHIB': prompts.userPrompts.guruGranthSahib,
+        'TRIPITAKA': prompts.userPrompts.tripitaka,
         'ALL': prompts.userPrompts.allTexts
     };
 
@@ -226,6 +228,11 @@ window.addEventListener('DOMContentLoaded', async () => {
                 iconClass = 'fas fa-khanda';
                 title = 'Sikh Wisdom';
                 subtitleText = 'Divine wisdom from the Guru Granth Sahib';
+                break;
+            case 'TRIPITAKA':
+                iconClass = 'fas fa-dharmachakra';
+                title = 'Buddhist Wisdom';
+                subtitleText = 'Sacred guidance from the Tripitaka';
                 break;
         }
         titleIcon.className = iconClass;

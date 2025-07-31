@@ -59,6 +59,18 @@
     --divine-gradient: linear-gradient(135deg, #FFD700 0%, #DAA520 100%);
 }
 
+/* Buddhist Theme (Tripitaka) */
+.theme-buddhist {
+    --divine-gold: #FFA500;
+    --divine-purple: #8B4513;
+    --divine-blue: #D2691E;
+    --divine-cream: #FFF8DC;
+    --divine-white: #FFFFFF;
+    --divine-dark: #654321;
+    --divine-light-gold: #FFE4B5;
+    --divine-gradient: linear-gradient(135deg, #FFA500 0%, #8B4513 100%);
+}
+
 body {
     background: linear-gradient(-45deg, 
         rgba(235, 188, 121, 1),
