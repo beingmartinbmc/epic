@@ -1,7 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { getReferenceUrl, parseSource } from '../utils.js';
 
 const ResponseSection = React.memo(({ response, isLoading }) => {
+  const [expandedQuotes, setExpandedQuotes] = useState(new Set());
+
   if (isLoading) {
     return (
       <div id="loadingSpinner" className="loading" style={{ display: 'block' }}>
@@ -152,63 +154,239 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
     });
   }, [quotes]);
 
+  const toggleQuoteExpansion = (index) => {
+    setExpandedQuotes(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(index)) {
+        newSet.delete(index);
+      } else {
+        newSet.add(index);
+      }
+      return newSet;
+    });
+  };
+
   return (
     <>
       {/* Quotes Section */}
       {processedQuotes.length > 0 && (
         <div id="quotesSection" className="quotes-section" style={{ display: 'block' }}>
           <div className="quotes-header">
-            <h5><i className="fas fa-quote-left"></i> Sacred Wisdom</h5>
+            <h5>
+              <i className="fas fa-quote-left" style={{ 
+                color: 'var(--divine-gold)', 
+                marginRight: '0.5rem',
+                animation: 'quoteIconPulse 2s ease-in-out infinite'
+              }}></i> 
+              Sacred Wisdom
+            </h5>
           </div>
           <div id="quotesGrid" className="quotes-grid">
-            {processedQuotes.map((quote, index) => (
-              <div key={index} className="quote-card">
-                <div className="quote-text">
-                  {quote.quote}
-                </div>
-                {quote.source && (
-                  <div className="quote-source-container">
-                    <div className="quote-source">
-                      <i className="fas fa-book"></i>
-                      {quote.sourceUrl ? (
-                        <a href={quote.sourceUrl} target="_blank" rel="noopener noreferrer">
-                          {quote.source}
-                        </a>
-                      ) : (
-                        <span>{quote.source}</span>
-                      )}
+            {processedQuotes.map((quote, index) => {
+              const isExpanded = expandedQuotes.has(index);
+              const hasContext = quote.context && quote.context.length > 100;
+              
+              return (
+                <div 
+                  key={index} 
+                  className="quote-card enhanced-quote-card"
+                  style={{
+                    animation: `fadeInUp ${0.3 + index * 0.1}s ease-out`,
+                    animationFillMode: 'both'
+                  }}
+                >
+                  <div className="quote-text">
+                    {quote.quote}
+                  </div>
+                  
+                  {quote.source && (
+                    <div className="quote-source-container">
+                      <div className="quote-source">
+                        <i className="fas fa-book"></i>
+                        {quote.sourceUrl ? (
+                          <a href={quote.sourceUrl} target="_blank" rel="noopener noreferrer">
+                            {quote.source}
+                          </a>
+                        ) : (
+                          <span>{quote.source}</span>
+                        )}
+                      </div>
                     </div>
+                  )}
+                  
+                  {quote.context && (
+                    <div className="quote-context enhanced-context">
+                      <span className="context-label">
+                        <i className="fas fa-info-circle" style={{ marginRight: '0.5rem' }}></i>
+                        Context
+                      </span>
+                      <div className="context-text">
+                        {hasContext && !isExpanded ? (
+                          <>
+                            {quote.context.substring(0, 100)}...
+                            <button
+                              onClick={() => toggleQuoteExpansion(index)}
+                              style={{
+                                background: 'none',
+                                border: 'none',
+                                color: 'var(--divine-purple)',
+                                cursor: 'pointer',
+                                textDecoration: 'underline',
+                                marginLeft: '0.5rem',
+                                fontSize: '0.9rem'
+                              }}
+                            >
+                              Read more
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            {quote.context}
+                            {hasContext && (
+                              <button
+                                onClick={() => toggleQuoteExpansion(index)}
+                                style={{
+                                  background: 'none',
+                                  border: 'none',
+                                  color: 'var(--divine-purple)',
+                                  cursor: 'pointer',
+                                  textDecoration: 'underline',
+                                  marginLeft: '0.5rem',
+                                  fontSize: '0.9rem'
+                                }}
+                              >
+                                Show less
+                              </button>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Quote actions */}
+                  <div className="quote-actions" style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    gap: '1rem',
+                    marginTop: '1rem',
+                    paddingTop: '1rem',
+                    borderTop: '1px solid rgba(0, 0, 0, 0.1)'
+                  }}>
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(quote.quote);
+                        // You could add a notification here
+                      }}
+                      style={{
+                        background: 'none',
+                        border: '1px solid var(--divine-gold)',
+                        borderRadius: '20px',
+                        padding: '0.5rem 1rem',
+                        color: 'var(--divine-gold)',
+                        cursor: 'pointer',
+                        fontSize: '0.8rem',
+                        transition: 'var(--transition-smooth)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.background = 'var(--divine-gold)';
+                        e.target.style.color = 'white';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.background = 'none';
+                        e.target.style.color = 'var(--divine-gold)';
+                      }}
+                    >
+                      <i className="fas fa-copy"></i>
+                      Copy
+                    </button>
+                    
+                    {quote.sourceUrl && (
+                      <a
+                        href={quote.sourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          background: 'none',
+                          border: '1px solid var(--divine-purple)',
+                          color: 'var(--divine-purple)',
+                          cursor: 'pointer',
+                          fontSize: '0.8rem',
+                          transition: 'var(--transition-smooth)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.5rem',
+                          textDecoration: 'none',
+                          borderRadius: '20px',
+                          padding: '0.5rem 1rem'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.target.style.background = 'var(--divine-purple)';
+                          e.target.style.color = 'white';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.target.style.background = 'none';
+                          e.target.style.color = 'var(--divine-purple)';
+                        }}
+                      >
+                        <i className="fas fa-external-link-alt"></i>
+                        Source
+                      </a>
+                    )}
                   </div>
-                )}
-                {quote.context && (
-                  <div className="quote-context">
-                    <span className="context-label">Context</span>
-                    <div className="context-text">{quote.context}</div>
-                  </div>
-                )}
-              </div>
-            ))}
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
 
       {/* Summary Section */}
       {summary && (
-        <div className="summary-section" style={{ marginTop: '2rem' }}>
+        <div className="summary-section enhanced-summary" style={{ 
+          marginTop: '2rem',
+          animation: 'fadeInUp 0.5s ease-out'
+        }}>
           <div className="summary-header" style={{ textAlign: 'center', marginBottom: '1.5rem', position: 'relative' }}>
             <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: '2px', background: 'var(--divine-gradient)', transform: 'translateY(-50%)', zIndex: 1 }}></div>
             <h5 style={{ color: 'var(--divine-dark)', margin: 0, background: 'white', padding: '0 2rem', position: 'relative', zIndex: 2, display: 'inline-block' }}>
-              <i className="fas fa-lightbulb" style={{ color: 'var(--divine-gold)', marginRight: '0.5rem', animation: 'glow 2s ease-in-out infinite alternate' }}></i>
+              <i className="fas fa-lightbulb" style={{ 
+                color: 'var(--divine-gold)', 
+                marginRight: '0.5rem', 
+                animation: 'glow 2s ease-in-out infinite alternate' 
+              }}></i>
               <span style={{ fontWeight: 600, letterSpacing: '1px' }}>SPIRITUAL SUMMARY</span>
             </h5>
           </div>
-          <div className="summary-content" style={{ background: 'linear-gradient(135deg, var(--divine-cream) 0%, #FFF8F0 100%)', borderRadius: '20px', padding: '2.5rem', border: '3px solid var(--divine-light-gold)', boxShadow: '0 10px 30px rgba(0,0,0,0.1)', position: 'relative', overflow: 'hidden' }}>
+          <div className="summary-content" style={{ 
+            background: 'linear-gradient(135deg, var(--divine-cream) 0%, #FFF8F0 100%)', 
+            borderRadius: '20px', 
+            padding: '2.5rem', 
+            border: '3px solid var(--divine-light-gold)', 
+            boxShadow: '0 10px 30px rgba(0,0,0,0.1)', 
+            position: 'relative', 
+            overflow: 'hidden',
+            backdropFilter: 'blur(10px)'
+          }}>
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: 'var(--divine-gradient)' }}></div>
             <div style={{ position: 'absolute', top: '1rem', right: '1rem', fontSize: '3rem', color: 'var(--divine-gold)', opacity: 0.1 }}>
               <i className="fas fa-om"></i>
             </div>
             <div style={{ position: 'relative', zIndex: 2 }}>
-              <p style={{ fontSize: '1.2rem', lineHeight: 1.8, color: 'var(--divine-dark)', margin: 0, textAlign: 'justify', fontWeight: 500, textShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>{summary}</p>
+              <p style={{ 
+                fontSize: '1.2rem', 
+                lineHeight: 1.8, 
+                color: 'var(--divine-dark)', 
+                margin: 0, 
+                textAlign: 'justify', 
+                fontWeight: 500, 
+                textShadow: '0 1px 2px rgba(0,0,0,0.05)' 
+              }}>
+                {summary}
+              </p>
             </div>
           </div>
         </div>
@@ -216,7 +394,17 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
 
       {/* Fallback for raw text if parsing didn't work */}
       {processedQuotes.length === 0 && !summary && (
-        <div className="guidance-container" style={{ marginTop: '3rem', background: 'linear-gradient(135deg, var(--divine-cream) 0%, #FFF8F0 100%)', borderRadius: '20px', padding: '2.5rem', border: '2px solid var(--divine-light-gold)', position: 'relative', overflow: 'hidden' }}>
+        <div className="guidance-container enhanced-guidance" style={{ 
+          marginTop: '3rem', 
+          background: 'linear-gradient(135deg, var(--divine-cream) 0%, #FFF8F0 100%)', 
+          borderRadius: '20px', 
+          padding: '2.5rem', 
+          border: '2px solid var(--divine-light-gold)', 
+          position: 'relative', 
+          overflow: 'hidden',
+          backdropFilter: 'blur(10px)',
+          animation: 'fadeInUp 0.3s ease-out'
+        }}>
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: 'var(--divine-gradient)' }}></div>
           <div className="guidance-header">
             <div className="guidance-icon">
