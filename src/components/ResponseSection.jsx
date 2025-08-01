@@ -138,19 +138,26 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
 
   const { quotes, summary } = parsedData;
 
-  // Memoized link processing for quotes
+  // Memoized link processing for quotes - simplified to avoid dependency issues
   const processedQuotes = useMemo(() => {
+    if (!quotes || quotes.length === 0) return [];
+    
     return quotes.map(quote => {
+      const processedQuote = { ...quote };
+      
       if (quote.source) {
-        const { bookName, chapter, verse } = parseSource(quote.source);
-        const reference = verse ? `${chapter}:${verse}` : chapter;
-        const url = getReferenceUrl(bookName, reference);
-        return {
-          ...quote,
-          sourceUrl: url
-        };
+        try {
+          const { bookName, chapter, verse } = parseSource(quote.source);
+          const reference = verse ? `${chapter}:${verse}` : chapter;
+          const url = getReferenceUrl(bookName, reference);
+          processedQuote.sourceUrl = url;
+        } catch (error) {
+          console.warn('Error processing quote source:', error);
+          processedQuote.sourceUrl = null;
+        }
       }
-      return quote;
+      
+      return processedQuote;
     });
   }, [quotes]);
 
