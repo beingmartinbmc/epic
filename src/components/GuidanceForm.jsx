@@ -1,5 +1,27 @@
 import React, { useState, useMemo } from 'react';
 
+// Helper function to get source descriptions - moved before component to fix hoisting
+const getSourceDescription = (selectedText) => {
+  switch (selectedText) {
+    case 'BHAGAVAD_GITA':
+      return 'The sacred Hindu scripture containing the teachings of Lord Krishna to Arjuna on the battlefield of Kurukshetra.';
+    case 'VEDAS':
+      return 'The oldest sacred texts of Hinduism, containing hymns, philosophy, and spiritual knowledge.';
+    case 'QURAN':
+      return 'The holy book of Islam, containing the revelations of Allah to Prophet Muhammad (PBUH).';
+    case 'BIBLE':
+      return 'The sacred text of Christianity, containing the Old and New Testaments with teachings of Jesus Christ.';
+    case 'GURU_GRANTH_SAHIB':
+      return 'The central religious scripture of Sikhism, containing the teachings of the Sikh Gurus.';
+    case 'TRIPITAKA':
+      return 'The sacred texts of Buddhism, containing the teachings of Gautama Buddha and his disciples.';
+    case 'ALL':
+      return 'Wisdom from all major spiritual traditions and sacred texts.';
+    default:
+      return '';
+  }
+};
+
 const GuidanceForm = React.memo(({ 
   userInput, 
   setUserInput, 
@@ -252,27 +274,5 @@ const GuidanceForm = React.memo(({
     </form>
   );
 });
-
-// Helper function to get source descriptions
-const getSourceDescription = (selectedText) => {
-  switch (selectedText) {
-    case 'BHAGAVAD_GITA':
-      return 'The sacred Hindu scripture containing the teachings of Lord Krishna to Arjuna on the battlefield of Kurukshetra.';
-    case 'VEDAS':
-      return 'The oldest sacred texts of Hinduism, containing hymns, philosophy, and spiritual knowledge.';
-    case 'QURAN':
-      return 'The holy book of Islam, containing the revelations of Allah to Prophet Muhammad (PBUH).';
-    case 'BIBLE':
-      return 'The sacred text of Christianity, containing the Old and New Testaments with teachings of Jesus Christ.';
-    case 'GURU_GRANTH_SAHIB':
-      return 'The central religious scripture of Sikhism, containing the teachings of the Sikh Gurus.';
-    case 'TRIPITAKA':
-      return 'The sacred texts of Buddhism, containing the teachings of Gautama Buddha and his disciples.';
-    case 'ALL':
-      return 'Wisdom from all major spiritual traditions and sacred texts.';
-    default:
-      return '';
-  }
-};
 
 export default GuidanceForm; 

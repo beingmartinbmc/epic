@@ -44,6 +44,16 @@ function App() {
     setSelectedText(event.target.value);
   }, []);
 
+  // Notification management - moved before handleSubmit to fix circular dependency
+  const addNotification = useCallback((message, type = 'info') => {
+    const id = Date.now();
+    setNotifications(prev => [...prev, { id, message, type }]);
+  }, []);
+
+  const removeNotification = useCallback((id) => {
+    setNotifications(prev => prev.filter(notification => notification.id !== id));
+  }, []);
+
   // Handle form submission - memoized with useCallback
   const handleSubmit = useCallback(async (event) => {
     event.preventDefault();
@@ -65,16 +75,6 @@ function App() {
       addNotification('Failed to receive guidance. Please try again.', 'error');
     }
   }, [userInput, selectedText, seekGuidance, addNotification]);
-
-  // Notification management
-  const addNotification = useCallback((message, type = 'info') => {
-    const id = Date.now();
-    setNotifications(prev => [...prev, { id, message, type }]);
-  }, []);
-
-  const removeNotification = useCallback((id) => {
-    setNotifications(prev => prev.filter(notification => notification.id !== id));
-  }, []);
 
   return (
     <>
