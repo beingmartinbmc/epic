@@ -899,31 +899,11 @@ body {
 /* High contrast mode support */
 @media (prefers-contrast: high) {
     .divine-container {
-        border: 2px solid var(--divine-dark);
+        border: 2px solid var(--divine-gold);
     }
     
     .quote-card {
-        border: 2px solid var(--divine-dark);
-    }
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-    .divine-container {
-        background: rgba(30, 30, 30, 0.95);
-        color: #ffffff;
-    }
-    
-    .quote-card {
-        background: rgba(40, 40, 40, 0.9);
-        color: #ffffff;
-    }
-    
-    .form-control,
-    .form-select {
-        background: rgba(50, 50, 50, 0.9);
-        color: #ffffff;
-        border-color: var(--divine-gold);
+        border: 2px solid var(--divine-gold);
     }
 }
 
