@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import Header from './components/Header';
 import GuidanceForm from './components/GuidanceForm';
 import ResponseSection from './components/ResponseSection';
@@ -16,12 +16,13 @@ function App() {
   const [selectedText, setSelectedText] = useState('ALL');
   const [userInput, setUserInput] = useState('');
   const [notifications, setNotifications] = useState([]);
+  const [showBackgroundEffects, setShowBackgroundEffects] = useState(true);
 
   const { isLoading, response, seekGuidance } = useGuidance();
   useTheme(selectedText);
 
-  // Get theme name for visual components
-  const getThemeName = useCallback(() => {
+  // Performance optimization: Memoize theme name
+  const themeName = useMemo(() => {
     switch (selectedText) {
       case 'BHAGAVAD_GITA':
       case 'VEDAS':
@@ -38,6 +39,31 @@ function App() {
         return 'universal';
     }
   }, [selectedText]);
+
+  // Performance optimization: Toggle background effects based on performance
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        setShowBackgroundEffects(false);
+      } else {
+        // Check if device is low-end
+        const isLowEndDevice = navigator.hardwareConcurrency <= 4 || 
+                              navigator.deviceMemory <= 4;
+        setShowBackgroundEffects(!isLowEndDevice);
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    // Initial check
+    const isLowEndDevice = navigator.hardwareConcurrency <= 4 || 
+                          navigator.deviceMemory <= 4;
+    setShowBackgroundEffects(!isLowEndDevice);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
 
   // Handle text selection change - memoized with useCallback
   const handleTextChange = useCallback((event) => {
@@ -76,14 +102,25 @@ function App() {
     }
   }, [userInput, selectedText, seekGuidance, addNotification]);
 
+  // Performance optimization: Memoize background components
+  const backgroundComponents = useMemo(() => {
+    if (!showBackgroundEffects) return null;
+    
+    return (
+      <>
+        <BreathingBackground theme={themeName} />
+        <FloatingParticles theme={themeName} />
+      </>
+    );
+  }, [showBackgroundEffects, themeName]);
+
   return (
     <>
-      {/* Visual Background Components */}
-      <BreathingBackground theme={getThemeName()} />
-      <FloatingParticles theme={getThemeName()} />
+      {/* Visual Background Components - Conditionally rendered for performance */}
+      {backgroundComponents}
       
       {/* Spiritual Loader Overlay */}
-      <SpiritualLoader isLoading={isLoading} theme={getThemeName()} />
+      <SpiritualLoader isLoading={isLoading} theme={themeName} />
       
       {/* Notification Toasts */}
       {notifications.map((notification, index) => (
@@ -101,11 +138,11 @@ function App() {
       {/* Scroll to Top Button */}
       <ScrollToTop />
       
-      <div className="divine-background"></div>
-      <div className="divine-container theme-universal">
-        <Header selectedText={selectedText} />
-
-        <div className="divine-content">
+      {/* Main Application Container */}
+      <div className="divine-background">
+        <div className="divine-container">
+          <Header selectedText={selectedText} />
+          
           <GuidanceForm
             userInput={userInput}
             setUserInput={setUserInput}
@@ -114,12 +151,12 @@ function App() {
             onSubmit={handleSubmit}
             isLoading={isLoading}
           />
-
+          
           <ResponseSection response={response} isLoading={isLoading} />
+          
+          <Footer />
         </div>
       </div>
-
-      <Footer />
     </>
   );
 }
