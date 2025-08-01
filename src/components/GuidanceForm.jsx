@@ -11,8 +11,8 @@ const GuidanceForm = React.memo(({
   const [isFocused, setIsFocused] = useState(false);
   const [showCharacterCount, setShowCharacterCount] = useState(false);
 
-  // Character count calculation
-  const characterCount = useMemo(() => userInput.length, [userInput]);
+  // Character count calculation - simplified to avoid circular dependencies
+  const characterCount = userInput.length;
   const maxCharacters = 1000;
   const characterPercentage = (characterCount / maxCharacters) * 100;
 
@@ -69,7 +69,7 @@ const GuidanceForm = React.memo(({
 
   const handleBlur = () => {
     setIsFocused(false);
-    if (characterCount === 0) {
+    if (userInput.length === 0) {
       setShowCharacterCount(false);
     }
   };

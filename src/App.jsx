@@ -64,7 +64,7 @@ function App() {
     } catch (error) {
       addNotification('Failed to receive guidance. Please try again.', 'error');
     }
-  }, [userInput, selectedText, seekGuidance]);
+  }, [userInput, selectedText, seekGuidance, addNotification]);
 
   // Notification management
   const addNotification = useCallback((message, type = 'info') => {
