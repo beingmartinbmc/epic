@@ -42,7 +42,9 @@ export const useGuidance = () => {
               role: 'user',
               content: `${PROMPT_MAPPING[selectedText]}\n\nUser's situation: ${userInput}`
             }
-          ]
+          ],
+          userInput: userInput, // Send raw input for language detection
+          selectedText: selectedText
         })
       });
 

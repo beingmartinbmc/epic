@@ -63,6 +63,13 @@ function App() {
       return;
     }
 
+    // Check if user input has at least 5 words
+    const wordCount = userInput.trim().split(/\s+/).filter(word => word.length > 0).length;
+    if (wordCount < 5) {
+      addNotification('Please share more details. At least 5 words are needed to provide meaningful guidance.', 'warning');
+      return;
+    }
+
     if (!selectedText) {
       addNotification('Please select a sacred source', 'warning');
       return;
