@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 
 // Helper function to get source descriptions - moved before component to fix hoisting
 const getSourceDescription = (selectedText) => {
@@ -45,13 +45,16 @@ const GuidanceForm = React.memo(({
   const [isFocused, setIsFocused] = useState(false);
   const [showCharacterCount, setShowCharacterCount] = useState(false);
 
-  // Character count calculation - simplified to avoid circular dependencies
-  const characterCount = userInput.length;
-  const maxCharacters = 1000;
-  const characterPercentage = (characterCount / maxCharacters) * 100;
+  // Memoize character count calculations
+  const characterData = useMemo(() => {
+    const characterCount = userInput.length;
+    const maxCharacters = 1000;
+    const characterPercentage = (characterCount / maxCharacters) * 100;
+    return { characterCount, maxCharacters, characterPercentage };
+  }, [userInput]);
 
-  // Get theme-specific placeholder text
-  const getPlaceholderText = () => {
+  // Memoize theme-specific placeholder text
+  const placeholderText = useMemo(() => {
     switch (selectedText) {
       case 'BHAGAVAD_GITA':
         return "Share your thoughts, struggles, or questions for guidance from the Bhagavad Gita...";
@@ -80,10 +83,10 @@ const GuidanceForm = React.memo(({
       default:
         return "Tell me about your feelings, struggles, or what's on your mind for divine guidance...";
     }
-  };
+  }, [selectedText]);
 
-  // Get theme-specific icon
-  const getThemeIcon = () => {
+  // Memoize theme-specific icon
+  const themeIcon = useMemo(() => {
     switch (selectedText) {
       case 'BHAGAVAD_GITA':
       case 'VEDAS':
@@ -109,36 +112,42 @@ const GuidanceForm = React.memo(({
       default:
         return 'fas fa-heart';
     }
-  };
+  }, [selectedText]);
 
-  const handleInputChange = (e) => {
+  // Memoize source description
+  const sourceDescription = useMemo(() => {
+    return getSourceDescription(selectedText);
+  }, [selectedText]);
+
+  // Memoize event handlers
+  const handleInputChange = useCallback((e) => {
     const value = e.target.value;
-    if (value.length <= maxCharacters) {
+    if (value.length <= characterData.maxCharacters) {
       setUserInput(value);
     }
-  };
+  }, [characterData.maxCharacters, setUserInput]);
 
-  const handleFocus = () => {
+  const handleFocus = useCallback(() => {
     setIsFocused(true);
     setShowCharacterCount(true);
-  };
+  }, []);
 
-  const handleBlur = () => {
+  const handleBlur = useCallback(() => {
     setIsFocused(false);
     if (userInput.length === 0) {
       setShowCharacterCount(false);
     }
-  };
+  }, [userInput.length]);
 
   return (
     <form id="guidanceForm" onSubmit={onSubmit} className="enhanced-form">
       <div className="form-group">
         <label htmlFor="userMessage" className="form-label">
-          <i className={getThemeIcon()}></i> 
+          <i className={themeIcon}></i> 
           Share your heart's journey
           {showCharacterCount && (
             <span className="character-count">
-              {characterCount}/{maxCharacters}
+              {characterData.characterCount}/{characterData.maxCharacters}
             </span>
           )}
         </label>
@@ -153,7 +162,7 @@ const GuidanceForm = React.memo(({
             onChange={handleInputChange}
             onFocus={handleFocus}
             onBlur={handleBlur}
-            placeholder={getPlaceholderText()}
+            placeholder={placeholderText}
             className={`form-control ${isFocused ? 'focused' : ''}`}
             rows="5"
             required
@@ -171,11 +180,11 @@ const GuidanceForm = React.memo(({
               bottom: '10px',
               right: '15px',
               fontSize: '0.8rem',
-              color: characterPercentage > 90 ? 'var(--divine-purple)' : 'var(--divine-dark)',
+              color: characterData.characterPercentage > 90 ? 'var(--divine-purple)' : 'var(--divine-dark)',
               opacity: 0.7,
               transition: 'var(--transition-smooth)'
             }}>
-              {characterCount}
+              {characterData.characterCount}
             </div>
           )}
           
@@ -192,9 +201,9 @@ const GuidanceForm = React.memo(({
               overflow: 'hidden'
             }}>
               <div style={{
-                width: `${characterPercentage}%`,
+                width: `${characterData.characterPercentage}%`,
                 height: '100%',
-                background: characterPercentage > 90 
+                background: characterData.characterPercentage > 90 
                   ? 'var(--divine-purple)' 
                   : 'var(--divine-gradient)',
                 transition: 'width 0.3s ease',
@@ -284,7 +293,7 @@ const GuidanceForm = React.memo(({
       <button 
         type="submit" 
         className={`divine-btn ${isLoading ? 'loading' : ''}`} 
-        disabled={isLoading || characterCount === 0}
+        disabled={isLoading || characterData.characterCount === 0}
         style={{
           position: 'relative',
           overflow: 'hidden'

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import prompts from '../prompts.js';
 
 const API_CONFIG = {
@@ -22,12 +22,34 @@ const PROMPT_MAPPING = {
   'ALL': prompts.userPrompts.allTexts
 };
 
+// Debounce utility function
+const debounce = (func, wait) => {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+};
+
 export const useGuidance = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState('');
+  const abortControllerRef = useRef(null);
 
-  const seekGuidance = async (userInput, selectedText) => {
+  const seekGuidance = useCallback(async (userInput, selectedText) => {
     if (!userInput.trim()) return;
+
+    // Cancel any ongoing request
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
+    // Create new abort controller
+    abortControllerRef.current = new AbortController();
 
     setIsLoading(true);
     setResponse('');
@@ -51,7 +73,8 @@ export const useGuidance = () => {
           ],
           userInput: userInput, // Send raw input for language detection
           selectedText: selectedText
-        })
+        }),
+        signal: abortControllerRef.current.signal
       });
 
       if (!response.ok) {
@@ -64,16 +87,28 @@ export const useGuidance = () => {
       // Set the raw response - processing will be done in the component
       setResponse(content);
     } catch (error) {
+      if (error.name === 'AbortError') {
+        // Request was cancelled, don't show error
+        return;
+      }
       console.error('Error:', error);
       setResponse('Sorry, there was an error processing your request. Please try again.');
     } finally {
       setIsLoading(false);
+      abortControllerRef.current = null;
     }
-  };
+  }, []);
+
+  // Debounced version for real-time features
+  const debouncedSeekGuidance = useCallback(
+    debounce(seekGuidance, 300),
+    [seekGuidance]
+  );
 
   return {
     isLoading,
     response,
-    seekGuidance
+    seekGuidance,
+    debouncedSeekGuidance
   };
 }; 

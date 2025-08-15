@@ -102,7 +102,7 @@
     }
 }
 
-/* Fade animations */
+/* Fade in animations */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -111,7 +111,7 @@
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
@@ -119,70 +119,45 @@
     }
 }
 
-/* Button animations */
-@keyframes buttonPulse {
-    0% { transform: translateY(-3px) scale(1.02); }
-    50% { transform: translateY(-3px) scale(1.05); }
-    100% { transform: translateY(-3px) scale(1.02); }
+/* Performance optimizations */
+.gpu-accelerated {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
 }
 
-@keyframes loadingPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
+/* Optimized animations with GPU acceleration */
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
-/* Bounce animation */
-@keyframes bounceIn {
-    0% {
-        opacity: 0;
-        transform: scale(0.3);
-    }
-    50% {
-        opacity: 1;
-        transform: scale(1.05);
-    }
-    70% {
-        transform: scale(0.9);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
+.animate-pulse {
+    animation: iconPulse 2s ease-in-out infinite;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
-/* Spiritual animations */
-@keyframes spiritualFloat {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+.animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+    will-change: text-shadow, transform;
+    transform: translateZ(0);
 }
 
-@keyframes orbit {
-    from { transform: translate(-50%, -50%) rotate(0deg) translateY(-60px) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg) translateY(-60px) rotate(-360deg); }
+.animate-shimmer {
+    animation: shimmer 2s ease-in-out infinite;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
-/* Progress animations */
-@keyframes progressShrink {
-    from { width: 100%; }
-    to { width: 0%; }
-}
-
-/* Focus animations */
-@keyframes focusGlow {
-    0% { box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25); }
-    50% { box-shadow: 0 0 0 0.4rem rgba(212, 175, 55, 0.3); }
-    100% { box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25); }
-}
-
-/* Character count animation */
-@keyframes countFadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
 }
 

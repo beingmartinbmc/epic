@@ -1,30 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { getReferenceUrl, parseSource } from '../utils.js';
 
 const ResponseSection = React.memo(({ response, isLoading }) => {
   const [expandedQuotes, setExpandedQuotes] = useState(new Set());
 
-  if (isLoading) {
-    return (
-      <div id="loadingSpinner" className="loading" style={{ display: 'block' }}>
-        <div className="spinner"></div>
-        <p>Seeking divine wisdom...</p>
-      </div>
-    );
-  }
-
-  if (!response) {
-    return null;
-  }
-
-  // Simple parsing function without useMemo
-  const parseResponse = (text) => {
+  // Memoize the parsed response to avoid re-parsing on every render
+  const parsedData = useMemo(() => {
+    if (!response) return { quotes: [], summary: '' };
+    
     const quotes = [];
     let summary = '';
     let currentQuote = {};
 
     // Split by lines and process each line
-    const lines = text.split('\n');
+    const lines = response.split('\n');
     
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();
@@ -89,7 +78,7 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
 
     // If no structured quotes found, try alternative parsing
     if (quotes.length === 0) {
-      const sections = text.split('\n\n');
+      const sections = response.split('\n\n');
       sections.forEach(section => {
         const sectionLines = section.split('\n');
         const quoteData = {};
@@ -98,11 +87,9 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
           const trimmedLine = line.trim();
           if (trimmedLine.startsWith('"') && trimmedLine.endsWith('"')) {
             quoteData.quote = trimmedLine;
-          } else if (trimmedLine.includes('Bhagavad Gita') || trimmedLine.includes('Quran') || 
-                     trimmedLine.includes('Bible') || trimmedLine.includes('Rigveda') || 
-                     trimmedLine.includes('Guru Granth Sahib') || trimmedLine.includes('Tripitaka')) {
+          } else if (trimmedLine.includes(':')) {
             quoteData.source = trimmedLine;
-          } else if (trimmedLine.length > 30 && !quoteData.context) {
+          } else if (trimmedLine.length > 30) {
             quoteData.context = trimmedLine;
           }
         });
@@ -113,28 +100,65 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
       });
     }
 
-    // If still no summary found, try to find it at the end of the text
-    if (!summary) {
-      // Look for SUMMARY: at the end of the text
-      const summaryMatch = text.match(/SUMMARY:\s*(.+?)(?=\n\n|\nQUOTE:|$)/s);
-      if (summaryMatch) {
-        summary = summaryMatch[1].trim();
+    return { quotes, summary };
+  }, [response]);
+
+  // Memoize the toggle function to prevent unnecessary re-renders
+  const toggleQuote = useCallback((quoteIndex) => {
+    setExpandedQuotes(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(quoteIndex)) {
+        newSet.delete(quoteIndex);
       } else {
-        // Try a more specific pattern for the API response format
-        const endSummaryMatch = text.match(/SUMMARY:\s*\n(.+?)(?=\n\n|$)/s);
-        if (endSummaryMatch) {
-          summary = endSummaryMatch[1].trim();
-        }
+        newSet.add(quoteIndex);
       }
+      return newSet;
+    });
+  }, []);
+
+  // Lazy load quotes for better performance
+  const [visibleQuotes, setVisibleQuotes] = useState(5);
+  const loadMoreQuotes = useCallback(() => {
+    setVisibleQuotes(prev => Math.min(prev + 5, parsedData.quotes.length));
+  }, [parsedData.quotes.length]);
+
+  // Show load more button if there are more quotes to display
+  const hasMoreQuotes = visibleQuotes < parsedData.quotes.length;
+
+  // Intersection Observer for auto-loading
+  const loadMoreRef = useRef(null);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMoreQuotes) {
+          loadMoreQuotes();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
     }
 
-    return { quotes, summary };
-  };
+    return () => observer.disconnect();
+  }, [hasMoreQuotes, loadMoreQuotes]);
 
-  const { quotes, summary } = parseResponse(response);
+  if (isLoading) {
+    return (
+      <div id="loadingSpinner" className="loading" style={{ display: 'block' }}>
+        <div className="spinner"></div>
+        <p>Seeking divine wisdom...</p>
+      </div>
+    );
+  }
+
+  if (!response) {
+    return null;
+  }
 
   // Simple quote processing without useMemo
-  const processedQuotes = quotes.map(quote => {
+  const processedQuotes = parsedData.quotes.map(quote => {
     const processedQuote = { ...quote };
     
     if (quote.source) {
@@ -343,7 +367,7 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
       )}
 
       {/* Summary Section */}
-      {summary && (
+      {parsedData.summary && (
         <div className="summary-section enhanced-summary" style={{ 
           marginTop: '2rem',
           animation: 'fadeInUp 0.5s ease-out'
@@ -383,7 +407,7 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
                 fontWeight: 500, 
                 textShadow: '0 1px 2px rgba(0,0,0,0.05)' 
               }}>
-                {summary}
+                {parsedData.summary}
               </p>
             </div>
           </div>
@@ -391,7 +415,7 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
       )}
 
       {/* Fallback for raw text if parsing didn't work */}
-      {processedQuotes.length === 0 && !summary && (
+      {processedQuotes.length === 0 && !parsedData.summary && (
         <div className="guidance-container enhanced-guidance" style={{ 
           marginTop: '3rem', 
           background: 'linear-gradient(135deg, var(--divine-cream) 0%, #FFF8F0 100%)', 
