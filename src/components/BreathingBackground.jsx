@@ -1,51 +1,47 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useMemo, useCallback } from 'react';
 
-const BreathingBackground = ({ theme = 'universal' }) => {
+const BreathingBackground = React.memo(({ theme = 'universal' }) => {
   const canvasRef = useRef(null);
 
-  // Theme-specific gradient colors
-  const gradients = {
+  // Memoized theme-specific colors to prevent recreation on every render
+  const gradients = useMemo(() => ({
     universal: [
-      'rgba(235, 188, 121, 0.3)',
-      'rgba(210, 235, 210, 0.2)',
-      'rgba(190, 190, 230, 0.3)',
-      'rgba(170, 198, 235, 0.2)',
-      'rgba(235, 190, 205, 0.3)'
+      'rgba(235, 188, 121, 0.15)',
+      'rgba(190, 190, 230, 0.15)',
+      'rgba(235, 190, 205, 0.15)'
     ],
     hindu: [
-      'rgba(255, 153, 51, 0.3)',
-      'rgba(255, 107, 107, 0.2)',
-      'rgba(78, 205, 196, 0.3)',
-      'rgba(255, 228, 181, 0.2)'
+      'rgba(255, 153, 51, 0.15)',
+      'rgba(255, 107, 107, 0.15)',
+      'rgba(255, 228, 181, 0.15)'
     ],
     islamic: [
-      'rgba(34, 139, 34, 0.3)',
-      'rgba(0, 100, 0, 0.2)',
-      'rgba(50, 205, 50, 0.3)',
-      'rgba(144, 238, 144, 0.2)'
+      'rgba(34, 139, 34, 0.15)',
+      'rgba(50, 205, 50, 0.15)',
+      'rgba(144, 238, 144, 0.15)'
     ],
     christian: [
-      'rgba(65, 105, 225, 0.3)',
-      'rgba(25, 25, 112, 0.2)',
-      'rgba(135, 206, 235, 0.3)',
-      'rgba(176, 196, 222, 0.2)'
+      'rgba(65, 105, 225, 0.15)',
+      'rgba(135, 206, 235, 0.15)',
+      'rgba(176, 196, 222, 0.15)'
     ],
     sikh: [
-      'rgba(255, 215, 0, 0.3)',
-      'rgba(218, 165, 32, 0.2)',
-      'rgba(255, 183, 0, 0.3)',
-      'rgba(255, 228, 181, 0.2)'
+      'rgba(255, 215, 0, 0.15)',
+      'rgba(255, 183, 0, 0.15)',
+      'rgba(255, 228, 181, 0.15)'
     ],
     buddhist: [
-      'rgba(255, 165, 0, 0.3)',
-      'rgba(139, 69, 19, 0.2)',
-      'rgba(210, 105, 30, 0.3)',
-      'rgba(255, 228, 181, 0.2)'
+      'rgba(255, 165, 0, 0.15)',
+      'rgba(210, 105, 30, 0.15)',
+      'rgba(255, 228, 181, 0.15)'
     ]
-  };
+  }), []);
 
-  useEffect(() => {
+  // Memoized animation setup function
+  const setupAnimation = useCallback(() => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
+
     const ctx = canvas.getContext('2d');
     let animationId;
     let time = 0;
@@ -59,39 +55,37 @@ const BreathingBackground = ({ theme = 'universal' }) => {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Animation loop
+    // Pre-calculate some values for better performance
+    const colors = gradients[theme];
+    const centerX1 = canvas.width * 0.3;
+    const centerX2 = canvas.width * 0.7;
+    const centerY = canvas.height * 0.5;
+
+    // Animation loop optimized for 60 FPS
     const animate = () => {
       time += 0.01;
       
       // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Create breathing effect
-      const breathScale = 1 + Math.sin(time * 0.5) * 0.1;
-      const breathOpacity = 0.3 + Math.sin(time * 0.5) * 0.1;
+      // Simple breathing effect with pre-calculated values
+      const breathScale = 1 + Math.sin(time * 0.5) * 0.08;
+      const radius = 120 * breathScale;
 
-      // Draw multiple gradient circles with breathing effect
-      for (let i = 0; i < 3; i++) {
-        const centerX = canvas.width * (0.3 + i * 0.2);
-        const centerY = canvas.height * (0.4 + Math.sin(time + i) * 0.1);
-        const radius = 200 * breathScale * (1 + i * 0.3);
-
-        // Create gradient
-        const gradient = ctx.createRadialGradient(
-          centerX, centerY, 0,
-          centerX, centerY, radius
-        );
-
-        const colors = gradients[theme];
-        colors.forEach((color, index) => {
-          const opacity = parseFloat(color.match(/[\d.]+\)/)[0]) * breathOpacity;
-          const adjustedColor = color.replace(/[\d.]+\)/, `${opacity})`);
-          gradient.addColorStop(index / (colors.length - 1), adjustedColor);
-        });
+      // Draw only 2 circles with simplified gradients
+      for (let i = 0; i < 2; i++) {
+        const x = i === 0 ? centerX1 : centerX2;
+        const y = centerY + Math.sin(time + i) * 20;
+        
+        // Simplified gradient with fewer color stops
+        const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
+        gradient.addColorStop(0, colors[0]);
+        gradient.addColorStop(0.5, colors[1]);
+        gradient.addColorStop(1, colors[2]);
 
         ctx.fillStyle = gradient;
         ctx.beginPath();
-        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
         ctx.fill();
       }
 
@@ -104,7 +98,12 @@ const BreathingBackground = ({ theme = 'universal' }) => {
       window.removeEventListener('resize', resizeCanvas);
       cancelAnimationFrame(animationId);
     };
-  }, [theme]);
+  }, [theme, gradients]);
+
+  useEffect(() => {
+    const cleanup = setupAnimation();
+    return cleanup;
+  }, [setupAnimation]);
 
   return (
     <canvas
@@ -116,10 +115,13 @@ const BreathingBackground = ({ theme = 'universal' }) => {
         width: '100%',
         height: '100%',
         pointerEvents: 'none',
-        zIndex: 0
+        zIndex: 0,
+        opacity: 0.8
       }}
     />
   );
-};
+});
+
+BreathingBackground.displayName = 'BreathingBackground';
 
 export default BreathingBackground; 
