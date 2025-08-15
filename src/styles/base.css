@@ -92,14 +92,14 @@
 
 /* Taoist Theme (Tao Te Ching) */
 .theme-taoist {
-    --divine-gold: #228B22;
-    --divine-purple: #006400;
-    --divine-blue: #32CD32;
-    --divine-cream: #F0FFF0;
+    --divine-gold: #8B7355;
+    --divine-purple: #6B4423;
+    --divine-blue: #A0522D;
+    --divine-cream: #F5F5DC;
     --divine-white: #FFFFFF;
-    --divine-dark: #2F4F2F;
-    --divine-light-gold: #90EE90;
-    --divine-gradient: linear-gradient(135deg, #228B22 0%, #006400 100%);
+    --divine-dark: #3E2723;
+    --divine-light-gold: #DEB887;
+    --divine-gradient: linear-gradient(135deg, #8B7355 0%, #6B4423 100%);
 }
 
 /* Confucian Theme (Analects of Confucius) */
@@ -128,14 +128,14 @@
 
 /* Zoroastrian Theme (Avesta) */
 .theme-zoroastrian {
-    --divine-gold: #FFD700;
-    --divine-purple: #FFA500;
-    --divine-blue: #FF8C00;
-    --divine-cream: #FFF8DC;
+    --divine-gold: #DC143C;
+    --divine-purple: #8B0000;
+    --divine-blue: #B22222;
+    --divine-cream: #FFF5EE;
     --divine-white: #FFFFFF;
-    --divine-dark: #8B4513;
-    --divine-light-gold: #FFE4B5;
-    --divine-gradient: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    --divine-dark: #2F0000;
+    --divine-light-gold: #FFE4E1;
+    --divine-gradient: linear-gradient(135deg, #DC143C 0%, #8B0000 100%);
 }
 
 /* Global styles */
