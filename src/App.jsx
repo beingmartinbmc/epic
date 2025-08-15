@@ -25,6 +25,7 @@ function App() {
     switch (selectedText) {
       case 'BHAGAVAD_GITA':
       case 'VEDAS':
+      case 'UPANISHADS':
         return 'hindu';
       case 'QURAN':
         return 'islamic';
@@ -33,7 +34,16 @@ function App() {
       case 'GURU_GRANTH_SAHIB':
         return 'sikh';
       case 'TRIPITAKA':
+      case 'DHAMMAPADA':
         return 'buddhist';
+      case 'TAO_TE_CHING':
+        return 'taoist';
+      case 'ANALECTS_OF_CONFUCIUS':
+        return 'confucian';
+      case 'TALMUD':
+        return 'jewish';
+      case 'AVESTA':
+        return 'zoroastrian';
       default:
         return 'universal';
     }

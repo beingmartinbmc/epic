@@ -13,6 +13,12 @@ const PROMPT_MAPPING = {
   'BIBLE': prompts.userPrompts.bible,
   'GURU_GRANTH_SAHIB': prompts.userPrompts.guruGranthSahib,
   'TRIPITAKA': prompts.userPrompts.tripitaka,
+  'TAO_TE_CHING': prompts.userPrompts.taoTeChing,
+  'ANALECTS_OF_CONFUCIUS': prompts.userPrompts.analectsOfConfucius,
+  'DHAMMAPADA': prompts.userPrompts.dhammapada,
+  'UPANISHADS': prompts.userPrompts.upanishads,
+  'TALMUD': prompts.userPrompts.talmud,
+  'AVESTA': prompts.userPrompts.avesta,
   'ALL': prompts.userPrompts.allTexts
 };
 

@@ -15,6 +15,18 @@ const getSourceDescription = (selectedText) => {
       return 'The central religious scripture of Sikhism, containing the teachings of the Sikh Gurus.';
     case 'TRIPITAKA':
       return 'The sacred texts of Buddhism, containing the teachings of Gautama Buddha and his disciples.';
+    case 'TAO_TE_CHING':
+      return 'The fundamental text of Taoism, containing the teachings of Lao Tzu on harmony, balance, and natural living.';
+    case 'ANALECTS_OF_CONFUCIUS':
+      return 'The collection of sayings and ideas attributed to Confucius, focusing on ethics, education, and social harmony.';
+    case 'DHAMMAPADA':
+      return 'A collection of verses from the Buddhist canon, containing the essence of Buddha\'s teachings on wisdom and ethical living.';
+    case 'UPANISHADS':
+      return 'Ancient Hindu philosophical texts that explore the nature of reality, consciousness, and spiritual knowledge.';
+    case 'TALMUD':
+      return 'The central text of Rabbinic Judaism, containing discussions, debates, and interpretations of Jewish law and ethics.';
+    case 'AVESTA':
+      return 'The sacred texts of Zoroastrianism, containing the teachings of Zarathustra on truth, goodness, and ethical living.';
     case 'ALL':
       return 'Wisdom from all major spiritual traditions and sacred texts.';
     default:
@@ -53,6 +65,18 @@ const GuidanceForm = React.memo(({
         return "Connect with the wisdom of the Guru Granth Sahib. What guidance do you seek?";
       case 'TRIPITAKA':
         return "Meditate on your questions and seek enlightenment from the Tripitaka...";
+      case 'TAO_TE_CHING':
+        return "Seek harmony and balance through the wisdom of the Tao Te Ching...";
+      case 'ANALECTS_OF_CONFUCIUS':
+        return "Find ethical guidance and wisdom from the Analects of Confucius...";
+      case 'DHAMMAPADA':
+        return "Meditate on your questions and seek wisdom from the Dhammapada...";
+      case 'UPANISHADS':
+        return "Explore consciousness and spiritual knowledge through the Upanishads...";
+      case 'TALMUD':
+        return "Seek wisdom and ethical guidance from the Talmud...";
+      case 'AVESTA':
+        return "Find truth and goodness through the teachings of the Avesta...";
       default:
         return "Tell me about your feelings, struggles, or what's on your mind for divine guidance...";
     }
@@ -63,6 +87,7 @@ const GuidanceForm = React.memo(({
     switch (selectedText) {
       case 'BHAGAVAD_GITA':
       case 'VEDAS':
+      case 'UPANISHADS':
         return 'fas fa-om';
       case 'QURAN':
         return 'fas fa-star-and-crescent';
@@ -71,7 +96,16 @@ const GuidanceForm = React.memo(({
       case 'GURU_GRANTH_SAHIB':
         return '☬';
       case 'TRIPITAKA':
+      case 'DHAMMAPADA':
         return 'fas fa-dharmachakra';
+      case 'TAO_TE_CHING':
+        return '☯️';
+      case 'ANALECTS_OF_CONFUCIUS':
+        return '📚';
+      case 'TALMUD':
+        return '✡️';
+      case 'AVESTA':
+        return '🔥';
       default:
         return 'fas fa-heart';
     }
@@ -201,10 +235,16 @@ const GuidanceForm = React.memo(({
             <option value="">Select divine wisdom...</option>
             <option value="BHAGAVAD_GITA">🕉️ Bhagavad Gita</option>
             <option value="VEDAS">📜 The Vedas</option>
+            <option value="UPANISHADS">🧘 Upanishads</option>
             <option value="QURAN">☪️ Holy Quran</option>
             <option value="BIBLE">✝️ Holy Bible</option>
+            <option value="TALMUD">✡️ The Talmud</option>
             <option value="GURU_GRANTH_SAHIB">☬ Guru Granth Sahib</option>
             <option value="TRIPITAKA">☸️ The Tripitaka</option>
+            <option value="DHAMMAPADA">🌸 The Dhammapada</option>
+            <option value="TAO_TE_CHING">☯️ Tao Te Ching</option>
+            <option value="ANALECTS_OF_CONFUCIUS">📚 Analects of Confucius</option>
+            <option value="AVESTA">🔥 The Avesta</option>
             <option value="ALL">🌟 All Sacred Texts</option>
           </select>
           

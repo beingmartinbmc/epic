@@ -9,6 +9,12 @@ export const useTheme = (selectedText) => {
     'BIBLE': 'theme-christian',
     'GURU_GRANTH_SAHIB': 'theme-sikh',
     'TRIPITAKA': 'theme-buddhist',
+    'TAO_TE_CHING': 'theme-taoist',
+    'ANALECTS_OF_CONFUCIUS': 'theme-confucian',
+    'DHAMMAPADA': 'theme-buddhist',
+    'UPANISHADS': 'theme-hindu',
+    'TALMUD': 'theme-jewish',
+    'AVESTA': 'theme-zoroastrian',
     'ALL': 'theme-universal'
   }), []);
 

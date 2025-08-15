@@ -11,7 +11,11 @@ const SpiritualLoader = ({ isLoading, theme = 'universal' }) => {
     islamic: ['☪️', '⭐', '🌙', '✨', '🌟'],
     christian: ['✝️', '🕊️', '⭐', '✨', '🌟'],
     sikh: ['☬', '🌸', '✨', '🌟', '💫'],
-    buddhist: ['☸️', '🌸', '🌺', '✨', '🌟']
+    buddhist: ['☸️', '🌸', '🌺', '✨', '🌟'],
+    taoist: ['☯️', '🌿', '🍃', '🌱', '✨'],
+    confucian: ['📚', '🏛️', '🎓', '📖', '✨'],
+    jewish: ['✡️', '🕯️', '📜', '🕍', '✨'],
+    zoroastrian: ['🔥', '☀️', '⭐', '🌟', '✨']
   };
 
   // Loading messages for different themes
@@ -57,6 +61,34 @@ const SpiritualLoader = ({ isLoading, theme = 'universal' }) => {
       'Connecting with Buddha\'s wisdom...',
       'Awakening mindfulness...',
       'Embracing the Eightfold Path...'
+    ],
+    taoist: [
+      'Following the Tao...',
+      'Embracing natural harmony...',
+      'Seeking effortless action...',
+      'Connecting with the Way...',
+      'Awakening to simplicity...'
+    ],
+    confucian: [
+      'Studying the Analects...',
+      'Cultivating virtue...',
+      'Seeking moral wisdom...',
+      'Connecting with ancient teachings...',
+      'Embracing ethical living...'
+    ],
+    jewish: [
+      'Studying the Talmud...',
+      'Seeking Jewish wisdom...',
+      'Connecting with ancient teachings...',
+      'Embracing ethical living...',
+      'Awakening to community values...'
+    ],
+    zoroastrian: [
+      'Reflecting on the Avesta...',
+      'Seeking truth and goodness...',
+      'Connecting with ancient wisdom...',
+      'Embracing ethical dualism...',
+      'Awakening to environmental stewardship...'
     ]
   };
 

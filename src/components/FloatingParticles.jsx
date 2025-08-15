@@ -10,7 +10,11 @@ const FloatingParticles = React.memo(({ theme = 'universal' }) => {
     islamic: ['☪️', '⭐'],
     christian: ['✝️', '🕊️'],
     sikh: ['☬', '🌸'],
-    buddhist: ['☸️', '🌸']
+    buddhist: ['☸️', '🌸'],
+    taoist: ['☯️', '🌿'],
+    confucian: ['📚', '🏛️'],
+    jewish: ['✡️', '🕯️'],
+    zoroastrian: ['🔥', '☀️']
   }), []);
 
   // Memoized Particle class to prevent recreation
