@@ -10,7 +10,7 @@ import NotificationToast from './components/NotificationToast';
 import ScrollToTop from './components/ScrollToTop';
 import { useGuidance } from './hooks/useGuidance';
 import { useTheme } from './hooks/useTheme';
-import './styles.css';
+import './styles/index.css';
 
 function App() {
   const [selectedText, setSelectedText] = useState('ALL');
@@ -109,7 +109,7 @@ function App() {
       <ScrollToTop />
       
       <div className="divine-background"></div>
-      <div className="divine-container theme-universal">
+      <div className="divine-container">
         <Header selectedText={selectedText} />
 
         <div className="divine-content">

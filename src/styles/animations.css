@@ -1,0 +1,188 @@
+/* Background gradient animation */
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    25% { background-position: 50% 100%; }
+    50% { background-position: 100% 50%; }
+    75% { background-position: 50% 0%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Container float animation */
+@keyframes containerFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+}
+
+/* Shimmer effect animation */
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Icon pulse animation */
+@keyframes iconPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Quote glow animation */
+@keyframes quoteGlow {
+    0% { opacity: 0.3; transform: scale(1); }
+    100% { opacity: 0.6; transform: scale(1.1); }
+}
+
+/* Marker pulse animation */
+@keyframes markerPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Glow effect animation */
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 5px var(--divine-gold), 0 0 10px var(--divine-gold), 0 0 15px var(--divine-gold);
+        transform: scale(1);
+    }
+    100% {
+        text-shadow: 0 0 10px var(--divine-gold), 0 0 20px var(--divine-gold), 0 0 30px var(--divine-gold);
+        transform: scale(1.1);
+    }
+}
+
+/* Spin animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Error shake animation */
+@keyframes errorShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Float animation */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Slide in animations */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Fade animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Button animations */
+@keyframes buttonPulse {
+    0% { transform: translateY(-3px) scale(1.02); }
+    50% { transform: translateY(-3px) scale(1.05); }
+    100% { transform: translateY(-3px) scale(1.02); }
+}
+
+@keyframes loadingPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Bounce animation */
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Spiritual animations */
+@keyframes spiritualFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes orbit {
+    from { transform: translate(-50%, -50%) rotate(0deg) translateY(-60px) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg) translateY(-60px) rotate(-360deg); }
+}
+
+/* Progress animations */
+@keyframes progressShrink {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+
+/* Focus animations */
+@keyframes focusGlow {
+    0% { box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25); }
+    50% { box-shadow: 0 0 0 0.4rem rgba(212, 175, 55, 0.3); }
+    100% { box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25); }
+}
+
+/* Character count animation */
+@keyframes countFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+

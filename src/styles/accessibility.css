@@ -1,0 +1,183 @@
+/* Accessibility Enhancements */
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus styles for better accessibility */
+.form-control:focus,
+.form-select:focus,
+.divine-btn:focus {
+    outline: 2px solid var(--divine-gold);
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .divine-container {
+        border: 2px solid var(--divine-gold);
+    }
+    
+    .quote-card {
+        border: 2px solid var(--divine-gold);
+    }
+
+    .form-control,
+    .form-select {
+        border: 2px solid var(--divine-dark);
+    }
+
+    .divine-btn {
+        background: var(--divine-dark);
+        color: var(--divine-white);
+    }
+
+    .quote-source {
+        background: var(--divine-dark);
+    }
+
+    .guidance-container,
+    .summary-content {
+        border: 2px solid var(--divine-dark);
+    }
+}
+
+/* Screen reader only text */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Skip to main content link */
+.skip-to-main {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--divine-dark);
+    color: var(--divine-white);
+    padding: 8px;
+    z-index: 100;
+    transition: top 0.3s;
+}
+
+.skip-to-main:focus {
+    top: 0;
+}
+
+/* Enhanced keyboard navigation */
+*:focus-visible {
+    outline: 3px solid var(--divine-gold);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Improved color contrast */
+.divine-subtitle,
+.guidance-subtitle {
+    color: var(--divine-dark);
+}
+
+.quote-text {
+    color: #1a202c;
+}
+
+.context-text {
+    color: #2d3748;
+}
+
+/* Enhanced form labels */
+.form-label {
+    font-weight: 600;
+    color: var(--divine-dark);
+}
+
+/* Error states */
+.error-message {
+    border: 2px solid #e53e3e;
+    background: #fff5f5;
+    color: #c53030;
+}
+
+/* Loading states */
+.loading {
+    color: var(--divine-dark);
+}
+
+/* Focus indicators for interactive elements */
+.quote-card:focus-within,
+.footer-item:focus-within {
+    outline: 2px solid var(--divine-gold);
+    outline-offset: 4px;
+}
+
+/* Enhanced button states */
+.divine-btn:disabled {
+    background: #cbd5e0;
+    cursor: not-allowed;
+    color: #4a5568;
+}
+
+/* ARIA support */
+[aria-hidden="true"] {
+    display: none;
+}
+
+[aria-busy="true"] {
+    cursor: progress;
+}
+
+[aria-disabled="true"] {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Enhanced form validation */
+.form-control:invalid,
+.form-select:invalid {
+    border-color: #e53e3e;
+}
+
+.form-control:invalid:focus,
+.form-select:invalid:focus {
+    box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.3);
+}
+
+/* Improved link underlines */
+a:not(.divine-btn):not(.footer-item) {
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+}
+
+/* Enhanced focus visible styles */
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Improved spacing for touch targets */
+@media (pointer: coarse) {
+    .divine-btn,
+    .footer-item,
+    .form-control,
+    .form-select {
+        min-height: 44px;
+    }
+
+    .quote-source,
+    .context-marker,
+    .summary-marker {
+        padding: 8px 16px;
+    }
+}
+
