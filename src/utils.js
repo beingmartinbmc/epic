@@ -752,6 +752,72 @@ export function getReferenceUrl(source, reference) {
         }
     }
 
+    // Tao Te Ching
+    const taoTeChingAliases = ['taoteching', 'tao te ching', 'daodejing', 'dao de jing', 'laozi', 'lao tzu', '道德经', '老子'];
+    if (taoTeChingAliases.some(alias => normalized.includes(alias)) || 
+        normalizedSource.toLowerCase().includes('tao te ching') ||
+        normalizedSource.toLowerCase().includes('dao de jing')) {
+        if (!chapter) return null;
+        return `https://ctext.org/dao-de-jing/zh?enodeid=${chapter}`;
+    }
+
+    // Analects of Confucius
+    const confuciusAliases = ['analects', 'confucius', 'lunyu', 'lun yu', '论语', '孔子'];
+    if (confuciusAliases.some(alias => normalized.includes(alias)) || 
+        normalizedSource.toLowerCase().includes('analects of confucius') ||
+        normalizedSource.toLowerCase().includes('lunyu')) {
+        if (!chapter || !verse) return null;
+        return `https://ctext.org/analects/zh?enodeid=${chapter}.${verse}`;
+    }
+
+    // Upanishads
+    const upanishadAliases = ['upanishad', 'upanishads', 'उपनिषद', 'उपनिषद्'];
+    const upanishadNames = ['brihadaranyaka', 'chandogya', 'taittiriya', 'aitareya', 'kena', 'katha', 'isha', 'mundaka', 'mandukya', 'prashna'];
+    
+    for (const upanishad of upanishadNames) {
+        if (normalized.includes(upanishad)) {
+            if (!chapter || !verse) return null;
+            return `https://www.sacred-texts.com/hin/upan/${upanishad}.htm`;
+        }
+    }
+    
+    if (upanishadAliases.some(alias => normalized.includes(alias))) {
+        if (!chapter || !verse) return null;
+        return `https://www.sacred-texts.com/hin/upan/`;
+    }
+
+    // Talmud
+    const talmudAliases = ['talmud', 'gemara', 'תלמוד', 'גמרא'];
+    const talmudTractates = ['berakhot', 'shabbat', 'eruvin', 'pesachim', 'yoma', 'sukkah', 'beitzah', 'rosh hashanah', 'taanit', 'megillah', 'moed katan', 'chagigah', 'yevamot', 'ketubot', 'nedarim', 'nazir', 'sotah', 'gittin', 'kiddushin', 'bava kamma', 'bava metzia', 'bava batra', 'sanhedrin', 'makkot', 'shevuot', 'avodah zarah', 'horayot', 'zevachim', 'menachot', 'chullin', 'bekhorot', 'arakhin', 'temurah', 'keritot', 'meilah', 'tamid', 'middot', 'niddah'];
+    
+    for (const tractate of talmudTractates) {
+        if (normalized.includes(tractate)) {
+            if (!chapter) return null;
+            return `https://www.sefaria.org/${tractate}.${chapter}`;
+        }
+    }
+    
+    if (talmudAliases.some(alias => normalized.includes(alias))) {
+        if (!chapter) return null;
+        return `https://www.sefaria.org/Talmud`;
+    }
+
+    // Avesta
+    const avestaAliases = ['avesta', 'zoroastrian', 'zoroastrianism', 'gathas', 'yasna', 'visperad', 'vendidad', 'yashts', 'khordeh avesta'];
+    const avestaTexts = ['yasna', 'visperad', 'vendidad', 'yashts', 'khordeh avesta'];
+    
+    for (const text of avestaTexts) {
+        if (normalized.includes(text)) {
+            if (!chapter) return null;
+            return `https://www.avesta.org/${text}/${text}${chapter}.htm`;
+        }
+    }
+    
+    if (avestaAliases.some(alias => normalized.includes(alias))) {
+        if (!chapter) return null;
+        return `https://www.avesta.org/`;
+    }
+
     return null; // Unknown
 }
 
@@ -802,6 +868,45 @@ export function parseSource(source) {
         let verse = vedasMatch[3] || '';
         if (vedasMatch[4]) verse += '.' + vedasMatch[4];
         return { bookName, chapter, verse };
+    }
+
+    // Handle Upanishad patterns
+    const upanishadPattern = /^(Brihadaranyaka|Chandogya|Taittiriya|Aitareya|Kena|Katha|Isha|Mundaka|Mandukya|Prashna)\s*(\d+)(?:\.(\d+))?(?:\.(\d+))?/i;
+    const upanishadMatch = source.match(upanishadPattern);
+    if (upanishadMatch) {
+        const bookName = upanishadMatch[1];
+        const chapter = upanishadMatch[2] || '';
+        let verse = upanishadMatch[3] || '';
+        if (upanishadMatch[4]) verse += '.' + upanishadMatch[4];
+        return { bookName, chapter, verse };
+    }
+
+    // Handle Tao Te Ching patterns
+    const taoTeChingPattern = /^Tao\s*Te\s*Ching\s*(?:Chapter\s+)?(\d+)/i;
+    const taoTeChingMatch = source.match(taoTeChingPattern);
+    if (taoTeChingMatch) {
+        return { bookName: 'Tao Te Ching', chapter: taoTeChingMatch[1], verse: '' };
+    }
+
+    // Handle Analects patterns
+    const analectsPattern = /^Analects\s*(?:Book\s+)?(\d+)(?:\s*:\s*(\d+))?/i;
+    const analectsMatch = source.match(analectsPattern);
+    if (analectsMatch) {
+        return { bookName: 'Analects of Confucius', chapter: analectsMatch[1], verse: analectsMatch[2] || '' };
+    }
+
+    // Handle Talmud patterns
+    const talmudPattern = /^(Berakhot|Shabbat|Eruvin|Pesachim|Yoma|Sukkah|Beitzah|Rosh Hashanah|Ta'anit|Megillah|Mo'ed Katan|Chagigah|Yevamot|Ketubot|Nedarim|Nazir|Sotah|Gittin|Kiddushin|Bava Kamma|Bava Metzia|Bava Batra|Sanhedrin|Makkot|Shevu'ot|Avodah Zarah|Horayot|Zevachim|Menachot|Chullin|Bekhorot|Arakhin|Temurah|Keritot|Me'ilah|Tamid|Middot|Niddah)\s*(\d+)(?:\s*:\s*(\d+))?/i;
+    const talmudMatch = source.match(talmudPattern);
+    if (talmudMatch) {
+        return { bookName: talmudMatch[1], chapter: talmudMatch[2], verse: talmudMatch[3] || '' };
+    }
+
+    // Handle Avesta patterns
+    const avestaPattern = /^(Yasna|Visperad|Vendidad|Yashts|Khordeh Avesta)\s*(\d+)(?:\s*:\s*(\d+))?/i;
+    const avestaMatch = source.match(avestaPattern);
+    if (avestaMatch) {
+        return { bookName: avestaMatch[1], chapter: avestaMatch[2], verse: avestaMatch[3] || '' };
     }
 
     // Existing patterns
