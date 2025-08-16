@@ -73,7 +73,7 @@
 .response-placeholder {
   text-align: center;
   padding: 3rem 1rem;
-  color: var(--text-muted);
+  color: var(--divine-dark);
 }
 
 .placeholder-icon {
@@ -88,15 +88,15 @@
 }
 
 .quotes-title {
-  color: var(--primary-color);
+  color: var(--divine-purple);
   margin-bottom: 1.5rem;
   font-weight: 600;
 }
 
 /* Quote card styles */
 .quote-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
+  background: var(--divine-white);
+  border: 1px solid var(--divine-light-gold);
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
@@ -117,10 +117,10 @@
 .quote-text {
   font-size: 1.1rem;
   line-height: 1.6;
-  color: var(--text-color);
+  color: var(--divine-dark);
   margin-bottom: 1rem;
   font-style: italic;
-  border-left: 4px solid var(--primary-color);
+  border-left: 4px solid var(--divine-gold);
   padding-left: 1rem;
 }
 
@@ -134,13 +134,13 @@
 
 .quote-source {
   font-weight: 600;
-  color: var(--primary-color);
+  color: var(--divine-purple);
   font-size: 0.9rem;
 }
 
 .quote-reference {
-  background: var(--accent-bg);
-  color: var(--accent-color);
+  background: var(--divine-light-gold);
+  color: var(--divine-dark);
   padding: 0.2rem 0.5rem;
   border-radius: 4px;
   font-size: 0.8rem;
@@ -148,7 +148,7 @@
 }
 
 .quote-link {
-  color: var(--link-color);
+  color: var(--divine-gold);
   text-decoration: none;
   padding: 0.2rem;
   border-radius: 4px;
@@ -156,8 +156,8 @@
 }
 
 .quote-link:hover {
-  background: var(--link-hover-bg);
-  color: var(--link-hover-color);
+  background: var(--divine-light-gold);
+  color: var(--divine-purple);
 }
 
 /* Quote actions styles */
@@ -181,25 +181,25 @@
 }
 
 .copy-btn {
-  border-color: var(--primary-color);
-  color: var(--primary-color);
+  border-color: var(--divine-gold);
+  color: var(--divine-gold);
   background: transparent;
 }
 
 .copy-btn:hover {
-  background: var(--primary-color);
-  color: white;
+  background: var(--divine-gold);
+  color: var(--divine-white);
 }
 
 .reference-btn {
-  border-color: var(--secondary-color);
-  color: var(--secondary-color);
+  border-color: var(--divine-purple);
+  color: var(--divine-purple);
   background: transparent;
 }
 
 .reference-btn:hover {
-  background: var(--secondary-color);
-  color: white;
+  background: var(--divine-purple);
+  color: var(--divine-white);
 }
 
 /* Context toggle styles */
@@ -210,7 +210,7 @@
 .context-toggle {
   background: none;
   border: none;
-  color: var(--text-muted);
+  color: var(--divine-dark);
   font-size: 0.9rem;
   cursor: pointer;
   display: flex;
@@ -221,23 +221,23 @@
 }
 
 .context-toggle:hover {
-  color: var(--primary-color);
+  color: var(--divine-gold);
 }
 
 .context-content {
   margin-top: 0.5rem;
   padding: 1rem;
-  background: var(--bg-muted);
+  background: var(--divine-cream);
   border-radius: 8px;
   font-size: 0.9rem;
   line-height: 1.5;
-  color: var(--text-color);
+  color: var(--divine-dark);
 }
 
 /* Summary section styles */
 .summary-section {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
+  background: var(--divine-white);
+  border: 1px solid var(--divine-light-gold);
   border-radius: 12px;
   padding: 1.5rem;
   margin-top: 2rem;
@@ -246,14 +246,14 @@
 }
 
 .summary-title {
-  color: var(--primary-color);
+  color: var(--divine-purple);
   margin-bottom: 1rem;
   font-weight: 600;
 }
 
 .summary-content {
   line-height: 1.6;
-  color: var(--text-color);
+  color: var(--divine-dark);
 }
 
 /* Responsive design */
