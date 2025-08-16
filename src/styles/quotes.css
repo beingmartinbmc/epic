@@ -1,7 +1,4 @@
 /* Quotes section styles */
-.quotes-section {
-    margin-top: 3rem;
-}
 
 .quotes-header {
     text-align: center;
@@ -33,6 +30,40 @@
     display: grid;
     gap: 2rem;
     grid-template-columns: 1fr;
+}
+
+/* Responsive grid layout for quote cards */
+.quotes-section {
+    margin-top: 3rem;
+}
+
+.quotes-section .quote-card {
+    margin-bottom: 2rem;
+}
+
+/* Grid layout for different screen sizes */
+@media (min-width: 768px) {
+    .quotes-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+        gap: 2rem;
+    }
+    
+    .quotes-section .quote-card {
+        margin-bottom: 0;
+    }
+}
+
+@media (min-width: 1200px) {
+    .quotes-section {
+        grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+    }
+}
+
+@media (min-width: 1600px) {
+    .quotes-section {
+        grid-template-columns: repeat(auto-fit, minmax(700px, 1fr));
+    }
 }
 
 /* Quote card styles */
@@ -253,8 +284,14 @@
 
 /* Mobile responsive */
 @media (max-width: 768px) {
+    .quotes-section {
+        display: block;
+        grid-template-columns: 1fr;
+    }
+    
     .quote-card {
         padding: 1.5rem;
+        margin-bottom: 2rem;
     }
 
     .quote-text {
