@@ -1,12 +1,12 @@
-/* Import all component styles */
+/* Import all stylesheets */
 @import './base.css';
-@import './animations.css';
 @import './header.css';
 @import './form.css';
-@import './quotes.css';
 @import './guidance.css';
 @import './footer.css';
+@import './animations.css';
 @import './accessibility.css';
+@import './quotes.css';
 
 /* Performance optimizations */
 * {
@@ -60,7 +60,7 @@
   scroll-behavior: smooth;
 }
 
-/* Loading states */
+/* Response section loading styles */
 .response-section-loading {
   display: flex;
   justify-content: center;
@@ -69,10 +69,11 @@
   padding: 2rem;
 }
 
+/* Response placeholder styles */
 .response-placeholder {
   text-align: center;
-  padding: 3rem 2rem;
-  color: var(--divine-text);
+  padding: 3rem 1rem;
+  color: var(--text-muted);
 }
 
 .placeholder-icon {
@@ -81,155 +82,200 @@
   opacity: 0.7;
 }
 
-/* Quote styling optimizations */
+/* Quotes section styles */
 .quotes-section {
-  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .quotes-title {
-  color: var(--divine-dark);
+  color: var(--primary-color);
   margin-bottom: 1.5rem;
-  text-align: center;
   font-weight: 600;
 }
 
+/* Quote card styles */
 .quote-card {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 15px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(220, 215, 201, 0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease-out;
 }
 
 .quote-card:hover {
   transform: translateY(-2px) translateZ(0);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.quote-content {
+  position: relative;
 }
 
 .quote-text {
   font-size: 1.1rem;
   line-height: 1.6;
-  color: var(--divine-dark);
+  color: var(--text-color);
   margin-bottom: 1rem;
   font-style: italic;
-  position: relative;
-}
-
-.quote-text::before {
-  content: '"';
-  font-size: 3rem;
-  color: var(--divine-gold);
-  position: absolute;
-  top: -10px;
-  left: -15px;
-  opacity: 0.3;
+  border-left: 4px solid var(--primary-color);
+  padding-left: 1rem;
 }
 
 .quote-meta {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
   margin-bottom: 1rem;
   flex-wrap: wrap;
 }
 
 .quote-source {
   font-weight: 600;
-  color: var(--divine-purple);
+  color: var(--primary-color);
   font-size: 0.9rem;
 }
 
 .quote-reference {
-  background: var(--divine-light-gold);
-  color: var(--divine-dark);
-  padding: 0.25rem 0.5rem;
-  border-radius: 12px;
+  background: var(--accent-bg);
+  color: var(--accent-color);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
   font-size: 0.8rem;
   font-weight: 500;
 }
 
 .quote-link {
-  color: var(--divine-gold);
+  color: var(--link-color);
   text-decoration: none;
-  transition: color 0.2s ease;
+  padding: 0.2rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
 }
 
 .quote-link:hover {
-  color: var(--divine-purple);
+  background: var(--link-hover-bg);
+  color: var(--link-hover-color);
 }
 
+/* Quote actions styles */
+.quote-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.copy-btn,
+.reference-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  border: 1px solid;
+}
+
+.copy-btn {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background: transparent;
+}
+
+.copy-btn:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+.reference-btn {
+  border-color: var(--secondary-color);
+  color: var(--secondary-color);
+  background: transparent;
+}
+
+.reference-btn:hover {
+  background: var(--secondary-color);
+  color: white;
+}
+
+/* Context toggle styles */
 .quote-context {
   margin-top: 1rem;
 }
 
 .context-toggle {
   background: none;
-  border: 1px solid var(--divine-gold);
-  color: var(--divine-gold);
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  cursor: pointer;
+  border: none;
+  color: var(--text-muted);
   font-size: 0.9rem;
-  transition: all 0.2s ease;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.3rem;
+  padding: 0.5rem 0;
+  transition: color 0.2s ease;
 }
 
 .context-toggle:hover {
-  background: var(--divine-gold);
-  color: white;
+  color: var(--primary-color);
 }
 
 .context-content {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   padding: 1rem;
-  background: rgba(220, 215, 201, 0.1);
-  border-radius: 10px;
-  border-left: 3px solid var(--divine-gold);
-  line-height: 1.6;
-  color: var(--divine-text);
+  background: var(--bg-muted);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-color);
 }
 
-/* Summary section */
+/* Summary section styles */
 .summary-section {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
   margin-top: 2rem;
-  padding: 2rem;
-  background: linear-gradient(135deg, var(--divine-cream) 0%, #FFF8F0 100%);
-  border-radius: 15px;
-  border: 2px solid var(--divine-light-gold);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 0.6s ease-out 0.2s both;
 }
 
 .summary-title {
-  color: var(--divine-dark);
+  color: var(--primary-color);
   margin-bottom: 1rem;
-  text-align: center;
   font-weight: 600;
 }
 
 .summary-content {
-  line-height: 1.7;
-  color: var(--divine-text);
-  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-color);
 }
 
-/* Responsive optimizations */
+/* Responsive design */
 @media (max-width: 768px) {
   .quote-card {
     padding: 1rem;
-    margin-bottom: 1rem;
+  }
+  
+  .quote-actions {
+    flex-direction: column;
+  }
+  
+  .copy-btn,
+  .reference-btn {
+    width: 100%;
+    justify-content: center;
   }
   
   .quote-meta {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5rem;
-  }
-  
-  .summary-section {
-    padding: 1.5rem;
+    gap: 0.3rem;
   }
 }
 

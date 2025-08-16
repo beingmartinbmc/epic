@@ -1,10 +1,10 @@
-import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
-import { getReferenceUrl, parseSource } from '../utils.js';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import { parseSource, getReferenceUrl } from '../utils';
 
 // Memoized parsing function to avoid recreating on every render
 const parseResponse = (response) => {
   if (!response) return { quotes: [], summary: '' };
-  
+
   const quotes = [];
   let summary = '';
   let currentQuote = {};
@@ -12,10 +12,10 @@ const parseResponse = (response) => {
   // Use more efficient string splitting
   const lines = response.split('\n');
   const lineCount = lines.length;
-  
+
   for (let i = 0; i < lineCount; i++) {
     const line = lines[i].trim();
-    
+
     if (!line) continue;
 
     // Use startsWith for better performance than regex
@@ -58,7 +58,7 @@ const parseResponse = (response) => {
       };
     } else if (currentQuote.quote && !currentQuote.source && line.includes(':')) {
       // Try to identify source from context - use includes for better performance
-      if (line.includes('Bhagavad Gita') || line.includes('Quran') || line.includes('Bible') || 
+      if (line.includes('Bhagavad Gita') || line.includes('Quran') || line.includes('Bible') ||
           line.includes('Rigveda') || line.includes('Guru Granth Sahib') || line.includes('Tripitaka')) {
         currentQuote.source = line;
       } else {
@@ -79,12 +79,12 @@ const parseResponse = (response) => {
   if (quotes.length === 0) {
     const sections = response.split('\n\n');
     const sectionCount = sections.length;
-    
+
     for (let i = 0; i < sectionCount; i++) {
       const section = sections[i];
       const sectionLines = section.split('\n');
       const quoteData = {};
-      
+
       for (let j = 0; j < sectionLines.length; j++) {
         const trimmedLine = sectionLines[j].trim();
         if (trimmedLine.startsWith('"') && trimmedLine.endsWith('"')) {
@@ -95,7 +95,7 @@ const parseResponse = (response) => {
           quoteData.context = trimmedLine;
         }
       }
-      
+
       if (quoteData.quote) {
         quotes.push(quoteData);
       }
@@ -107,6 +107,7 @@ const parseResponse = (response) => {
 
 const ResponseSection = React.memo(({ response, isLoading }) => {
   const [expandedQuotes, setExpandedQuotes] = useState(new Set());
+  const [copiedQuote, setCopiedQuote] = useState(null);
 
   // Memoize the parsed response to avoid re-parsing on every render
   const parsedData = useMemo(() => {
@@ -116,12 +117,12 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
   // Memoize quote processing to avoid recalculation
   const processedQuotes = useMemo(() => {
     return parsedData.quotes.map(quote => {
-      const { source, chapter, verse } = parseSource(quote.source || '');
-      const referenceUrl = getReferenceUrl(source, `${chapter}:${verse}`);
-      
+      const { bookName, chapter, verse } = parseSource(quote.source || '');
+      const referenceUrl = getReferenceUrl(bookName, `${chapter}:${verse}`);
+
       return {
         ...quote,
-        parsedSource: source,
+        parsedSource: bookName,
         chapter,
         verse,
         referenceUrl,
@@ -141,6 +142,17 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
       }
       return newSet;
     });
+  }, []);
+
+  // Copy quote to clipboard
+  const copyQuote = useCallback(async (quote) => {
+    try {
+      await navigator.clipboard.writeText(quote);
+      setCopiedQuote(quote);
+      setTimeout(() => setCopiedQuote(null), 2000);
+    } catch (err) {
+      console.error('Failed to copy quote:', err);
+    }
   }, []);
 
   // Auto-expand first quote when response loads
@@ -201,9 +213,32 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="quote-link"
+                      title="View Reference"
                     >
                       <i className="fas fa-external-link-alt"></i>
                     </a>
+                  )}
+                </div>
+
+                <div className="quote-actions">
+                  <button 
+                    className="btn btn-sm btn-outline-primary copy-btn"
+                    onClick={() => copyQuote(quote.quote)}
+                    title="Copy Quote"
+                  >
+                    <i className="fas fa-copy"></i>
+                    {copiedQuote === quote.quote ? ' Copied!' : ' Copy'}
+                  </button>
+                  
+                  {quote.referenceUrl && (
+                    <button 
+                      className="btn btn-sm btn-outline-secondary reference-btn"
+                      onClick={() => copyQuote(quote.referenceUrl)}
+                      title="Copy Reference Link"
+                    >
+                      <i className="fas fa-link"></i>
+                      {copiedQuote === quote.referenceUrl ? ' Link Copied!' : ' Show Link'}
+                    </button>
                   )}
                 </div>
 
