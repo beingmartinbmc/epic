@@ -179,7 +179,7 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
             <div key={`${index}-${quote.quote.substring(0, 50)}`} className="quote-card">
               <div className="quote-content">
                 <blockquote className="quote-text">
-                  "{quote.quote}"
+                  {quote.quote}
                 </blockquote>
                 
                 <div className="quote-meta">
