@@ -145,7 +145,7 @@ function App() {
 
           {/* Lazy loaded ResponseSection with Suspense */}
           <Suspense fallback={<ResponseSectionFallback />}>
-            <ResponseSection response={response} isLoading={isLoading} />
+            <ResponseSection response={response} isLoading={isLoading} selectedText={selectedText} />
           </Suspense>
         </div>
       </div>

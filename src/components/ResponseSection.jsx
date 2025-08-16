@@ -30,6 +30,8 @@ const parseResponse = (response) => {
       };
     } else if (line.startsWith('SOURCE:')) {
       currentQuote.source = line.substring(7).trim();
+    } else if (line.startsWith('REFERENCE_URL:')) {
+      currentQuote.referenceUrl = line.substring(14).trim();
     } else if (line.startsWith('CONTEXT:')) {
       currentQuote.context = line.substring(8).trim();
     } else if (line.startsWith('SUMMARY:')) {
@@ -105,8 +107,42 @@ const parseResponse = (response) => {
   return { quotes, summary };
 };
 
-const ResponseSection = React.memo(({ response, isLoading }) => {
+const ResponseSection = React.memo(({ response, isLoading, selectedText }) => {
   const [copiedQuote, setCopiedQuote] = useState(null);
+
+  // Function to get the appropriate title based on selected text
+  const getWisdomTitle = (selectedText) => {
+    switch (selectedText) {
+      case 'BHAGAVAD_GITA':
+        return 'Hindu Wisdom';
+      case 'VEDAS':
+        return 'Vedic Wisdom';
+      case 'QURAN':
+        return 'Islamic Wisdom';
+      case 'BIBLE':
+        return 'Christian Wisdom';
+      case 'GURU_GRANTH_SAHIB':
+        return 'Sikh Wisdom';
+      case 'TRIPITAKA':
+        return 'Buddhist Wisdom';
+      case 'TAO_TE_CHING':
+        return 'Taoist Wisdom';
+      case 'ANALECTS_OF_CONFUCIUS':
+        return 'Confucian Wisdom';
+      case 'DHAMMAPADA':
+        return 'Buddhist Wisdom';
+      case 'UPANISHADS':
+        return 'Hindu Wisdom';
+      case 'TALMUD':
+        return 'Jewish Wisdom';
+      case 'AVESTA':
+        return 'Zoroastrian Wisdom';
+      case 'ALL':
+        return 'Sacred Wisdom';
+      default:
+        return 'Sacred Wisdom';
+    }
+  };
 
   // Memoize the parsed response to avoid re-parsing on every render
   const parsedData = useMemo(() => {
@@ -116,17 +152,9 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
   // Memoize quote processing to avoid recalculation
   const processedQuotes = useMemo(() => {
     return parsedData.quotes.map(quote => {
-      const { bookName, chapter, verse } = parseSource(quote.source || '');
-      const referenceUrl = getReferenceUrl(bookName, `${chapter}:${verse}`);
-      const formattedReference = formatReferenceDisplay(bookName, chapter, verse);
-
       return {
         ...quote,
-        parsedSource: bookName,
-        chapter,
-        verse,
-        referenceUrl,
-        formattedReference
+        referenceUrl: quote.referenceUrl || null, // Use AI-provided URL, fallback to null
       };
     });
   }, [parsedData.quotes]);
@@ -176,7 +204,7 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
       {/* Quotes Section */}
       {processedQuotes.length > 0 && (
         <div className="quotes-section">
-          <h3 className="quotes-title">Sacred Wisdom</h3>
+          <h3 className="quotes-title">{getWisdomTitle(selectedText)}</h3>
           {processedQuotes.map((quote, index) => (
             <div key={`${index}-${quote.quote.substring(0, 50)}`} className="quote-card">
               <div className="quote-content">
@@ -192,12 +220,7 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
                 <div className="source-section">
                   <h4 className="section-title">Source</h4>
                   <div className="source-content">
-                    <span className="quote-source">{quote.parsedSource}</span>
-                    {quote.formattedReference && (
-                      <span className="quote-reference">
-                        {quote.formattedReference}
-                      </span>
-                    )}
+                    <span className="quote-source">{quote.source}</span>
                     {quote.referenceUrl && (
                       <a 
                         href={quote.referenceUrl} 
