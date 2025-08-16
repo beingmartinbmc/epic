@@ -47,10 +47,12 @@
         display: grid !important;
         grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)) !important;
         gap: 2rem !important;
+        contain: layout style;
     }
     
     .quotes-section .quote-card {
         margin-bottom: 0 !important;
+        contain: layout style;
     }
 }
 
@@ -68,15 +70,15 @@
 
 /* Quote card styles */
 .quote-card {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     padding: 2rem;
     border: 1px solid rgba(255, 255, 255, 0.2);
     position: relative;
-    backdrop-filter: blur(10px);
-    transition: var(--transition-smooth);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     overflow: hidden;
+    will-change: transform;
 }
 
 .quote-card::before {
@@ -90,8 +92,8 @@
 }
 
 .quote-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     border-color: rgba(212, 175, 55, 0.3);
 }
 
@@ -191,11 +193,10 @@
 }
 
 .context-content {
-    background: rgba(248, 250, 252, 0.8);
+    background: rgba(248, 250, 252, 0.95);
     border-radius: 12px;
     padding: 1.5rem;
     position: relative;
-    backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     line-height: 1.8;
     color: #4a5568;
@@ -205,12 +206,11 @@
 
 /* Quote context styles */
 .quote-context {
-    background: rgba(248, 250, 252, 0.8);
+    background: rgba(248, 250, 252, 0.95);
     border-radius: 12px;
     padding: 1.5rem;
     margin-top: 1.5rem;
     position: relative;
-    backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 

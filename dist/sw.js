@@ -2,13 +2,14 @@ const CACHE_NAME = 'epic-v1';
 const STATIC_CACHE = 'epic-static-v1';
 const DYNAMIC_CACHE = 'epic-dynamic-v1';
 
+// Get the base path from the service worker scope
+const BASE_PATH = self.location.pathname.replace('/sw.js', '');
+
 // Files to cache immediately
 const STATIC_FILES = [
-  '/',
-  '/index.html',
-  '/static/js/bundle.js',
-  '/static/css/main.css',
-  '/manifest.json'
+  BASE_PATH + '/',
+  BASE_PATH + '/index.html',
+  BASE_PATH + '/manifest.json'
 ];
 
 // Install event - cache static files

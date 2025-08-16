@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { parseSource, formatReferenceDisplay } from '../utils';
+import { cleanUrl } from '../utils';
 
 // Memoized parsing function to avoid recreating on every render
 const parseResponse = (response) => {
@@ -26,12 +26,14 @@ const parseResponse = (response) => {
       }
       // Start new quote
       currentQuote = {
-        quote: line.substring(6).trim() // More efficient than replace
+        quote: line.substring(6).trim().replace(/\*\*/g, '') // Remove markdown formatting
       };
     } else if (line.startsWith('SOURCE:')) {
-      currentQuote.source = line.substring(7).trim();
-    } else if (line.startsWith('REFERENCE_URL:')) {
-      currentQuote.referenceUrl = line.substring(14).trim();
+      currentQuote.source = line.substring(7).trim().replace(/\*\*/g, '');
+          } else if (line.startsWith('REFERENCE_URL:')) {
+        // Extract URL and clean it
+        const urlText = line.substring(14).trim().replace(/\*\*/g, '').replace(/\s+/g, ' ');
+        currentQuote.referenceUrl = urlText;
     } else if (line.startsWith('CONTEXT:')) {
       currentQuote.context = line.substring(8).trim();
     } else if (line.startsWith('SUMMARY:')) {
@@ -40,7 +42,7 @@ const parseResponse = (response) => {
       let j = i + 1;
       while (j < lineCount) {
         const nextLine = lines[j].trim();
-        if (nextLine && (nextLine.startsWith('QUOTE:') || nextLine.startsWith('SOURCE:') || nextLine.startsWith('CONTEXT:'))) {
+        if (nextLine && (nextLine.startsWith('QUOTE:') || nextLine.startsWith('SOURCE:') || nextLine.startsWith('REFERENCE_URL:') || nextLine.startsWith('CONTEXT:'))) {
           break;
         }
         if (nextLine) {
@@ -151,10 +153,11 @@ const ResponseSection = React.memo(({ response, isLoading, selectedText }) => {
 
   // Memoize quote processing to avoid recalculation
   const processedQuotes = useMemo(() => {
-    return parsedData.quotes.map(quote => {
+    return parsedData.quotes.map((quote, index) => {
       return {
         ...quote,
-        referenceUrl: quote.referenceUrl || null, // Use AI-provided URL, fallback to null
+        referenceUrl: cleanUrl(quote.referenceUrl), // Clean and validate the URL
+        id: `quote-${index}-${quote.quote?.substring(0, 20)?.replace(/\s+/g, '-') || index}`,
       };
     });
   }, [parsedData.quotes]);
@@ -166,7 +169,9 @@ const ResponseSection = React.memo(({ response, isLoading, selectedText }) => {
     try {
       await navigator.clipboard.writeText(quote);
       setCopiedQuote(quote);
-      setTimeout(() => setCopiedQuote(null), 2000);
+      // Use a more efficient timeout clearing
+      const timeoutId = setTimeout(() => setCopiedQuote(null), 2000);
+      return () => clearTimeout(timeoutId);
     } catch (err) {
       console.error('Failed to copy quote:', err);
     }
@@ -206,7 +211,7 @@ const ResponseSection = React.memo(({ response, isLoading, selectedText }) => {
         <div className="quotes-section">
           <h3 className="quotes-title">{getWisdomTitle(selectedText)}</h3>
           {processedQuotes.map((quote, index) => (
-            <div key={`${index}-${quote.quote.substring(0, 50)}`} className="quote-card">
+            <div key={quote.id} className="quote-card">
               <div className="quote-content">
                 {/* Quote Section */}
                 <div className="quote-section">
