@@ -2,7 +2,7 @@ import { useState, useCallback, useRef } from 'react';
 import prompts from '../prompts.js';
 
 const API_CONFIG = {
-  OPENAI_PROXY_URL: 'https://epic-backend-1fms2ays2-beingmartinbmcs-projects.vercel.app/api/openai-proxy'
+  OPENAI_PROXY_URL: 'https://epic-backend-wvj1iadh0-beingmartinbmcs-projects.vercel.app/api/openai-proxy'
 };
 
 // Prompt mapping for different sacred texts
