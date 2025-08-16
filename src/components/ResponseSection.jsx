@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { parseSource, getReferenceUrl } from '../utils';
+import { parseSource, getReferenceUrl, formatReferenceDisplay } from '../utils';
 
 // Memoized parsing function to avoid recreating on every render
 const parseResponse = (response) => {
@@ -118,13 +118,15 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
     return parsedData.quotes.map(quote => {
       const { bookName, chapter, verse } = parseSource(quote.source || '');
       const referenceUrl = getReferenceUrl(bookName, `${chapter}:${verse}`);
+      const formattedReference = formatReferenceDisplay(bookName, chapter, verse);
 
       return {
         ...quote,
         parsedSource: bookName,
         chapter,
         verse,
-        referenceUrl
+        referenceUrl,
+        formattedReference
       };
     });
   }, [parsedData.quotes]);
@@ -191,9 +193,9 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
                   <h4 className="section-title">Source</h4>
                   <div className="source-content">
                     <span className="quote-source">{quote.parsedSource}</span>
-                    {quote.chapter && quote.verse && (
+                    {quote.formattedReference && (
                       <span className="quote-reference">
-                        {quote.chapter}:{quote.verse}
+                        {quote.formattedReference}
                       </span>
                     )}
                     {quote.referenceUrl && (
@@ -230,17 +232,6 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
                     <i className="fas fa-copy"></i>
                     {copiedQuote === quote.quote ? ' Copied!' : ' Copy'}
                   </button>
-                  
-                  {quote.referenceUrl && (
-                    <button 
-                      className="btn btn-sm btn-outline-secondary reference-btn"
-                      onClick={() => copyQuote(quote.referenceUrl)}
-                      title="Copy Reference Link"
-                    >
-                      <i className="fas fa-link"></i>
-                      {copiedQuote === quote.referenceUrl ? ' Link Copied!' : ' Show Link'}
-                    </button>
-                  )}
                 </div>
               </div>
             </div>

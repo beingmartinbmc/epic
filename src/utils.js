@@ -305,17 +305,17 @@ export function getReferenceUrl(source, reference) {
 
   // Upanishads
   const upanishadAliases = ['upanishad', 'upanishads', 'उपनिषद', 'उपनिषद्'];
-  const upanishadNames = ['brihadaranyaka', 'chandogya', 'taittiriya', 'aitareya', 'kena', 'katha', 'isha', 'mundaka', 'mandukya', 'prashna'];
+  const upanishadNames = ['brihadaranyaka', 'chandogya', 'taittiriya', 'aitareya', 'kena', 'katha', 'isha', 'mundaka', 'mandukya', 'prashna', 'shvetashvatara', 'kaushitaki', 'maitri'];
   
   for (const upanishad of upanishadNames) {
     if (normalized.includes(upanishad)) {
-      if (!chapter || !verse) return null;
+      if (!chapter) return null;
       return `https://www.sacred-texts.com/hin/upan/${upanishad}.htm`;
     }
   }
   
   if (upanishadAliases.some(alias => normalized.includes(alias))) {
-    if (!chapter || !verse) return null;
+    if (!chapter) return null;
     return `https://www.sacred-texts.com/hin/upan/`;
   }
 
@@ -337,15 +337,37 @@ export function getReferenceUrl(source, reference) {
 
   // Avesta
   const avestaAliases = ['avesta', 'zoroastrian', 'zoroastrianism', 'gathas', 'yasna', 'visperad', 'vendidad', 'yashts', 'khordeh avesta'];
-  const avestaTexts = ['yasna', 'visperad', 'vendidad', 'yashts', 'khordeh avesta'];
   
-  for (const text of avestaTexts) {
-    if (normalized.includes(text)) {
-      if (!chapter) return null;
-      return `https://www.avesta.org/${text}/${text}${chapter}.htm`;
-    }
+  // Check for specific Avesta text types
+  if (normalized.includes('yasna')) {
+    if (!chapter) return null;
+    return `https://www.avesta.org/yasna/yasna${chapter}.htm`;
   }
   
+  if (normalized.includes('yasht') || normalized.includes('yashts')) {
+    if (!chapter) return null;
+    return `https://www.avesta.org/yasht/yasht${chapter}.htm`;
+  }
+  
+  if (normalized.includes('visperad')) {
+    if (!chapter) return null;
+    return `https://www.avesta.org/visperad/visperad${chapter}.htm`;
+  }
+  
+  if (normalized.includes('vendidad')) {
+    if (!chapter) return null;
+    return `https://www.avesta.org/vendidad/vendidad${chapter}.htm`;
+  }
+  
+  if (normalized.includes('khordeh avesta') || normalized.includes('khordeh')) {
+    return `https://www.avesta.org/ka/`;
+  }
+  
+  if (normalized.includes('gathas')) {
+    return `https://www.avesta.org/gathas/`;
+  }
+  
+  // General Avesta fallback
   if (avestaAliases.some(alias => normalized.includes(alias))) {
     if (!chapter) return null;
     return `https://www.avesta.org/`;
@@ -354,6 +376,118 @@ export function getReferenceUrl(source, reference) {
   return null; // Unknown
 }
 
+
+/**
+ * Formats reference display with proper nomenclature for each sacred text
+ * @param {string} bookName - The book name
+ * @param {string} chapter - The chapter number
+ * @param {string} verse - The verse number
+ * @returns {string} Formatted reference string
+ */
+export function formatReferenceDisplay(bookName, chapter, verse) {
+  if (!bookName || !chapter) return '';
+  
+  const normalizedBookName = normalizeBookName(bookName).toLowerCase();
+  
+  // Bhagavad Gita
+  if (normalizedBookName.includes('bhagavad gita') || normalizedBookName.includes('gita')) {
+    return `Adhya ${chapter}${verse ? `, Shlok ${verse}` : ''}`;
+  }
+  
+  // Quran
+  if (normalizedBookName.includes('quran') || normalizedBookName.includes('surah')) {
+    return `Surah ${chapter}${verse ? `, Ayah ${verse}` : ''}`;
+  }
+  
+  // Bible
+  if (normalizedBookName.includes('bible') || normalizedBookName.includes('genesis') || 
+      normalizedBookName.includes('matthew') || normalizedBookName.includes('john') ||
+      normalizedBookName.includes('psalms') || normalizedBookName.includes('proverbs')) {
+    return `Chapter ${chapter}${verse ? `, Verse ${verse}` : ''}`;
+  }
+  
+  // Guru Granth Sahib
+  if (normalizedBookName.includes('guru granth sahib') || normalizedBookName.includes('granth')) {
+    return `Ang ${chapter}`;
+  }
+  
+  // Vedas
+  if (normalizedBookName.includes('rigveda') || normalizedBookName.includes('yajurveda') || 
+      normalizedBookName.includes('samaveda') || normalizedBookName.includes('atharvaveda')) {
+    return `Mandala ${chapter}${verse ? `, Sukta ${verse}` : ''}`;
+  }
+  
+  // Upanishads
+  if (normalizedBookName.includes('upanishad')) {
+    // Handle dot notation for Upanishads (e.g., "6.14.2" becomes "Chapter 6, Section 14, Verse 2")
+    if (verse && verse.includes('.')) {
+      const parts = verse.split('.');
+      if (parts.length === 2) {
+        return `Chapter ${chapter}, Section ${parts[0]}, Verse ${parts[1]}`;
+      } else if (parts.length === 3) {
+        return `Chapter ${chapter}, Section ${parts[0]}, Subsection ${parts[1]}, Verse ${parts[2]}`;
+      }
+    }
+    return `Chapter ${chapter}${verse ? `, Verse ${verse}` : ''}`;
+  }
+  
+  // Tripitaka
+  if (normalizedBookName.includes('tripitaka') || normalizedBookName.includes('tipitaka')) {
+    return `Sutta ${chapter}${verse ? `, Verse ${verse}` : ''}`;
+  }
+  
+  // Tao Te Ching
+  if (normalizedBookName.includes('tao te ching') || normalizedBookName.includes('dao de jing')) {
+    return `Chapter ${chapter}`;
+  }
+  
+  // Analects of Confucius
+  if (normalizedBookName.includes('analects') || normalizedBookName.includes('confucius')) {
+    return `Book ${chapter}${verse ? `, Chapter ${verse}` : ''}`;
+  }
+  
+  // Dhammapada
+  if (normalizedBookName.includes('dhammapada')) {
+    return `Chapter ${chapter}${verse ? `, Verse ${verse}` : ''}`;
+  }
+  
+  // Talmud
+  if (normalizedBookName.includes('talmud')) {
+    return `Tractate ${chapter}${verse ? `, Chapter ${verse}` : ''}`;
+  }
+  
+  // Avesta
+  if (normalizedBookName.includes('yasna')) {
+    return `Yasna ${chapter}${verse ? `, Verse ${verse}` : ''}`;
+  }
+  
+  if (normalizedBookName.includes('yasht')) {
+    return `Yasht ${chapter}${verse ? `, Verse ${verse}` : ''}`;
+  }
+  
+  if (normalizedBookName.includes('visperad')) {
+    return `Visperad ${chapter}${verse ? `, Verse ${verse}` : ''}`;
+  }
+  
+  if (normalizedBookName.includes('vendidad')) {
+    return `Vendidad ${chapter}${verse ? `, Verse ${verse}` : ''}`;
+  }
+  
+  if (normalizedBookName.includes('khordeh avesta') || normalizedBookName.includes('khordeh')) {
+    return `Khordeh Avesta`;
+  }
+  
+  if (normalizedBookName.includes('gathas')) {
+    return `Gathas ${chapter}${verse ? `, Verse ${verse}` : ''}`;
+  }
+  
+  if (normalizedBookName.includes('avesta')) {
+    return `Avesta ${chapter}${verse ? `, Verse ${verse}` : ''}`;
+  }
+  
+  // Default format
+  return `${chapter}${verse ? `:${verse}` : ''}`;
+}
 
 /**
  * Extracts chapter and verse from a source string
@@ -395,6 +529,24 @@ export function parseSource(source) {
     const bookName = vedaMatch[1];
     const chapter = vedaMatch[2];
     const verse = vedaMatch[3] ? (vedaMatch[4] ? `${vedaMatch[3]}.${vedaMatch[4]}` : vedaMatch[3]) : '';
+    return { bookName, chapter, verse };
+  }
+
+  // Handle Avesta format with dot notation (e.g., "Yasna 30.2", "Yasht 17.14")
+  const avestaMatch = source.match(/^(Yasna|Yasht|Visperad|Vendidad|Gathas|Khordeh\s+Avesta)\s*(\d+)(?:\.(\d+))?/i);
+  if (avestaMatch) {
+    const bookName = avestaMatch[1];
+    const chapter = avestaMatch[2];
+    const verse = avestaMatch[3] || '';
+    return { bookName, chapter, verse };
+  }
+
+  // Handle Upanishad format with dot notation (e.g., "Chandogya Upanishad 6.14.2", "Brihadaranyaka Upanishad 4.4.22")
+  const upanishadMatch = source.match(/^(Brihadaranyaka|Chandogya|Taittiriya|Aitareya|Kena|Katha|Isha|Mundaka|Mandukya|Prashna|Shvetashvatara|Kaushitaki|Maitri|Narada|Paramahamsa|Jabala|Kaivalya|Vajrasuchika|Tejobindu|Nadabindu|Dhyanabindu|Brahmabindu|Atmabodha|Sarvasara|Aruneya|Maitreya|Brahmana|Vajrasuchika|Yogatattva|Hamsa|Garbha|Narayana|Paramahamsa|Advayataraka|Rama|Rahasyatraya|Muktika|Shariraka|Akshi|Ekakshara|Annapurna|Surya|Akshamalika|Adhyatma|Savitri|Atma|Prasna|Garbha|Mahavakya|Sandilya|Paingala|Bhikshuka|Turiyatita|Yajnavalkya|Satyayaniya|Muktika|Niralamba|Sarasvatirahasya|Bahvricha|Muktika|Rama|Rahasyatraya|Muktika|Shariraka|Akshi|Ekakshara|Annapurna|Surya|Akshamalika|Adhyatma|Savitri|Atma|Prasna|Garbha|Mahavakya|Sandilya|Paingala|Bhikshuka|Turiyatita|Yajnavalkya|Satyayaniya|Muktika|Niralamba|Sarasvatirahasya|Bahvricha)\s+Upanishad\s*(\d+)(?:\.(\d+))?(?:\.(\d+))?/i);
+  if (upanishadMatch) {
+    const bookName = upanishadMatch[1] + ' Upanishad';
+    const chapter = upanishadMatch[2];
+    const verse = upanishadMatch[3] ? (upanishadMatch[4] ? `${upanishadMatch[3]}.${upanishadMatch[4]}` : upanishadMatch[3]) : '';
     return { bookName, chapter, verse };
   }
 
