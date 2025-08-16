@@ -1,7 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, Suspense, lazy } from 'react';
 import Header from './components/Header';
 import GuidanceForm from './components/GuidanceForm';
-import ResponseSection from './components/ResponseSection';
 import Footer from './components/Footer';
 import BreathingBackground from './components/BreathingBackground';
 import FloatingParticles from './components/FloatingParticles';
@@ -11,6 +10,18 @@ import ScrollToTop from './components/ScrollToTop';
 import { useGuidance } from './hooks/useGuidance';
 import { useTheme } from './hooks/useTheme';
 import './styles/index.css';
+
+// Lazy load heavy components
+const ResponseSection = lazy(() => import('./components/ResponseSection'));
+
+// Loading fallback component
+const ResponseSectionFallback = () => (
+  <div className="response-section-loading">
+    <div className="spinner-border text-primary" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </div>
+  </div>
+);
 
 function App() {
   const [selectedText, setSelectedText] = useState('ALL');
@@ -132,7 +143,10 @@ function App() {
             isLoading={isLoading}
           />
 
-          <ResponseSection response={response} isLoading={isLoading} />
+          {/* Lazy loaded ResponseSection with Suspense */}
+          <Suspense fallback={<ResponseSectionFallback />}>
+            <ResponseSection response={response} isLoading={isLoading} />
+          </Suspense>
         </div>
       </div>
 

@@ -7,22 +7,51 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    // Optimize bundle size
+    // Optimize bundle size with better code splitting
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom'],
-          utils: ['franc-min', 'cld3-asm']
-        }
+          // Core React libraries
+          'react-vendor': ['react', 'react-dom'],
+          // Language detection library (lighter alternative)
+          'language-detection': ['franc-all'],
+          // UI libraries
+          'ui-vendor': ['bootstrap', '@fortawesome/fontawesome-free'],
+          // Application logic
+          'app-core': ['./src/utils.js', './src/config.js'],
+          // Prompts (large file, lazy load)
+          'prompts': ['./src/prompts.js']
+        },
+        // Optimize chunk naming for better caching
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]'
       }
     },
-    // Enable minification with esbuild (default)
+    // Enable aggressive minification
     minify: 'esbuild',
     // Optimize chunk size
-    chunkSizeWarningLimit: 1000
+    chunkSizeWarningLimit: 1000,
+    // Enable source maps for debugging (disable in production)
+    sourcemap: false,
+    // Optimize CSS
+    cssCodeSplit: true,
+    // Enable tree shaking
+    target: 'esnext'
   },
   // Optimize dependencies
   optimizeDeps: {
-    include: ['react', 'react-dom']
+    include: [
+      'react', 
+      'react-dom',
+      'bootstrap',
+      '@fortawesome/fontawesome-free',
+      'franc-all'
+    ]
+  },
+  // Development optimizations
+  server: {
+    // Enable HMR for faster development
+    hmr: true
   }
 })

@@ -1,472 +1,79 @@
 /**
  * Language mappings for book names
  */
-const BOOK_NAME_MAPPINGS = {
-    // Hindi - Bible
-    'मत्ती': 'Matthew',
-    'मरकुस': 'Mark',
-    'लूका': 'Luke',
-    'यूहन्ना': 'John',
-    'प्रेरितों': 'Acts',
-    'रोमियों': 'Romans',
-    'कुरिन्थियों': 'Corinthians',
-    'गलातियों': 'Galatians',
-    'इफिसियों': 'Ephesians',
-    'फिलिप्पियों': 'Philippians',
-    'कुलुस्सियों': 'Colossians',
-    'थिस्सलुनीकियों': 'Thessalonians',
-    'तिमुथियुस': 'Timothy',
-    'तीतुस': 'Titus',
-    'फिलेमोन': 'Philemon',
-    'इब्रानियों': 'Hebrews',
-    'याकूब': 'James',
-    'पतरस': 'Peter',
-    'यहूदा': 'Jude',
-    'प्रकाशितवाक्य': 'Revelation',
-    'उत्पत्ति': 'Genesis',
-    'निर्गम': 'Exodus',
-    'लैव्यव्यवस्था': 'Leviticus',
-    'गिनती': 'Numbers',
-    'व्यवस्थाविवरण': 'Deuteronomy',
-    'यहोशू': 'Joshua',
-    'न्यायियों': 'Judges',
-    'यूलूसेज': 'Judges',
-    'रूत': 'Ruth',
-    'शमूएल': 'Samuel',
-    'राजाओं': 'Kings',
-    'इतिहास': 'Chronicles',
-    'एज्रा': 'Ezra',
-    'नहेमायाह': 'Nehemiah',
-    'एस्तर': 'Esther',
-    'अय्यूब': 'Job',
-    'भजन संहिता': 'Psalms',
-    'नीतिवचन': 'Proverbs',
-    'सभोपदेशक': 'Ecclesiastes',
-    'श्रेष्ठगीत': 'Song of Solomon',
-    'यशायाह': 'Isaiah',
-    'यिर्मयाह': 'Jeremiah',
-    'विलापगीत': 'Lamentations',
-    'यहेजकेल': 'Ezekiel',
-    'दानिय्येल': 'Daniel',
-    'होशे': 'Hosea',
-    'योएल': 'Joel',
-    'आमोस': 'Amos',
-    'ओबद्याह': 'Obadiah',
-    'योना': 'Jonah',
-    'मीखाह': 'Micah',
-    'नहूम': 'Nahum',
-    'हबकूक': 'Habakkuk',
-    'सपन्याह': 'Zephaniah',
-    'हाग्गै': 'Haggai',
-    'जकर्याह': 'Zechariah',
-    'मलाकी': 'Malachi',
+import bookNameMappingsData from './data/book-name-mappings.json';
 
-    // Hindi - Gita
-    'भगवद गीता': 'Bhagavad Gita',
-    'श्रीमद्भगवद्गीता': 'Bhagavad Gita',
-    'गीता': 'Bhagavad Gita',
-    'भगवद्गीता': 'Bhagavad Gita',
-    'श्रीमद्भगवद गीता': 'Bhagavad Gita',
-
-    // Hindi - Quran
-    'क़ुरआन': 'Quran',
-    'क़ुरान': 'Quran',
-    'कुरान': 'Quran',
-    'कुरआन': 'Quran',
-    'पवित्र कुरान': 'Quran',
-    'कुरान शरीफ': 'Quran',
-
-    // Hindi - Guru Granth Sahib
-    'गुरु ग्रंथ साहिब': 'Guru Granth Sahib',
-    'गुरु ग्रंथ': 'Guru Granth Sahib',
-    'ग्रंथ साहिब': 'Guru Granth Sahib',
-    'गुरु ग्रंथ साहिब जी': 'Guru Granth Sahib',
-
-    // Hindi - Tripitaka
-    'त्रिपिटक': 'Tripitaka',
-    'तीपिटक': 'Tripitaka',
-    'पालि कैनन': 'Tripitaka',
-    'बौद्ध ग्रंथ': 'Tripitaka',
-    'धम्मपद': 'Dhammapada',
-    'सुत्त पिटक': 'Sutta Pitaka',
-    'विनय पिटक': 'Vinaya Pitaka',
-    'अभिधम्म पिटक': 'Abhidhamma Pitaka',
-
-    // Spanish - Bible
-    'Mateo': 'Matthew',
-    'Juan': 'John',
-    'Hechos': 'Acts',
-    'Corintios': 'Corinthians',
-    'Efesios': 'Ephesians',
-    'Filipenses': 'Philippians',
-    'Colosenses': 'Colossians',
-    'Tesalonicenses': 'Thessalonians',
-    'Timoteo': 'Timothy',
-    'Filemón': 'Philemon',
-    'Hebreos': 'Hebrews',
-    'Santiago': 'James',
-    'Apocalipsis': 'Revelation',
-    'Génesis': 'Genesis',
-    'Éxodo': 'Exodus',
-    'Deuteronomio': 'Deuteronomy',
-    'Jueces': 'Judges',
-    'Proverbios': 'Proverbs',
-    'Eclesiastés': 'Ecclesiastes',
-    'Cantares': 'Song of Solomon',
-    'Jeremías': 'Jeremiah',
-    'Lamentaciones': 'Lamentations',
-    'Oseas': 'Hosea',
-    'Abdías': 'Obadiah',
-    'Jonás': 'Jonah',
-    'Miqueas': 'Micah',
-    'Nahúm': 'Nahum',
-    'Sofonías': 'Zephaniah',
-    'Hageo': 'Haggai',
-    'Zacarías': 'Zechariah',
-    'Malaquías': 'Malachi',
-
-    // Spanish - Gita
-    'El Bhagavad Gita': 'Bhagavad Gita',
-
-    // Spanish - Quran
-    'Corán': 'Quran',
-    'El Corán': 'Quran',
-    'Corán Sagrado': 'Quran',
-    'El Corán Sagrado': 'Quran',
-
-    // Spanish - Guru Granth Sahib
-    'El Guru Granth Sahib': 'Guru Granth Sahib',
-
-    // Spanish - Tripitaka
-    'El Tripitaka': 'Tripitaka',
-    'El Tipitaka': 'Tripitaka',
-    'El Canon Pali': 'Tripitaka',
-    'Las Escrituras Budistas': 'Tripitaka',
-    'El Dhammapada': 'Dhammapada',
-
-    // Portuguese - Bible
-    'Mateus': 'Matthew',
-    'Marcos': 'Mark',
-    'Lucas': 'Luke',
-    'João': 'John',
-    'Atos': 'Acts',
-    'Romanos': 'Romans',
-    'Coríntios': 'Corinthians',
-    'Gálatas': 'Galatians',
-    'Efésios': 'Ephesians',
-    'Filipenses': 'Philippians',
-    'Colossenses': 'Colossians',
-    'Tessalonicenses': 'Thessalonians',
-    'Timóteo': 'Timothy',
-    'Tito': 'Titus',
-    'Filemom': 'Philemon',
-    'Hebreus': 'Hebrews',
-    'Tiago': 'James',
-    'Pedro': 'Peter',
-    'Apocalipse': 'Revelation',
-    'Gênesis': 'Genesis',
-    'Êxodo': 'Exodus',
-    'Levítico': 'Leviticus',
-    'Números': 'Numbers',
-    'Deuteronômio': 'Deuteronomy',
-    'Juízes': 'Judges',
-    'Rute': 'Ruth',
-    'Salmos': 'Psalms',
-    'Provérbios': 'Proverbs',
-    'Eclesiastes': 'Ecclesiastes',
-    'Cânticos': 'Song of Solomon',
-    'Isaías': 'Isaiah',
-    'Jeremias': 'Jeremiah',
-    'Lamentações': 'Lamentations',
-    'Ezequiel': 'Ezekiel',
-    'Oséias': 'Hosea',
-    'Amós': 'Amos',
-    'Obadias': 'Obadiah',
-    'Miquéias': 'Micah',
-    'Naum': 'Nahum',
-    'Habacuque': 'Habakkuk',
-    'Sofonias': 'Zephaniah',
-    'Ageu': 'Haggai',
-    'Zacarias': 'Zechariah',
-    'Malaquias': 'Malachi',
-
-    // Portuguese - Gita
-    'O Bhagavad Gita': 'Bhagavad Gita',
-    'A Gita': 'Bhagavad Gita',
-
-    // Portuguese - Quran
-    'Alcorão': 'Quran',
-    'O Alcorão': 'Quran',
-    'Alcorão Sagrado': 'Quran',
-    'O Alcorão Sagrado': 'Quran',
-
-    // Portuguese - Guru Granth Sahib
-    'O Guru Granth Sahib': 'Guru Granth Sahib',
-
-    // Portuguese - Tripitaka
-    'O Tripitaka': 'Tripitaka',
-    'O Tipitaka': 'Tripitaka',
-    'O Canon Pali': 'Tripitaka',
-    'As Escrituras Budistas': 'Tripitaka',
-    'O Dhammapada': 'Dhammapada',
-
-    // French - Bible
-    'Matthieu': 'Matthew',
-    'Marc': 'Mark',
-    'Luc': 'Luke',
-    'Jean': 'John',
-    'Actes': 'Acts',
-    'Romains': 'Romans',
-    'Corinthiens': 'Corinthians',
-    'Galates': 'Galatians',
-    'Éphésiens': 'Ephesians',
-    'Philippiens': 'Philippians',
-    'Colossiens': 'Colossians',
-    'Thessaloniciens': 'Thessalonians',
-    'Timothée': 'Timothy',
-    'Tite': 'Titus',
-    'Philémon': 'Philemon',
-    'Hébreux': 'Hebrews',
-    'Jacques': 'James',
-    'Pierre': 'Peter',
-    'Apocalypse': 'Revelation',
-    'Genèse': 'Genesis',
-    'Exode': 'Exodus',
-    'Lévitique': 'Leviticus',
-    'Nombres': 'Numbers',
-    'Deutéronome': 'Deuteronomy',
-    'Josué': 'Joshua',
-    'Juges': 'Judges',
-    'Psaumes': 'Psalms',
-    'Proverbes': 'Proverbs',
-    'Ecclésiaste': 'Ecclesiastes',
-    'Cantique': 'Song of Solomon',
-    'Ésaïe': 'Isaiah',
-    'Jérémie': 'Jeremiah',
-    'Ézéchiel': 'Ezekiel',
-    'Osée': 'Hosea',
-    'Joël': 'Joel',
-    'Abdias': 'Obadiah',
-    'Jonas': 'Jonah',
-    'Michée': 'Micah',
-    'Habacuc': 'Habakkuk',
-    'Sophonie': 'Zephaniah',
-    'Aggée': 'Haggai',
-    'Zacharie': 'Zechariah',
-    'Malachie': 'Malachi',
-
-    // French - Gita
-    'Le Bhagavad Gita': 'Bhagavad Gita',
-    'La Gita': 'Bhagavad Gita',
-
-    // French - Quran
-    'Coran': 'Quran',
-    'Le Coran': 'Quran',
-    'Coran Sacré': 'Quran',
-    'Le Coran Sacré': 'Quran',
-
-    // French - Guru Granth Sahib
-    'Le Guru Granth Sahib': 'Guru Granth Sahib',
-
-    // French - Tripitaka
-    'Le Tripitaka': 'Tripitaka',
-    'Le Tipitaka': 'Tripitaka',
-    'Le Canon Pali': 'Tripitaka',
-    'Les Ecritures Bouddhiques': 'Tripitaka',
-    'Le Dhammapada': 'Dhammapada',
-
-    // German - Bible
-    'Matthäus': 'Matthew',
-    'Markus': 'Mark',
-    'Lukas': 'Luke',
-    'Johannes': 'John',
-    'Apostelgeschichte': 'Acts',
-    'Römer': 'Romans',
-    'Korinther': 'Corinthians',
-    'Galater': 'Galatians',
-    'Epheser': 'Ephesians',
-    'Philipper': 'Philippians',
-    'Kolosser': 'Colossians',
-    'Thessalonicher': 'Thessalonians',
-    'Timotheus': 'Timothy',
-    'Hebräer': 'Hebrews',
-    'Jakobus': 'James',
-    'Petrus': 'Peter',
-    'Judas': 'Jude',
-    'Offenbarung': 'Revelation',
-    '1. Mose': 'Genesis',
-    '2. Mose': 'Exodus',
-    '3. Mose': 'Leviticus',
-    '4. Mose': 'Numbers',
-    '5. Mose': 'Deuteronomy',
-    'Josua': 'Joshua',
-    'Richter': 'Judges',
-    'Rut': 'Ruth',
-    'Psalmen': 'Psalms',
-    'Sprüche': 'Proverbs',
-    'Prediger': 'Ecclesiastes',
-    'Hohelied': 'Song of Solomon',
-    'Jesaja': 'Isaiah',
-    'Jeremia': 'Jeremiah',
-    'Klagelieder': 'Lamentations',
-    'Hesekiel': 'Ezekiel',
-    'Obadja': 'Obadiah',
-    'Jona': 'Jonah',
-    'Micha': 'Micah',
-    'Habakuk': 'Habakkuk',
-    'Zefanja': 'Zephaniah',
-    'Sacharja': 'Zechariah',
-    'Maleachi': 'Malachi',
-
-    // German - Gita
-    'Die Bhagavad Gita': 'Bhagavad Gita',
-    'Die Gita': 'Bhagavad Gita',
-
-    // German - Quran
-    'Der Koran': 'Quran',
-    'Heiliger Koran': 'Quran',
-    'Der Heilige Koran': 'Quran',
-
-    // German - Guru Granth Sahib
-    'Der Guru Granth Sahib': 'Guru Granth Sahib',
-
-    // German - Tripitaka
-    'Der Tripitaka': 'Tripitaka',
-    'Der Tipitaka': 'Tripitaka',
-    'Der Pali-Kanon': 'Tripitaka',
-    'Die Buddhistischen Schriften': 'Tripitaka',
-    'Der Dhammapada': 'Dhammapada',
-
-    // English - Bible
-    'Matthew': 'Matthew',
-    'Mark': 'Mark',
-    'Luke': 'Luke',
-    'John': 'John',
-    'Acts': 'Acts',
-    'Romans': 'Romans',
-    'Corinthians': 'Corinthians',
-    'Galatians': 'Galatians',
-    'Ephesians': 'Ephesians',
-    'Philippians': 'Philippians',
-    'Colossians': 'Colossians',
-    'Thessalonians': 'Thessalonians',
-    'Timothy': 'Timothy',
-    'Titus': 'Titus',
-    'Philemon': 'Philemon',
-    'Hebrews': 'Hebrews',
-    'James': 'James',
-    'Peter': 'Peter',
-    'Jude': 'Jude',
-    'Revelation': 'Revelation',
-    'Genesis': 'Genesis',
-    'Exodus': 'Exodus',
-    'Leviticus': 'Leviticus',
-    'Numbers': 'Numbers',
-    'Deuteronomy': 'Deuteronomy',
-    'Joshua': 'Joshua',
-    'Judges': 'Judges',
-    'Ruth': 'Ruth',
-    'Psalms': 'Psalms',
-    'Proverbs': 'Proverbs',
-    'Ecclesiastes': 'Ecclesiastes',
-    'Song of Solomon': 'Song of Solomon',
-    'Isaiah': 'Isaiah',
-    'Jeremiah': 'Jeremiah',
-    'Lamentations': 'Lamentations',
-    'Ezekiel': 'Ezekiel',
-    'Daniel': 'Daniel',
-    'Hosea': 'Hosea',
-    'Joel': 'Joel',
-    'Amos': 'Amos',
-    'Obadiah': 'Obadiah',
-    'Jonah': 'Jonah',
-    'Micah': 'Micah',
-    'Nahum': 'Nahum',
-    'Habakkuk': 'Habakkuk',
-    'Zephaniah': 'Zephaniah',
-    'Haggai': 'Haggai',
-    'Zechariah': 'Zechariah',
-    'Malachi': 'Malachi',
-
-    // English - Gita
-    'Bhagavad Gita': 'Bhagavad Gita',
-    'Bhagwat Gita': 'Bhagavad Gita',
-    'Bhagwad Gita': 'Bhagavad Gita',
-    'Shrimad Bhagavad Gita': 'Bhagavad Gita',
-    'The Bhagavad Gita': 'Bhagavad Gita',
-    'Gita': 'Bhagavad Gita',
-
-    // English - Quran
-    'Quran': 'Quran',
-    'Al-Quran': 'Quran',
-    'Al-Qur\'an': 'Quran',
-    'Koran': 'Quran',
-    'Holy Quran': 'Quran',
-    'The Quran': 'Quran',
-    'The Holy Quran': 'Quran',
-
-    // English - Guru Granth Sahib
-    'Guru Granth Sahib': 'Guru Granth Sahib',
-    'Guru Granth': 'Guru Granth Sahib',
-    'Granth Sahib': 'Guru Granth Sahib',
-    'Adi Granth': 'Guru Granth Sahib',
-    'The Guru Granth Sahib': 'Guru Granth Sahib',
-
-    // English - Tripitaka
-    'Tripitaka': 'Tripitaka',
-    'The Tripitaka': 'Tripitaka',
-    'Tipitaka': 'Tripitaka',
-    'The Tipitaka': 'Tipitaka',
-    'Pali Canon': 'Tripitaka',
-    'The Pali Canon': 'Tripitaka',
-    'Buddhist Scriptures': 'Tripitaka',
-    'Buddhist Canon': 'Tripitaka',
-    'Dhammapada': 'Dhammapada',
-    'The Dhammapada': 'Dhammapada',
-    'Sutta Pitaka': 'Sutta Pitaka',
-    'Vinaya Pitaka': 'Vinaya Pitaka',
-    'Abhidhamma Pitaka': 'Abhidhamma Pitaka',
-    'Majjhima Nikaya': 'Majjhima Nikaya',
-    'Digha Nikaya': 'Digha Nikaya',
-    'Samyutta Nikaya': 'Samyutta Nikaya',
-    'Anguttara Nikaya': 'Anguttara Nikaya',
-
-    // Arabic - Quran
-    'القرآن': 'Quran',
-    'القرآن الكريم': 'Quran',
-    'القرآن المجيد': 'Quran',
-    'كتاب الله': 'Quran',
-
-    // Punjabi - Guru Granth Sahib
-    'ਗੁਰੂ ਗ੍ਰੰਥ ਸਾਹਿਬ': 'Guru Granth Sahib',
-    'ਗੁਰੂ ਗ੍ਰੰਥ': 'Guru Granth Sahib',
-    'ਗ੍ਰੰਥ ਸਾਹਿਬ': 'Guru Granth Sahib',
-    'ਗੁਰੂ ਗ੍ਰੰਥ ਸਾਹਿਬ ਜੀ': 'Guru Granth Sahib',
-
-    // Urdu - Quran
-    'قرآن': 'Quran',
-    'قرآن پاک': 'Quran',
-    'قرآن مجید': 'Quran',
-
-    // Hindi - Vedas
-    'वेद': 'Vedas',
-    'ऋग्वेद': 'Rigveda',
-    'यजुर्वेद': 'Yajurveda',
-    'सामवेद': 'Samaveda',
-    'अथर्ववेद': 'Atharvaveda',
-    // English - Vedas (with and without space)
-    'Rigveda': 'Rigveda',
-    'Rig Veda': 'Rigveda',
-    'Yajurveda': 'Yajurveda',
-    'Yajur Veda': 'Yajurveda',
-    'Samaveda': 'Samaveda',
-    'Sama Veda': 'Samaveda',
-    'Atharvaveda': 'Atharvaveda',
-    'Atharva Veda': 'Atharvaveda'
-};
+const BOOK_NAME_MAPPINGS = bookNameMappingsData;
 
 // Simple cache for book name normalization
 const bookNameCache = new Map();
+
+// Performance monitoring utilities
+const performanceMetrics = {
+  parseTimes: [],
+  renderTimes: [],
+  apiCallTimes: []
+};
+
+// Performance monitoring functions
+export const performanceMonitor = {
+  startTimer: (name) => {
+    return performance.now();
+  },
+  
+  endTimer: (name, startTime) => {
+    const duration = performance.now() - startTime;
+    if (performanceMetrics[name]) {
+      performanceMetrics[name].push(duration);
+      // Keep only last 100 measurements
+      if (performanceMetrics[name].length > 100) {
+        performanceMetrics[name].shift();
+      }
+    }
+    return duration;
+  },
+  
+  getAverageTime: (name) => {
+    const times = performanceMetrics[name] || [];
+    if (times.length === 0) return 0;
+    return times.reduce((sum, time) => sum + time, 0) / times.length;
+  },
+  
+  logMetrics: () => {
+    console.log('Performance Metrics:', {
+      averageParseTime: performanceMonitor.getAverageTime('parseTimes'),
+      averageRenderTime: performanceMonitor.getAverageTime('renderTimes'),
+      averageApiCallTime: performanceMonitor.getAverageTime('apiCallTimes')
+    });
+  }
+};
+
+// Debounce utility for performance optimization
+export const debounce = (func, wait) => {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+};
+
+// Throttle utility for performance optimization
+export const throttle = (func, limit) => {
+  let inThrottle;
+  return function() {
+    const args = arguments;
+    const context = this;
+    if (!inThrottle) {
+      func.apply(context, args);
+      inThrottle = true;
+      setTimeout(() => inThrottle = false, limit);
+    }
+  };
+};
 
 /**
  * Normalizes a book name by translating it to English if it's in another language
@@ -474,24 +81,24 @@ const bookNameCache = new Map();
  * @returns {string} The English book name
  */
 function normalizeBookName(bookName) {
-    if (!bookName) return '';
-    
-    // Check cache first
-    if (bookNameCache.has(bookName)) {
-        return bookNameCache.get(bookName);
-    }
-    
-    // First check if it's already in English
-    const englishBookNames = Object.values(BOOK_NAME_MAPPINGS);
-    if (englishBookNames.includes(bookName)) {
-        bookNameCache.set(bookName, bookName);
-        return bookName;
-    }
-    
-    // Check if it's a translated name and return the English equivalent
-    const result = BOOK_NAME_MAPPINGS[bookName] || bookName;
-    bookNameCache.set(bookName, result);
-    return result;
+  if (!bookName) return '';
+  
+  // Check cache first
+  if (bookNameCache.has(bookName)) {
+    return bookNameCache.get(bookName);
+  }
+  
+  // First check if it's already in English
+  const englishBookNames = Object.values(BOOK_NAME_MAPPINGS);
+  if (englishBookNames.includes(bookName)) {
+    bookNameCache.set(bookName, bookName);
+    return bookName;
+  }
+  
+  // Check if it's a translated name and return the English equivalent
+  const result = BOOK_NAME_MAPPINGS[bookName] || bookName;
+  bookNameCache.set(bookName, result);
+  return result;
 }
 
 /**
@@ -501,324 +108,250 @@ function normalizeBookName(bookName) {
  * @returns {string|null} The reference URL or null if no valid URL can be generated
  */
 export function getReferenceUrl(source, reference) {
-    if (!source || !reference) return null;
+  if (!source || !reference) return null;
 
-    // Normalize the source to handle translated book names
-    const normalizedSource = normalizeBookName(source);
-    const normalized = normalizedSource.toLowerCase().replace(/[^a-z0-9]/g, '');
+  // Normalize the source to handle translated book names
+  const normalizedSource = normalizeBookName(source);
+  const normalized = normalizedSource.toLowerCase().replace(/[^a-z0-9]/g, '');
 
-    // Handle different reference formats
-    let chapter, verse;
+  // Handle different reference formats
+  let chapter, verse;
+  
+  // Check if it's a Guru Granth Sahib Ang reference (e.g., "Ang 786" or "अंग 1")
+  const angMatch = reference.match(/(?:Ang|अंग)\s*(\d+)/i);
+  if (angMatch) {
+    chapter = angMatch[1];
+    verse = null;
+  } else if (/^\d+\.\d+(?:\.\d+)?$/.test(reference)) {
+    // Handle dot notation for Vedas (e.g., 10.85.23)
+    const parts = reference.split('.');
+    chapter = parts[0];
+    verse = parts.slice(1).join('.') || null;
+  } else {
+    // Standard chapter:verse format
+    const [chapterRaw, verseRaw] = reference.split(':').map(part => part.trim());
+    if (!chapterRaw) return null;
     
-    // Check if it's a Guru Granth Sahib Ang reference (e.g., "Ang 786" or "अंग 1")
-    const angMatch = reference.match(/(?:Ang|अंग)\s*(\d+)/i);
-    if (angMatch) {
-        chapter = angMatch[1];
-        verse = null;
-    } else if (/^\d+\.\d+(?:\.\d+)?$/.test(reference)) {
-        // Handle dot notation for Vedas (e.g., 10.85.23)
-        const parts = reference.split('.');
-        chapter = parts[0];
-        verse = parts.slice(1).join('.') || null;
-    } else {
-        // Standard chapter:verse format
-        const [chapterRaw, verseRaw] = reference.split(':').map(part => part.trim());
-        if (!chapterRaw) return null;
+    chapter = chapterRaw.replace(/[^0-9]/g, '');
+    verse = verseRaw ? verseRaw.replace(/[^0-9]/g, '') : null;
+  }
+
+  // Quran Aliases - Handle both English and transliterated names
+  const quranAliases = ['quran', 'alquran', 'alqur\'an', 'koran', 'surah', 'sura', 'holyquran', 'सूरह', 'सूरा'];
+  if (quranAliases.some(alias => normalized.includes(alias)) || 
+      normalizedSource.toLowerCase().includes('surah') || 
+      normalizedSource.toLowerCase().includes('sura')) {
+    if (!verse) return null;
+    return `https://quran.com/${chapter}/${verse}`;
+  }
+
+  // Bhagavad Gita Aliases
+  const gitaAliases = ['bhagavadgita', 'gita', 'bhagwatgita', 'shrimadbhagavadgita', 'bhagavad', 'भगवद गीता', 'भगवद', 'गीता'];
+  if (gitaAliases.some(alias => normalized.includes(alias))) {
+    if (!verse) return null;
+    return `https://bhagavadgita.io/chapter/${chapter}/verse/${verse}`;
+  }
+
+  // Guru Granth Sahib - Handle both English and transliterated names
+  const ggsAliases = ['granth', 'guru', 'sahib', 'gurugranthsahib', 'गुरु ग्रंथ साहिब', 'गुरु', 'ग्रंथ', 'साहिब'];
+  if (ggsAliases.some(alias => normalized.includes(alias)) || 
+      normalizedSource.toLowerCase().includes('guru granth sahib') ||
+      normalizedSource.toLowerCase().includes('गुरु ग्रंथ साहिब')) {
+    // For Guru Granth Sahib, the chapter is the Ang (page) number
+    return `https://www.searchgurbani.com/guru-granth-sahib/ang/${chapter}`;
+  }
+
+  // Vedas - Check for exact matches first, then aliases
+  const vedaAliases = ['rigveda', 'yajurveda', 'samaveda', 'atharvaveda'];
+
+  for (const veda of vedaAliases) {
+    if (normalized.includes(veda)) {
+      if (!chapter) return null;
+
+      if (veda === 'rigveda') {
+        if (!chapter || !verse) return null;
+        // Rigveda format: rv{book}{hymn}.htm (book padded to 3 digits, hymn padded to 2 digits)
+        // For "Rigveda 10.71.1", we want Book 10, Hymn 71, so rv10071.htm
+        const paddedBook = String(chapter).padStart(3, '0');
+        const paddedHymn = String(verse).padStart(2, '0');
         
-        chapter = chapterRaw.replace(/[^0-9]/g, '');
-        verse = verseRaw ? verseRaw.replace(/[^0-9]/g, '') : null;
-    }
-
-    // Quran Aliases - Handle both English and transliterated names
-    const quranAliases = ['quran', 'alquran', 'alqur\'an', 'koran', 'surah', 'sura', 'holyquran', 'सूरह', 'सूरा'];
-    if (quranAliases.some(alias => normalized.includes(alias)) || 
-        normalizedSource.toLowerCase().includes('surah') || 
-        normalizedSource.toLowerCase().includes('sura')) {
-        if (!verse) return null;
-        return `https://quran.com/${chapter}/${verse}`;
-    }
-
-    // Bhagavad Gita Aliases
-    const gitaAliases = ['bhagavadgita', 'gita', 'bhagwatgita', 'shrimadbhagavadgita', 'bhagavad', 'भगवद गीता', 'भगवद', 'गीता'];
-    if (gitaAliases.some(alias => normalized.includes(alias))) {
-        if (!verse) return null;
-        return `https://bhagavadgita.io/chapter/${chapter}/verse/${verse}`;
-    }
-
-    // Guru Granth Sahib - Handle both English and transliterated names
-    const ggsAliases = ['granth', 'guru', 'sahib', 'gurugranthsahib', 'गुरु ग्रंथ साहिब', 'गुरु', 'ग्रंथ', 'साहिब'];
-    if (ggsAliases.some(alias => normalized.includes(alias)) || 
-        normalizedSource.toLowerCase().includes('guru granth sahib') ||
-        normalizedSource.toLowerCase().includes('गुरु ग्रंथ साहिब')) {
-        // For Guru Granth Sahib, the chapter is the Ang (page) number
-        return `https://www.searchgurbani.com/guru-granth-sahib/ang/${chapter}`;
-    }
-
-    // Vedas - Check for exact matches first, then aliases
-    const vedaAliases = ['rigveda', 'yajurveda', 'samaveda', 'atharvaveda'];
-
-    for (const veda of vedaAliases) {
-        if (normalized.includes(veda)) {
-            if (!chapter) return null;
-
-            if (veda === 'rigveda') {
-                if (!chapter || !verse) return null;
-                // Rigveda format: rv{book}{hymn}.htm (book padded to 3 digits, hymn padded to 2 digits)
-                // For "Rigveda 10.71.1", we want Book 10, Hymn 71, so rv10071.htm
-                const paddedBook = String(chapter).padStart(3, '0');
-                const paddedHymn = String(verse).padStart(2, '0');
-                
-                // Known hymn counts for each book (approximate)
-                const bookHymnCounts = {
-                    1: 191, 2: 43, 3: 62, 4: 58, 5: 87, 6: 75, 7: 104, 8: 103, 9: 114, 10: 99
-                };
-                
-                // If the hymn number exceeds the known count for that book, link to book index
-                if (bookHymnCounts[parseInt(chapter)] && parseInt(verse) > bookHymnCounts[parseInt(chapter)]) {
-                    return `https://www.sacred-texts.com/hin/rigveda/rvi${String(chapter).padStart(2, '0')}.htm`;
-                }
-                
-                return `https://www.sacred-texts.com/hin/rigveda/rv${paddedBook}${paddedHymn}.htm`;
-            }
-
-            if (veda === 'atharvaveda') {
-                const padded = String(chapter).padStart(2, '0');
-                return `https://www.sacred-texts.com/hin/av/avbook${padded}.htm`;
-            }
-
-            if (veda === 'samaveda') {
-                if (!chapter) return null;
-                const padded = String(chapter).padStart(2, '0');
-                return `https://www.sacred-texts.com/hin/sv/sv${padded}.htm`;
-            }
-
-            if (veda === 'yajurveda') {
-                if (!chapter) return null;
-                const padded = String(chapter).padStart(2, '0');
-                return `https://www.sacred-texts.com/hin/yv/yv${padded}.htm`;
-            }
-        }
-    }
-
-    // Bible detection using book names and fallback on "bible" keyword
-    // Handle both English and transliterated names
-    const bibleBooksRegex = /\b(genesis|exodus|leviticus|numbers|deuteronomy|joshua|judges|ruth|samuel|kings|chronicles|ezra|nehemiah|esther|job|psalms?|proverbs?|ecclesiastes|songofsolomon|isaiah|jeremiah|lamentations|ezekiel|daniel|hosea|joel|amos|obadiah|jonah|micah|nahum|habakkuk|zephaniah|haggai|zechariah|malachi|matthew|mark|luke|john|acts|romans|corinthians|galatians|ephesians|philippians|colossians|thessalonians|timothy|titus|philemon|hebrews|james|peter|jude|revelation|यूलूसेज|यूहन्ना|मत्ती|मरकुस|लूका|प्रेरितों|रोमियों|कुरिन्थियों|गलातियों|इफिसियों|फिलिप्पियों|कुलुस्सियों|थिस्स्सलुनीकियों|तीमुथियुस|तीतुस|फिलेमोन|इब्रानियों|याकूब|पतरस|यहूदा|प्रकाशितवाक्य)\b/i;
-
-    if (bibleBooksRegex.test(normalizedSource) || 
-        normalized.includes('bible') || 
-        normalized.includes('holybible') ||
-        normalizedSource.toLowerCase().includes('यूलूसेज')) {
-        
-        const cleanSource = normalizedSource.replace(/\b(Holy\s)?Bible\b/i, '').trim();
-        // Remove "The" from the beginning of Bible book names
-        const cleanBookName = cleanSource.replace(/^The\s+/i, '');
-        const formattedRef = verse ? `${chapter}:${verse}` : chapter;
-        
-        // Handle transliterated book names
-        const bookNameMap = {
-            'यूलूसेज': 'Judges',
-            'यूहन्ना': 'John',
-            'मत्ती': 'Matthew',
-            'मरकुस': 'Mark',
-            'लूका': 'Luke',
-            'प्रेरितों': 'Acts',
-            'रोमियों': 'Romans',
-            'कुरिन्थियों': 'Corinthians',
-            'गलातियों': 'Galatians',
-            'इफिसियों': 'Ephesians',
-            'फिलिप्पियों': 'Philippians',
-            'कुलुस्सियों': 'Colossians',
-            'थिस्स्सलुनीकियों': 'Thessalonians',
-            'तीमुथियुस': 'Timothy',
-            'तीतुस': 'Titus',
-            'फिलेमोन': 'Philemon',
-            'इब्रानियों': 'Hebrews',
-            'याकूब': 'James',
-            'पतरस': 'Peter',
-            'यहूदा': 'Jude',
-            'प्रकाशितवाक्य': 'Revelation'
+        // Known hymn counts for each book (approximate)
+        const bookHymnCounts = {
+          1: 191, 2: 43, 3: 62, 4: 58, 5: 87, 6: 75, 7: 104, 8: 103, 9: 114, 10: 99
         };
         
-        let book = cleanBookName;
-        for (const [hindi, english] of Object.entries(bookNameMap)) {
-            if (cleanBookName.includes(hindi)) {
-                book = english;
-                break;
-            }
+        // If the hymn number exceeds the known count for that book, link to book index
+        if (bookHymnCounts[parseInt(chapter)] && parseInt(verse) > bookHymnCounts[parseInt(chapter)]) {
+          return `https://www.sacred-texts.com/hin/rigveda/rvi${String(chapter).padStart(2, '0')}.htm`;
         }
         
-        const formattedBook = book.replace(/\s+/g, '+');
-        return `https://www.biblegateway.com/passage/?search=${formattedBook}+${formattedRef}`;
-    }
+        return `https://www.sacred-texts.com/hin/rigveda/rv${paddedBook}${paddedHymn}.htm`;
+      }
 
-    // Buddhist Texts - Tripitaka, Nikayas, and other Buddhist scriptures
-    const buddhistAliases = ['tripitaka', 'tipitaka', 'palicanon', 'buddhistscriptures', 'buddhistcanon', 'dhammapada', 'suttapitaka', 'vinayapitaka', 'abhidhammapitaka', 'majjhimanikaya', 'dighanikaya', 'samyuttanikaya', 'anguttaranikaya', 'त्रिपिटक', 'तीपिटक', 'पालि कैनन', 'बौद्ध ग्रंथ', 'धम्मपद', 'सुत्त पिटक', 'विनय पिटक', 'अभिधम्म पिटक'];
-    
-    if (buddhistAliases.some(alias => normalized.includes(alias)) || 
-        normalizedSource.toLowerCase().includes('nikaya') ||
-        normalizedSource.toLowerCase().includes('pitaka') ||
-        normalizedSource.toLowerCase().includes('dhammapada')) {
-        
-        // Handle different Buddhist text formats
-        const sourceLower = normalizedSource.toLowerCase();
-        
-        // Dhammapada
-        if (sourceLower.includes('dhammapada') || sourceLower.includes('धम्मपद')) {
-            if (!verse) return null;
-            return `https://www.dhammatalks.org/suttas/KN/Dhp/Ch${chapter.padStart(2, '0')}.html`;
-        }
-        
-        // Majjhima Nikaya
-        if (sourceLower.includes('majjhima') || sourceLower.includes('majjhima nikaya')) {
-            if (!verse) return null;
-            return `https://www.dhammatalks.org/suttas/MN/MN${chapter}.html`;
-        }
-        
-        // Digha Nikaya
-        if (sourceLower.includes('digha') || sourceLower.includes('digha nikaya')) {
-            if (!verse) return null;
-            return `https://www.dhammatalks.org/suttas/DN/DN${chapter.padStart(2, '0')}.html`;
-        }
-        
-        // Samyutta Nikaya
-        if (sourceLower.includes('samyutta') || sourceLower.includes('samyutta nikaya')) {
-            if (!verse) return null;
-            return `https://www.dhammatalks.org/suttas/SN/SN${chapter}_${verse}.html`;
-        }
-        
-        // Anguttara Nikaya
-        if (sourceLower.includes('anguttara') || sourceLower.includes('anguttara nikaya')) {
-            if (!verse) return null;
-            return `https://www.dhammatalks.org/suttas/AN/AN${chapter}_${verse}.html`;
-        }
-        
-        // Vinaya Pitaka
-        if (sourceLower.includes('vinaya') || sourceLower.includes('vinaya pitaka') || sourceLower.includes('विनय पिटक')) {
-            if (!verse) return null;
-            return `https://www.dhammatalks.org/suttas/Vin/Mv/Mv${chapter}.html`;
-        }
-        
-        // Khuddakapāṭha
-        if (sourceLower.includes('khuddakapatha') || sourceLower.includes('khuddaka patha')) {
-            if (!verse) return null;
-            return `https://www.dhammatalks.org/suttas/KN/Khp/khp${chapter}.html`;
-        }
-        
-        // Udāna
-        if (sourceLower.includes('udana') || sourceLower.includes('udāna')) {
-            if (!verse) return null;
-            return `https://www.dhammatalks.org/suttas/KN/Ud/ud${chapter}_${verse}.html`;
-        }
-        
-        // Itivuttaka
-        if (sourceLower.includes('itivuttaka') || sourceLower.includes('iti')) {
-            if (!verse) return null;
-            return `https://www.dhammatalks.org/suttas/KN/Iti/iti${chapter}.html`;
-        }
-        
-        // Sutta Nipāta
-        if (sourceLower.includes('sutta nipata') || sourceLower.includes('suttanipata') || sourceLower.includes('stnp')) {
-            if (!verse) return null;
-            return `https://www.dhammatalks.org/suttas/KN/StNp/StNp${chapter}_${verse}.html`;
-        }
-        
-        // Theragāthā
-        if (sourceLower.includes('theragatha') || sourceLower.includes('theragāthā') || sourceLower.includes('thag')) {
-            if (!verse) return null;
-            return `https://www.dhammatalks.org/suttas/KN/Thag/thag${chapter}_${verse}.html`;
-        }
-        
-        // Therīgāthā
-        if (sourceLower.includes('therigatha') || sourceLower.includes('therīgāthā') || sourceLower.includes('thig')) {
-            if (!verse) return null;
-            return `https://www.dhammatalks.org/suttas/KN/Thig/thig${chapter}_${verse}.html`;
-        }
-        
-        // Sutta Pitaka
-        if (sourceLower.includes('sutta pitaka') || sourceLower.includes('सुत्त पिटक')) {
-            if (!verse) return null;
-            return `https://www.dhammatalks.org/suttas/`;
-        }
-        
-        // Abhidhamma Pitaka
-        if (sourceLower.includes('abhidhamma') || sourceLower.includes('abhidhamma pitaka') || sourceLower.includes('अभिधम्म पिटक')) {
-            if (!verse) return null;
-            return `https://www.dhammatalks.org/suttas/`;
-        }
-        
-        // General Tripitaka fallback
-        if (sourceLower.includes('tripitaka') || sourceLower.includes('tipitaka') || sourceLower.includes('त्रिपिटक') || sourceLower.includes('तीपिटक')) {
-            return `https://www.dhammatalks.org/suttas/`;
-        }
-    }
+      if (veda === 'atharvaveda') {
+        const padded = String(chapter).padStart(2, '0');
+        return `https://www.sacred-texts.com/hin/av/avbook${padded}.htm`;
+      }
 
-    // Tao Te Ching
-    const taoTeChingAliases = ['taoteching', 'tao te ching', 'daodejing', 'dao de jing', 'laozi', 'lao tzu', '道德经', '老子'];
-    if (taoTeChingAliases.some(alias => normalized.includes(alias)) || 
-        normalizedSource.toLowerCase().includes('tao te ching') ||
-        normalizedSource.toLowerCase().includes('dao de jing')) {
+      if (veda === 'samaveda') {
         if (!chapter) return null;
-        return `https://ctext.org/dao-de-jing/zh?enodeid=${chapter}`;
-    }
+        const padded = String(chapter).padStart(2, '0');
+        return `https://www.sacred-texts.com/hin/sv/sv${padded}.htm`;
+      }
 
-    // Analects of Confucius
-    const confuciusAliases = ['analects', 'confucius', 'lunyu', 'lun yu', '论语', '孔子'];
-    if (confuciusAliases.some(alias => normalized.includes(alias)) || 
-        normalizedSource.toLowerCase().includes('analects of confucius') ||
-        normalizedSource.toLowerCase().includes('lunyu')) {
-        if (!chapter || !verse) return null;
-        return `https://ctext.org/analects/zh?enodeid=${chapter}.${verse}`;
-    }
-
-    // Upanishads
-    const upanishadAliases = ['upanishad', 'upanishads', 'उपनिषद', 'उपनिषद्'];
-    const upanishadNames = ['brihadaranyaka', 'chandogya', 'taittiriya', 'aitareya', 'kena', 'katha', 'isha', 'mundaka', 'mandukya', 'prashna'];
-    
-    for (const upanishad of upanishadNames) {
-        if (normalized.includes(upanishad)) {
-            if (!chapter || !verse) return null;
-            return `https://www.sacred-texts.com/hin/upan/${upanishad}.htm`;
-        }
-    }
-    
-    if (upanishadAliases.some(alias => normalized.includes(alias))) {
-        if (!chapter || !verse) return null;
-        return `https://www.sacred-texts.com/hin/upan/`;
-    }
-
-    // Talmud
-    const talmudAliases = ['talmud', 'gemara', 'תלמוד', 'גמרא'];
-    const talmudTractates = ['berakhot', 'shabbat', 'eruvin', 'pesachim', 'yoma', 'sukkah', 'beitzah', 'rosh hashanah', 'taanit', 'megillah', 'moed katan', 'chagigah', 'yevamot', 'ketubot', 'nedarim', 'nazir', 'sotah', 'gittin', 'kiddushin', 'bava kamma', 'bava metzia', 'bava batra', 'sanhedrin', 'makkot', 'shevuot', 'avodah zarah', 'horayot', 'zevachim', 'menachot', 'chullin', 'bekhorot', 'arakhin', 'temurah', 'keritot', 'meilah', 'tamid', 'middot', 'niddah'];
-    
-    for (const tractate of talmudTractates) {
-        if (normalized.includes(tractate)) {
-            if (!chapter) return null;
-            return `https://www.sefaria.org/${tractate}.${chapter}`;
-        }
-    }
-    
-    if (talmudAliases.some(alias => normalized.includes(alias))) {
+      if (veda === 'yajurveda') {
         if (!chapter) return null;
-        return `https://www.sefaria.org/Talmud`;
+        const padded = String(chapter).padStart(2, '0');
+        return `https://www.sacred-texts.com/hin/yv/yv${padded}.htm`;
+      }
     }
+  }
 
-    // Avesta
-    const avestaAliases = ['avesta', 'zoroastrian', 'zoroastrianism', 'gathas', 'yasna', 'visperad', 'vendidad', 'yashts', 'khordeh avesta'];
-    const avestaTexts = ['yasna', 'visperad', 'vendidad', 'yashts', 'khordeh avesta'];
-    
-    for (const text of avestaTexts) {
-        if (normalized.includes(text)) {
-            if (!chapter) return null;
-            return `https://www.avesta.org/${text}/${text}${chapter}.htm`;
-        }
-    }
-    
-    if (avestaAliases.some(alias => normalized.includes(alias))) {
-        if (!chapter) return null;
-        return `https://www.avesta.org/`;
-    }
+  // Bible detection using book names and fallback on "bible" keyword
+  // Handle both English and transliterated names
+  const bibleBooksRegex = /\b(genesis|exodus|leviticus|numbers|deuteronomy|joshua|judges|ruth|samuel|kings|chronicles|ezra|nehemiah|esther|job|psalms?|proverbs?|ecclesiastes|songofsolomon|isaiah|jeremiah|lamentations|ezekiel|daniel|hosea|joel|amos|obadiah|jonah|micah|nahum|habakkuk|zephaniah|haggai|zechariah|malachi|matthew|mark|luke|john|acts|romans|corinthians|galatians|ephesians|philippians|colossians|thessalonians|timothy|titus|philemon|hebrews|james|peter|jude|revelation|यूलूसेज|यूहन्ना|मत्ती|मरकुस|लूका|प्रेरितों|रोमियों|कुरिन्थियों|गलातियों|इफिसियों|फिलिप्पियों|कुलुस्सियों|थिस्स्सलुनीकियों|तीमुथियुस|तीतुस|फिलेमोन|इब्रानियों|याकूब|पतरस|यहूदा|प्रकाशितवाक्य)\b/i;
 
-    return null; // Unknown
+  if (bibleBooksRegex.test(normalizedSource) || 
+      normalized.includes('bible') || 
+      normalized.includes('holybible') ||
+      normalizedSource.toLowerCase().includes('यूलूसेज')) {
+    
+    const cleanSource = normalizedSource.replace(/\b(Holy\s)?Bible\b/i, '').trim();
+    // Remove "The" from the beginning of Bible book names
+    const cleanBookName = cleanSource.replace(/^The\s+/i, '');
+    const formattedRef = verse ? `${chapter}:${verse}` : chapter;
+    
+    // Handle transliterated book names
+    const bookNameMap = {
+      'यूलूसेज': 'Judges',
+      'यूहन्ना': 'John',
+      'मत्ती': 'Matthew',
+      'मरकुस': 'Mark',
+      'लूका': 'Luke',
+      'प्रेरितों': 'Acts',
+      'रोमियों': 'Romans',
+      'कुरिन्थियों': 'Corinthians',
+      'गलातियों': 'Galatians',
+      'इफिसियों': 'Ephesians',
+      'फिलिप्पियों': 'Philippians',
+      'कुलुस्सियों': 'Colossians',
+      'थिस्स्सलुनीकियों': 'Thessalonians',
+      'तीमुथियुस': 'Timothy',
+      'तीतुस': 'Titus',
+      'फिलेमोन': 'Philemon',
+      'इब्रानियों': 'Hebrews',
+      'याकूब': 'James',
+      'पतरस': 'Peter',
+      'यहूदा': 'Jude',
+      'प्रकाशितवाक्य': 'Revelation'
+    };
+    
+    let book = cleanBookName;
+    for (const [hindi, english] of Object.entries(bookNameMap)) {
+      if (cleanBookName.includes(hindi)) {
+        book = english;
+        break;
+      }
+    }
+    
+    const formattedBook = book.replace(/\s+/g, '+');
+    return `https://www.biblegateway.com/passage/?search=${formattedBook}+${formattedRef}`;
+  }
+
+  // Buddhist Texts - Tripitaka, Nikayas, and other Buddhist scriptures
+  const sourceLower = normalizedSource.toLowerCase();
+  if (sourceLower.includes('tripitaka') || sourceLower.includes('tipitaka') || sourceLower.includes('त्रिपिटक') || sourceLower.includes('तीपिटक')) {
+    // Sutta Pitaka
+    if (sourceLower.includes('sutta') || sourceLower.includes('sutta pitaka') || sourceLower.includes('सुत्त पिटक')) {
+      if (!chapter || !verse) return null;
+      return `https://www.dhammatalks.org/suttas/`;
+    }
+    
+    // Vinaya Pitaka
+    if (sourceLower.includes('vinaya') || sourceLower.includes('vinaya pitaka') || sourceLower.includes('विनय पिटक')) {
+      if (!chapter || !verse) return null;
+      return `https://www.dhammatalks.org/vinaya/`;
+    }
+    
+    // Abhidhamma Pitaka
+    if (sourceLower.includes('abhidhamma') || sourceLower.includes('abhidhamma pitaka') || sourceLower.includes('अभिधम्म पिटक')) {
+      if (!verse) return null;
+      return `https://www.dhammatalks.org/suttas/`;
+    }
+    
+    // General Tripitaka fallback
+    if (sourceLower.includes('tripitaka') || sourceLower.includes('tipitaka') || sourceLower.includes('त्रिपिटक') || sourceLower.includes('तीपिटक')) {
+      return `https://www.dhammatalks.org/suttas/`;
+    }
+  }
+
+  // Tao Te Ching
+  const taoTeChingAliases = ['taoteching', 'tao te ching', 'daodejing', 'dao de jing', 'laozi', 'lao tzu', '道德经', '老子'];
+  if (taoTeChingAliases.some(alias => normalized.includes(alias)) || 
+      normalizedSource.toLowerCase().includes('tao te ching') ||
+      normalizedSource.toLowerCase().includes('dao de jing')) {
+    if (!chapter) return null;
+    return `https://ctext.org/dao-de-jing/zh?enodeid=${chapter}`;
+  }
+
+  // Analects of Confucius
+  const confuciusAliases = ['analects', 'confucius', 'lunyu', 'lun yu', '论语', '孔子'];
+  if (confuciusAliases.some(alias => normalized.includes(alias)) || 
+      normalizedSource.toLowerCase().includes('analects of confucius') ||
+      normalizedSource.toLowerCase().includes('lunyu')) {
+    if (!chapter || !verse) return null;
+    return `https://ctext.org/analects/zh?enodeid=${chapter}.${verse}`;
+  }
+
+  // Upanishads
+  const upanishadAliases = ['upanishad', 'upanishads', 'उपनिषद', 'उपनिषद्'];
+  const upanishadNames = ['brihadaranyaka', 'chandogya', 'taittiriya', 'aitareya', 'kena', 'katha', 'isha', 'mundaka', 'mandukya', 'prashna'];
+  
+  for (const upanishad of upanishadNames) {
+    if (normalized.includes(upanishad)) {
+      if (!chapter || !verse) return null;
+      return `https://www.sacred-texts.com/hin/upan/${upanishad}.htm`;
+    }
+  }
+  
+  if (upanishadAliases.some(alias => normalized.includes(alias))) {
+    if (!chapter || !verse) return null;
+    return `https://www.sacred-texts.com/hin/upan/`;
+  }
+
+  // Talmud
+  const talmudAliases = ['talmud', 'gemara', 'תלמוד', 'גמרא'];
+  const talmudTractates = ['berakhot', 'shabbat', 'eruvin', 'pesachim', 'yoma', 'sukkah', 'beitzah', 'rosh hashanah', 'taanit', 'megillah', 'moed katan', 'chagigah', 'yevamot', 'ketubot', 'nedarim', 'nazir', 'sotah', 'gittin', 'kiddushin', 'bava kamma', 'bava metzia', 'bava batra', 'sanhedrin', 'makkot', 'shevuot', 'avodah zarah', 'horayot', 'zevachim', 'menachot', 'chullin', 'bekhorot', 'arakhin', 'temurah', 'keritot', 'meilah', 'tamid', 'middot', 'niddah'];
+  
+  for (const tractate of talmudTractates) {
+    if (normalized.includes(tractate)) {
+      if (!chapter) return null;
+      return `https://www.sefaria.org/${tractate}.${chapter}`;
+    }
+  }
+  
+  if (talmudAliases.some(alias => normalized.includes(alias))) {
+    if (!chapter) return null;
+    return `https://www.sefaria.org/Talmud`;
+  }
+
+  // Avesta
+  const avestaAliases = ['avesta', 'zoroastrian', 'zoroastrianism', 'gathas', 'yasna', 'visperad', 'vendidad', 'yashts', 'khordeh avesta'];
+  const avestaTexts = ['yasna', 'visperad', 'vendidad', 'yashts', 'khordeh avesta'];
+  
+  for (const text of avestaTexts) {
+    if (normalized.includes(text)) {
+      if (!chapter) return null;
+      return `https://www.avesta.org/${text}/${text}${chapter}.htm`;
+    }
+  }
+  
+  if (avestaAliases.some(alias => normalized.includes(alias))) {
+    if (!chapter) return null;
+    return `https://www.avesta.org/`;
+  }
+
+  return null; // Unknown
 }
 
 
@@ -828,97 +361,52 @@ export function getReferenceUrl(source, reference) {
  * @returns {{bookName: string, chapter: string, verse: string}} The extracted components
  */
 export function parseSource(source) {
-    if (!source) return { bookName: '', chapter: '', verse: '' };
+  if (!source) return { bookName: '', chapter: '', verse: '' };
 
-    // If the source contains a comma, try to extract the specific Veda part
-    if (/the vedas/i.test(source) && /,/.test(source)) {
-        // e.g. 'The Vedas, Rig Veda 10.129.1'
-        const parts = source.split(',');
-        // Try to find the part that matches a Veda pattern
-        for (let part of parts) {
-            part = part.trim();
-            const vedaPattern = /^(Rig\s*-?\s*Veda|Yajur\s*-?\s*Veda|Sama\s*-?\s*Veda|Atharva\s*-?\s*Veda|Rigveda|Yajurveda|Samaveda|Atharvaveda)\s*(\d+)(?:\.(\d+))?(?:\.(\d+))?/i;
-            const vedasMatch = part.match(vedaPattern);
-            if (vedasMatch) {
-                let rawBook = vedasMatch[1].replace(/\s*-?\s*/g, '').toLowerCase();
-                let bookName = '';
-                if (rawBook.startsWith('rig')) bookName = 'Rigveda';
-                else if (rawBook.startsWith('yajur')) bookName = 'Yajurveda';
-                else if (rawBook.startsWith('sama')) bookName = 'Samaveda';
-                else if (rawBook.startsWith('atharva')) bookName = 'Atharvaveda';
-                const chapter = vedasMatch[2] || '';
-                let verse = vedasMatch[3] || '';
-                if (vedasMatch[4]) verse += '.' + vedasMatch[4];
-                return { bookName, chapter, verse };
-            }
-        }
-    }
-
-    // Accept both 'Rigveda 10.129.2' and 'Rig Veda 10.129.2' and similar for other Vedas
-    const vedaPattern = /^(Rig\s*-?\s*Veda|Yajur\s*-?\s*Veda|Sama\s*-?\s*Veda|Atharva\s*-?\s*Veda|Rigveda|Yajurveda|Samaveda|Atharvaveda)\s*(\d+)(?:\.(\d+))?(?:\.(\d+))?/i;
-    const vedasMatch = source.match(vedaPattern);
-    if (vedasMatch) {
-        let rawBook = vedasMatch[1].replace(/\s*-?\s*/g, '').toLowerCase();
-        let bookName = '';
-        if (rawBook.startsWith('rig')) bookName = 'Rigveda';
-        else if (rawBook.startsWith('yajur')) bookName = 'Yajurveda';
-        else if (rawBook.startsWith('sama')) bookName = 'Samaveda';
-        else if (rawBook.startsWith('atharva')) bookName = 'Atharvaveda';
-        const chapter = vedasMatch[2] || '';
-        let verse = vedasMatch[3] || '';
-        if (vedasMatch[4]) verse += '.' + vedasMatch[4];
+  // If the source contains a comma, try to extract the specific Veda part
+  if (/the vedas/i.test(source) && /,/.test(source)) {
+    // e.g. 'The Vedas, Rig Veda 10.129.1'
+    const parts = source.split(',');
+    // Try to find the part that matches a Veda pattern
+    for (let part of parts) {
+      part = part.trim();
+      const vedaPattern = /^(Rig\s*-?\s*Veda|Yajur\s*-?\s*Veda|Sama\s*-?\s*Veda|Atharva\s*-?\s*Veda|Rigveda|Yajurveda|Samaveda|Atharvaveda)\s*(\d+)(?:\.(\d+))?(?:\.(\d+))?/i;
+      const vedasMatch = part.match(vedaPattern);
+      if (vedasMatch) {
+        const bookName = vedasMatch[1];
+        const chapter = vedasMatch[2];
+        const verse = vedasMatch[3] ? (vedasMatch[4] ? `${vedasMatch[3]}.${vedasMatch[4]}` : vedasMatch[3]) : '';
         return { bookName, chapter, verse };
+      }
     }
+  }
 
-    // Handle Upanishad patterns
-    const upanishadPattern = /^(Brihadaranyaka|Chandogya|Taittiriya|Aitareya|Kena|Katha|Isha|Mundaka|Mandukya|Prashna)\s*(\d+)(?:\.(\d+))?(?:\.(\d+))?/i;
-    const upanishadMatch = source.match(upanishadPattern);
-    if (upanishadMatch) {
-        const bookName = upanishadMatch[1];
-        const chapter = upanishadMatch[2] || '';
-        let verse = upanishadMatch[3] || '';
-        if (upanishadMatch[4]) verse += '.' + upanishadMatch[4];
-        return { bookName, chapter, verse };
-    }
+  // Handle Guru Granth Sahib Ang format (e.g., "Guru Granth Sahib Ang 786")
+  const angMatch = source.match(/^(.*?)\s+(?:Ang|अंग)\s*(\d+)/i);
+  if (angMatch) {
+    const bookName = angMatch[1].trim();
+    const chapter = angMatch[2];
+    return { bookName, chapter, verse: '' };
+  }
 
-    // Handle Tao Te Ching patterns
-    const taoTeChingPattern = /^Tao\s*Te\s*Ching\s*(?:Chapter\s+)?(\d+)/i;
-    const taoTeChingMatch = source.match(taoTeChingPattern);
-    if (taoTeChingMatch) {
-        return { bookName: 'Tao Te Ching', chapter: taoTeChingMatch[1], verse: '' };
-    }
+  // Handle Veda format with dot notation (e.g., "Rig Veda 10.85.23")
+  const vedaMatch = source.match(/^(Rig\s*-?\s*Veda|Yajur\s*-?\s*Veda|Sama\s*-?\s*Veda|Atharva\s*-?\s*Veda|Rigveda|Yajurveda|Samaveda|Atharvaveda)\s*(\d+)(?:\.(\d+))?(?:\.(\d+))?/i);
+  if (vedaMatch) {
+    const bookName = vedaMatch[1];
+    const chapter = vedaMatch[2];
+    const verse = vedaMatch[3] ? (vedaMatch[4] ? `${vedaMatch[3]}.${vedaMatch[4]}` : vedaMatch[3]) : '';
+    return { bookName, chapter, verse };
+  }
 
-    // Handle Analects patterns
-    const analectsPattern = /^Analects\s*(?:Book\s+)?(\d+)(?:\s*:\s*(\d+))?/i;
-    const analectsMatch = source.match(analectsPattern);
-    if (analectsMatch) {
-        return { bookName: 'Analects of Confucius', chapter: analectsMatch[1], verse: analectsMatch[2] || '' };
-    }
+  // Handle standard format (e.g., "Bhagavad Gita 2:47")
+  const standardMatch = source.match(/^(.*?)\s+(\d+)(?::(\d+))?$/);
+  if (standardMatch) {
+    const bookName = standardMatch[1].trim();
+    const chapter = standardMatch[2];
+    const verse = standardMatch[3] || '';
+    return { bookName, chapter, verse };
+  }
 
-    // Handle Talmud patterns
-    const talmudPattern = /^(Berakhot|Shabbat|Eruvin|Pesachim|Yoma|Sukkah|Beitzah|Rosh Hashanah|Ta'anit|Megillah|Mo'ed Katan|Chagigah|Yevamot|Ketubot|Nedarim|Nazir|Sotah|Gittin|Kiddushin|Bava Kamma|Bava Metzia|Bava Batra|Sanhedrin|Makkot|Shevu'ot|Avodah Zarah|Horayot|Zevachim|Menachot|Chullin|Bekhorot|Arakhin|Temurah|Keritot|Me'ilah|Tamid|Middot|Niddah)\s*(\d+)(?:\s*:\s*(\d+))?/i;
-    const talmudMatch = source.match(talmudPattern);
-    if (talmudMatch) {
-        return { bookName: talmudMatch[1], chapter: talmudMatch[2], verse: talmudMatch[3] || '' };
-    }
-
-    // Handle Avesta patterns
-    const avestaPattern = /^(Yasna|Visperad|Vendidad|Yashts|Khordeh Avesta)\s*(\d+)(?:\s*:\s*(\d+))?/i;
-    const avestaMatch = source.match(avestaPattern);
-    if (avestaMatch) {
-        return { bookName: avestaMatch[1], chapter: avestaMatch[2], verse: avestaMatch[3] || '' };
-    }
-
-    // Existing patterns
-    const matches = source.match(/^(.*?)(?:\s+(\d+):(\d+)|(?:\s+Chapter\s+(\d+)\s+Verse\s+(\d+))|(?:\s+Ang\s+(\d+)))$/i);
-    if (!matches) return { bookName: source, chapter: '', verse: '' };
-
-    // Normalize the book name to handle translated names
-    const bookName = normalizeBookName(matches[1].trim());
-
-    return {
-        bookName: bookName,
-        chapter: matches[2] || matches[4] || matches[6] || '',
-        verse: matches[3] || matches[5] || ''
-    };
+  // If no pattern matches, return the source as bookName
+  return { bookName: source.trim(), chapter: '', verse: '' };
 } 

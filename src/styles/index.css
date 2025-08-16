@@ -8,3 +8,228 @@
 @import './footer.css';
 @import './accessibility.css';
 
+/* Performance optimizations */
+* {
+  box-sizing: border-box;
+}
+
+/* Hardware acceleration for animations */
+.breathing-background,
+.floating-particles,
+.spiritual-loader,
+.quote-card,
+.notification-toast {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Optimize animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1) translateZ(0);
+  }
+  50% {
+    transform: scale(1.05) translateZ(0);
+  }
+}
+
+/* Reduce paint operations */
+.divine-container {
+  contain: layout style paint;
+}
+
+.quote-card {
+  contain: layout style;
+}
+
+/* Optimize scrolling */
+.divine-content {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Loading states */
+.response-section-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  padding: 2rem;
+}
+
+.response-placeholder {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: var(--divine-text);
+}
+
+.placeholder-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.7;
+}
+
+/* Quote styling optimizations */
+.quotes-section {
+  margin-top: 2rem;
+}
+
+.quotes-title {
+  color: var(--divine-dark);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.quote-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(220, 215, 201, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.quote-card:hover {
+  transform: translateY(-2px) translateZ(0);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.quote-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--divine-dark);
+  margin-bottom: 1rem;
+  font-style: italic;
+  position: relative;
+}
+
+.quote-text::before {
+  content: '"';
+  font-size: 3rem;
+  color: var(--divine-gold);
+  position: absolute;
+  top: -10px;
+  left: -15px;
+  opacity: 0.3;
+}
+
+.quote-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.quote-source {
+  font-weight: 600;
+  color: var(--divine-purple);
+  font-size: 0.9rem;
+}
+
+.quote-reference {
+  background: var(--divine-light-gold);
+  color: var(--divine-dark);
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.quote-link {
+  color: var(--divine-gold);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.quote-link:hover {
+  color: var(--divine-purple);
+}
+
+.quote-context {
+  margin-top: 1rem;
+}
+
+.context-toggle {
+  background: none;
+  border: 1px solid var(--divine-gold);
+  color: var(--divine-gold);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.context-toggle:hover {
+  background: var(--divine-gold);
+  color: white;
+}
+
+.context-content {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(220, 215, 201, 0.1);
+  border-radius: 10px;
+  border-left: 3px solid var(--divine-gold);
+  line-height: 1.6;
+  color: var(--divine-text);
+}
+
+/* Summary section */
+.summary-section {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, var(--divine-cream) 0%, #FFF8F0 100%);
+  border-radius: 15px;
+  border: 2px solid var(--divine-light-gold);
+}
+
+.summary-title {
+  color: var(--divine-dark);
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.summary-content {
+  line-height: 1.7;
+  color: var(--divine-text);
+  font-size: 1.1rem;
+}
+
+/* Responsive optimizations */
+@media (max-width: 768px) {
+  .quote-card {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .quote-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .summary-section {
+    padding: 1.5rem;
+  }
+}
+

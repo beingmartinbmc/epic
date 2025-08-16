@@ -1,109 +1,118 @@
-# Epic Frontend
+# Epic - Divine Guidance Application
 
-Frontend for the Epic Religious Guidance Application - A spiritual guidance application that provides wisdom from sacred religious texts.
+A React-based frontend application that provides spiritual guidance from sacred texts across multiple religions and languages.
 
-## 🌟 Features
+## Features
 
-### 🌍 Multi-Language Support
-The application automatically detects the user's input language and responds in the same language. This ensures a personalized experience for users worldwide.
+- **Multi-Religious Support**: Bhagavad Gita, Vedas, Quran, Bible, Guru Granth Sahib, Tripitaka, Tao Te Ching, Analects of Confucius, Dhammapada, Upanishads, Talmud, and Avesta
+- **Multi-Language Support**: English, Hindi, Spanish, Portuguese, French, German, Arabic, Punjabi, Urdu, and more
+- **Interactive UI**: Breathing background animations, floating particles, and spiritual loader
+- **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
+- **Performance Optimized**: Lazy loading, code splitting, and efficient rendering
 
-**Supported Languages:**
-- **Indic Languages**: Hindi, Bengali, Punjabi, Gujarati, Marathi, Telugu, Tamil, Urdu, Nepali, Sinhala
-- **European Languages**: Spanish, French, German, Portuguese, Italian, Dutch, Swedish, Danish, Norwegian, Finnish, Polish, Czech, Slovak, Hungarian, Romanian, Bulgarian, Croatian, Serbian, Slovenian, Estonian, Latvian, Lithuanian, Maltese, Greek
-- **Asian Languages**: Japanese, Korean, Chinese, Thai, Vietnamese, Indonesian, Malay, Filipino, Burmese, Khmer, Lao
-- **Middle Eastern**: Arabic, Hebrew, Turkish
-- **African Languages**: Swahili, Amharic, Hausa, Yoruba, Igbo
-- **And many more...**
+## Technology Stack
 
-**Language Detection Libraries Used:**
-1. **Mozilla Language Detection** - Primary detector with high accuracy
-2. **CLD3 (Compact Language Detector)** - Fallback detector for better coverage
-3. **Franc-min** - Lightweight fallback for edge cases
+### Core Technologies
+1. **React 18** - Modern React with hooks and functional components
+2. **Vite** - Fast build tool and development server
+3. **Bootstrap 5** - Responsive UI framework
+4. **FontAwesome** - Icon library
 
-### 📚 Sacred Texts Integration
-- **Bhagavad Gita** - Hindu spiritual wisdom
-- **The Vedas** - Ancient Hindu scriptures
-- **Holy Quran** - Islamic guidance and teachings
-- **Holy Bible** - Christian spiritual wisdom
-- **Guru Granth Sahib** - Sikh teachings and wisdom
-- **The Tripitaka** - Buddhist scriptures and teachings
-- **All Sacred Texts** - Universal spiritual guidance from multiple traditions
+### Language Detection
+1. **Franc-all** - Comprehensive language detection for multiple scripts
+2. **JSON-based mappings** - Efficient book name translations
 
-### 🎨 Themed Interface
-Each sacred text has its own visual theme:
-- Hindu theme for Bhagavad Gita & Vedas
-- Islamic theme for Quran
-- Christian theme for Bible
-- Sikh theme for Guru Granth Sahib
-- Buddhist theme for Tripitaka
-- Universal theme for all texts
+### Performance Features
+1. **Code Splitting** - Lazy loading of components and chunks
+2. **Service Worker** - Caching and offline functionality
+3. **Canvas Optimizations** - Hardware-accelerated animations
+4. **Memoization** - React.memo and useMemo for performance
+5. **Bundle Optimization** - Tree shaking and minification
 
-### 💾 Intelligent Caching
-- Caches responses to improve performance
-- Reduces API calls for repeated questions
-- Cache monitoring and management tools
+## Installation
 
-## 🚀 Getting Started
+```bash
+# Clone the repository
+git clone <repository-url>
+cd epic
 
-1. **Install Dependencies:**
-   ```bash
-   npm install
-   ```
+# Install dependencies
+npm install
 
-2. **Start Development Server:**
-   ```bash
-   npm run dev
-   ```
+# Start development server
+npm run dev
 
-3. **Build for Production:**
-   ```bash
-   npm run build
-   ```
-
-## 🌐 Deployment
-
-This frontend is deployed on **GitHub Pages** and automatically builds on every push to the main branch.
-
-## 🔗 Backend Integration
-
-This frontend connects to the Epic Backend API deployed on Vercel. The API endpoint is configured in `src/app.js`.
-
-## 🛠️ Technology Stack
-
-- **Framework**: Vanilla JavaScript (ES6+)
-- **Build Tool**: Vite
-- **Styling**: CSS3 with Bootstrap 5
-- **Icons**: Font Awesome
-- **Language Detection**: Multiple libraries for accuracy
-- **Deployment**: GitHub Pages
-
-## 📁 Project Structure
-
-```
-epic-frontend/
-├── src/
-│   ├── app.js              # Main application logic
-│   ├── prompts.js          # AI prompts configuration
-│   ├── cache.js            # Caching functionality
-│   ├── utils.js            # Utility functions
-│   ├── config.js           # Configuration settings
-│   └── styles.css          # Styling
-├── index.html              # Main HTML file
-├── vite.config.js          # Vite configuration
-└── package.json            # Dependencies and scripts
+# Build for production
+npm run build
 ```
 
-## 🔧 Configuration
+## Project Structure
 
-The API endpoint is configured in `src/app.js`:
-
-```javascript
-const API_CONFIG = {
-    OPENAI_PROXY_URL: 'https://your-backend-url.vercel.app/api/openai-proxy'
-};
+```
+src/
+├── components/          # React components
+│   ├── BreathingBackground.jsx
+│   ├── FloatingParticles.jsx
+│   ├── GuidanceForm.jsx
+│   ├── ResponseSection.jsx
+│   └── ...
+├── hooks/              # Custom React hooks
+│   ├── useGuidance.js
+│   └── useTheme.js
+├── styles/             # CSS stylesheets
+├── data/               # Static data files
+│   └── book-name-mappings.json
+├── utils.js            # Utility functions
+├── prompts.js          # AI prompts configuration
+└── App.jsx             # Main application component
 ```
 
-## 📄 License
+## Performance Optimizations
 
-This project is licensed under the MIT License.
-# Updated Fri Aug  1 01:35:43 IST 2025
+### Bundle Size
+- **Code Splitting**: Separate chunks for React, UI libraries, and app logic
+- **Lazy Loading**: ResponseSection component loaded on demand
+- **Tree Shaking**: Unused code eliminated during build
+- **Minification**: Aggressive code and CSS minification
+
+### Runtime Performance
+- **Memoization**: Components and expensive calculations cached
+- **Canvas Optimization**: Hardware acceleration for animations
+- **Debouncing**: Input handlers optimized for performance
+- **Caching**: Service worker for static assets and API responses
+
+### Memory Management
+- **Component Cleanup**: Proper cleanup of event listeners and animations
+- **Efficient Parsing**: Optimized response parsing algorithms
+- **Memory Monitoring**: Performance metrics tracking
+
+## Development
+
+### Available Scripts
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run clean` - Clean build directory
+
+### Performance Monitoring
+The application includes built-in performance monitoring:
+- Parse time tracking
+- Render time optimization
+- API call performance
+- Memory usage monitoring
+
+## Deployment
+
+The application is optimized for deployment on Vercel, Netlify, or any static hosting service. The build process creates optimized static files in the `dist/` directory.
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## License
+
+MIT License - see LICENSE file for details.

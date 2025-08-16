@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useMemo, useCallback } from 'react';
 
 const BreathingBackground = React.memo(({ theme = 'universal' }) => {
   const canvasRef = useRef(null);
+  const animationRef = useRef(null);
 
   // Memoized theme-specific colors to prevent recreation on every render
   const gradients = useMemo(() => ({
@@ -57,69 +58,86 @@ const BreathingBackground = React.memo(({ theme = 'universal' }) => {
     ]
   }), []);
 
-  // Memoized animation setup function
+  // Memoized animation setup function with performance optimizations
   const setupAnimation = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
-    let animationId;
     let time = 0;
 
-    // Set canvas size
+    // Set canvas size with device pixel ratio optimization
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+      
+      canvas.style.width = rect.width + 'px';
+      canvas.style.height = rect.height + 'px';
     };
 
     resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    
+    // Debounced resize handler for better performance
+    let resizeTimeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(resizeCanvas, 100);
+    };
+    window.addEventListener('resize', handleResize);
 
-    // Pre-calculate some values for better performance
+    // Pre-calculate values for better performance
     const colors = gradients[theme];
     const centerX1 = canvas.width * 0.3;
     const centerX2 = canvas.width * 0.7;
     const centerY = canvas.height * 0.5;
 
-    // Animation loop optimized for 60 FPS
+    // Optimized animation loop with requestAnimationFrame
     const animate = () => {
       time += 0.01;
       
-      // Clear canvas
+      // Clear canvas efficiently
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Simple breathing effect with pre-calculated values
+      // Simplified breathing effect with pre-calculated values
       const breathScale = 1 + Math.sin(time * 0.5) * 0.08;
       const radius = 120 * breathScale;
 
-      // Draw only 2 circles with simplified gradients
+      // Draw only 2 circles with simplified gradients for better performance
       for (let i = 0; i < 2; i++) {
         const x = i === 0 ? centerX1 : centerX2;
         const y = centerY + Math.sin(time + i) * 20;
         
         // Simplified gradient with fewer color stops
         const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
-        gradient.addColorStop(0, colors[0]);
-        gradient.addColorStop(0.5, colors[1]);
-        gradient.addColorStop(1, colors[2]);
-
+        gradient.addColorStop(0, colors[i]);
+        gradient.addColorStop(1, 'transparent');
+        
         ctx.fillStyle = gradient;
         ctx.beginPath();
         ctx.arc(x, y, radius, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      animationId = requestAnimationFrame(animate);
+      animationRef.current = requestAnimationFrame(animate);
     };
 
     animate();
 
+    // Cleanup function
     return () => {
-      window.removeEventListener('resize', resizeCanvas);
-      cancelAnimationFrame(animationId);
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(resizeTimeout);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
     };
   }, [theme, gradients]);
 
+  // Setup animation on mount and theme change
   useEffect(() => {
     const cleanup = setupAnimation();
     return cleanup;
@@ -128,15 +146,15 @@ const BreathingBackground = React.memo(({ theme = 'universal' }) => {
   return (
     <canvas
       ref={canvasRef}
+      className="breathing-background"
       style={{
         position: 'fixed',
         top: 0,
         left: 0,
         width: '100%',
         height: '100%',
-        pointerEvents: 'none',
-        zIndex: 0,
-        opacity: 0.8
+        zIndex: -1,
+        pointerEvents: 'none'
       }}
     />
   );
