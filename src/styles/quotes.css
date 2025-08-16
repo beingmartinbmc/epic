@@ -26,33 +26,19 @@
     border-radius: 2px;
 }
 
-.quotes-grid {
-    display: grid;
-    gap: 2rem;
-    grid-template-columns: 1fr;
+/* Main quotes section - Grid container */
+.quotes-section {
+    margin-top: 3rem;
+    display: grid !important;
+    gap: 2rem !important;
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
 }
 
 /* Responsive grid layout for quote cards */
-.quotes-section {
-    margin-top: 3rem;
-}
-
-.quotes-section .quote-card {
-    margin-bottom: 2rem;
-}
-
-/* Grid layout for different screen sizes */
 @media (min-width: 768px) {
     .quotes-section {
-        display: grid !important;
         grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)) !important;
-        gap: 2rem !important;
-        contain: layout style;
-    }
-    
-    .quotes-section .quote-card {
-        margin-bottom: 0 !important;
-        contain: layout style;
     }
 }
 
@@ -68,6 +54,18 @@
     }
 }
 
+/* Mobile responsive - single column */
+@media (max-width: 767px) {
+    .quotes-section {
+        display: block !important;
+        grid-template-columns: 1fr !important;
+    }
+    
+    .quote-card {
+        margin-bottom: 2rem !important;
+    }
+}
+
 /* Quote card styles */
 .quote-card {
     background: rgba(255, 255, 255, 0.95);
@@ -79,6 +77,7 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     overflow: hidden;
     will-change: transform;
+    margin-bottom: 0 !important;
 }
 
 .quote-card::before {
@@ -282,16 +281,10 @@
     transform: translateY(-2px);
 }
 
-/* Mobile responsive */
+/* Mobile responsive adjustments */
 @media (max-width: 768px) {
-    .quotes-section {
-        display: block !important;
-        grid-template-columns: 1fr !important;
-    }
-    
     .quote-card {
         padding: 1.5rem;
-        margin-bottom: 2rem !important;
     }
 
     .quote-text {
@@ -311,12 +304,6 @@
 
     .context-content {
         padding: 1rem;
-    }
-}
-
-@media (min-width: 768px) {
-    .quotes-grid {
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     }
 }
 
