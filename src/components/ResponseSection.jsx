@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { parseSource, getReferenceUrl, formatReferenceDisplay } from '../utils';
+import { parseSource, formatReferenceDisplay } from '../utils';
 
 // Memoized parsing function to avoid recreating on every render
 const parseResponse = (response) => {
