@@ -44,25 +44,25 @@
 /* Grid layout for different screen sizes */
 @media (min-width: 768px) {
     .quotes-section {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-        gap: 2rem;
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)) !important;
+        gap: 2rem !important;
     }
     
     .quotes-section .quote-card {
-        margin-bottom: 0;
+        margin-bottom: 0 !important;
     }
 }
 
 @media (min-width: 1200px) {
     .quotes-section {
-        grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)) !important;
     }
 }
 
 @media (min-width: 1600px) {
     .quotes-section {
-        grid-template-columns: repeat(auto-fit, minmax(700px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(700px, 1fr)) !important;
     }
 }
 
@@ -285,13 +285,13 @@
 /* Mobile responsive */
 @media (max-width: 768px) {
     .quotes-section {
-        display: block;
-        grid-template-columns: 1fr;
+        display: block !important;
+        grid-template-columns: 1fr !important;
     }
     
     .quote-card {
         padding: 1.5rem;
-        margin-bottom: 2rem;
+        margin-bottom: 2rem !important;
     }
 
     .quote-text {
