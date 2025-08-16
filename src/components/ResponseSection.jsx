@@ -178,30 +178,49 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
           {processedQuotes.map((quote, index) => (
             <div key={`${index}-${quote.quote.substring(0, 50)}`} className="quote-card">
               <div className="quote-content">
-                <blockquote className="quote-text">
-                  {quote.quote}
-                </blockquote>
+                {/* Quote Section */}
+                <div className="quote-section">
+                  <h4 className="section-title">Quote</h4>
+                  <blockquote className="quote-text">
+                    {quote.quote}
+                  </blockquote>
+                </div>
                 
-                <div className="quote-meta">
-                  <span className="quote-source">{quote.parsedSource}</span>
-                  {quote.chapter && quote.verse && (
-                    <span className="quote-reference">
-                      {quote.chapter}:{quote.verse}
-                    </span>
-                  )}
-                  {quote.referenceUrl && (
-                    <a 
-                      href={quote.referenceUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="quote-link"
-                      title="View Reference"
-                    >
-                      <i className="fas fa-external-link-alt"></i>
-                    </a>
-                  )}
+                {/* Source Section */}
+                <div className="source-section">
+                  <h4 className="section-title">Source</h4>
+                  <div className="source-content">
+                    <span className="quote-source">{quote.parsedSource}</span>
+                    {quote.chapter && quote.verse && (
+                      <span className="quote-reference">
+                        {quote.chapter}:{quote.verse}
+                      </span>
+                    )}
+                    {quote.referenceUrl && (
+                      <a 
+                        href={quote.referenceUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="quote-link"
+                        title="View Reference"
+                      >
+                        <i className="fas fa-external-link-alt"></i>
+                      </a>
+                    )}
+                  </div>
                 </div>
 
+                {/* Context Section */}
+                {quote.context && (
+                  <div className="context-section">
+                    <h4 className="section-title">Context</h4>
+                    <div className="context-content">
+                      {quote.context}
+                    </div>
+                  </div>
+                )}
+
+                {/* Actions Section */}
                 <div className="quote-actions">
                   <button 
                     className="btn btn-sm btn-outline-primary copy-btn"
@@ -223,14 +242,6 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
                     </button>
                   )}
                 </div>
-
-                {quote.context && (
-                  <div className="quote-context">
-                    <div className="context-content">
-                      {quote.context}
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
           ))}

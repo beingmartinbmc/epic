@@ -64,12 +64,44 @@
     border-color: rgba(212, 175, 55, 0.3);
 }
 
+/* Section titles */
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--divine-purple);
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 2px solid var(--divine-light-gold);
+    display: inline-block;
+}
+
+/* Quote section */
+.quote-section {
+    margin-bottom: 1.5rem;
+}
+
 .quote-text {
     font-size: 1.2rem;
     line-height: 1.8;
     color: #2d3748;
     font-style: italic;
+    margin-bottom: 0;
+    padding: 1rem;
+    background: rgba(248, 250, 252, 0.6);
+    border-radius: 8px;
+    border-left: 4px solid var(--divine-gold);
+}
+
+/* Source section */
+.source-section {
     margin-bottom: 1.5rem;
+}
+
+.source-content {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
 }
 
 /* Quote source styles */
@@ -120,6 +152,24 @@
 .quote-source a:visited,
 .quote-source a:active {
     color: inherit !important;
+}
+
+/* Context section */
+.context-section {
+    margin-bottom: 1.5rem;
+}
+
+.context-content {
+    background: rgba(248, 250, 252, 0.8);
+    border-radius: 12px;
+    padding: 1.5rem;
+    position: relative;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    line-height: 1.8;
+    color: #4a5568;
+    font-size: 1rem;
+    white-space: pre-wrap;
 }
 
 /* Quote context styles */
@@ -209,7 +259,21 @@
 
     .quote-text {
         font-size: 1.1rem;
-        padding-left: 1.5rem;
+        padding: 0.8rem;
+    }
+
+    .section-title {
+        font-size: 1rem;
+    }
+
+    .source-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .context-content {
+        padding: 1rem;
     }
 }
 

@@ -175,7 +175,9 @@
 .quote-actions {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
   flex-wrap: wrap;
 }
 
