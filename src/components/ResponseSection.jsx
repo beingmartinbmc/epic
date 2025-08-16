@@ -106,7 +106,6 @@ const parseResponse = (response) => {
 };
 
 const ResponseSection = React.memo(({ response, isLoading }) => {
-  const [expandedQuotes, setExpandedQuotes] = useState(new Set());
   const [copiedQuote, setCopiedQuote] = useState(null);
 
   // Memoize the parsed response to avoid re-parsing on every render
@@ -125,24 +124,12 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
         parsedSource: bookName,
         chapter,
         verse,
-        referenceUrl,
-        isExpanded: expandedQuotes.has(quote.quote)
+        referenceUrl
       };
     });
-  }, [parsedData.quotes, expandedQuotes]);
+  }, [parsedData.quotes]);
 
-  // Memoized toggle function
-  const toggleQuote = useCallback((quote) => {
-    setExpandedQuotes(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(quote)) {
-        newSet.delete(quote);
-      } else {
-        newSet.add(quote);
-      }
-      return newSet;
-    });
-  }, []);
+
 
   // Copy quote to clipboard
   const copyQuote = useCallback(async (quote) => {
@@ -155,12 +142,7 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
     }
   }, []);
 
-  // Auto-expand first quote when response loads
-  useEffect(() => {
-    if (processedQuotes.length > 0 && expandedQuotes.size === 0) {
-      setExpandedQuotes(new Set([processedQuotes[0].quote]));
-    }
-  }, [processedQuotes.length, expandedQuotes.size]);
+
 
   if (isLoading) {
     return (
@@ -244,19 +226,9 @@ const ResponseSection = React.memo(({ response, isLoading }) => {
 
                 {quote.context && (
                   <div className="quote-context">
-                    <button 
-                      className="context-toggle"
-                      onClick={() => toggleQuote(quote.quote)}
-                    >
-                      {quote.isExpanded ? 'Hide Context' : 'Show Context'}
-                      <i className={`fas fa-chevron-${quote.isExpanded ? 'up' : 'down'}`}></i>
-                    </button>
-                    
-                    {quote.isExpanded && (
-                      <div className="context-content">
-                        {quote.context}
-                      </div>
-                    )}
+                    <div className="context-content">
+                      {quote.context}
+                    </div>
                   </div>
                 )}
               </div>

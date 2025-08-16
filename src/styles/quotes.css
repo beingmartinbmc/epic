@@ -70,19 +70,6 @@
     color: #2d3748;
     font-style: italic;
     margin-bottom: 1.5rem;
-    position: relative;
-    padding-left: 2rem;
-}
-
-.quote-text::before {
-    content: '"';
-    position: absolute;
-    left: 0;
-    top: -0.5rem;
-    font-size: 3rem;
-    color: var(--divine-purple);
-    opacity: 0.3;
-    animation: quoteGlow 2s ease-in-out infinite alternate;
 }
 
 /* Quote source styles */
@@ -98,7 +85,7 @@
     align-items: center;
     padding: 0.5rem 1.2rem;
     background: linear-gradient(135deg, var(--divine-purple) 0%, #8b5cf6 100%);
-    color: white;
+    color: white !important;
     border-radius: 8px;
     font-weight: 600;
     font-size: 0.95rem;

@@ -138,6 +138,17 @@
   font-size: 0.9rem;
 }
 
+/* Override for quote cards to ensure visibility */
+.quote-card .quote-source {
+  color: white !important;
+  background: linear-gradient(135deg, var(--divine-purple) 0%, #8b5cf6 100%);
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(139, 92, 246, 0.1);
+}
+
 .quote-reference {
   background: var(--divine-light-gold);
   color: var(--divine-dark);
