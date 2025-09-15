@@ -1,9 +1,9 @@
 /* Guidance container styles */
 .guidance-container {
-    margin-top: 3rem;
+    margin-top: 1.5rem;
     background: linear-gradient(135deg, var(--divine-cream) 0%, #FFF8F0 100%);
-    border-radius: 20px;
-    padding: 2.5rem;
+    border-radius: 15px;
+    padding: 1.5rem;
     border: 2px solid var(--divine-light-gold);
     position: relative;
     overflow: hidden;

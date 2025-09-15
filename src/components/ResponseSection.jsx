@@ -193,15 +193,7 @@ const ResponseSection = React.memo(({ response, isLoading, selectedText }) => {
   }
 
   if (!response) {
-    return (
-      <div className="response-section">
-        <div className="response-placeholder">
-          <div className="placeholder-icon">🙏</div>
-          <h3>Seek Divine Guidance</h3>
-          <p>Share your question or concern, and receive wisdom from sacred texts.</p>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   return (

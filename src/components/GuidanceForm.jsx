@@ -164,11 +164,11 @@ const GuidanceForm = React.memo(({
             onBlur={handleBlur}
             placeholder={placeholderText}
             className={`form-control ${isFocused ? 'focused' : ''}`}
-            rows="5"
+            rows="3"
             required
             style={{
               resize: 'vertical',
-              minHeight: '120px',
+              minHeight: '80px',
               transition: 'var(--transition-smooth)'
             }}
           />

@@ -4,29 +4,17 @@ const Footer = () => {
   return (
     <div className="powered-by-footer">
       <div className="footer-content">
-        <div className="footer-section">
-          <div className="footer-item">
-            <i className="fas fa-brain"></i>
-            <span>Powered by GPT-4.1</span>
-          </div>
+        <div className="footer-links">
+          <a href="http://s01.flagcounter.com/more/xG" target="_blank" rel="noopener noreferrer" className="footer-link">
+            <i className="fas fa-chart-line"></i>
+            View Analytics
+          </a>
         </div>
         
-        <div className="footer-section">
-          <div className="footer-item">
-            <i className="fas fa-user-circle"></i>
-            <a href="https://beingmartinbmc.github.io/Portfolio/#/" target="_blank" rel="noopener noreferrer">
-              About the Author
-            </a>
-          </div>
-        </div>
-        
-        <div className="footer-section">
-          <div className="footer-item">
-            <i className="fas fa-globe-americas"></i>
-            <a href="http://s01.flagcounter.com/more/xG" target="_blank" rel="noopener noreferrer" title="Global Wisdom Seekers">
-              Global Reach
-            </a>
-          </div>
+        <div className="footer-copyright">
+          <p>
+            © 2025 <a href="https://beingmartinbmc.github.io/Portfolio/#/" target="_blank" rel="noopener noreferrer" className="portfolio-link">Ankit</a>. Made with passion and creativity. Powered by Love and AI.
+          </p>
         </div>
       </div>
       
