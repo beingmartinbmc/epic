@@ -2,7 +2,8 @@ import { useState, useCallback, useRef } from 'react';
 import prompts from '../prompts.js';
 
 const API_CONFIG = {
-  OPENAI_PROXY_URL: 'https://epic-backend-myxdxwn4m-beingmartinbmcs-projects.vercel.app/api/openai-proxy'
+  OPENAI_PROXY_URL: 'https://epic-backend-qt7w2jqhj-beingmartinbmcs-projects.vercel.app/api/openai-proxy',
+  CONVERSATIONS_URL: 'https://epic-backend-qt7w2jqhj-beingmartinbmcs-projects.vercel.app/api/conversations'
 };
 
 // Prompt mapping for different sacred texts
@@ -38,6 +39,9 @@ const debounce = (func, wait) => {
 export const useGuidance = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState('');
+  const [conversations, setConversations] = useState([]);
+  const [conversationsLoading, setConversationsLoading] = useState(false);
+  const [pagination, setPagination] = useState(null);
   const abortControllerRef = useRef(null);
 
   const seekGuidance = useCallback(async (userInput, selectedText) => {
@@ -99,6 +103,41 @@ export const useGuidance = () => {
     }
   }, []);
 
+  // Fetch conversations with pagination
+  const fetchConversations = useCallback(async (page = 1, limit = 20, sort = 'timestamp', order = 'desc') => {
+    setConversationsLoading(true);
+    
+    try {
+      const url = new URL(API_CONFIG.CONVERSATIONS_URL);
+      url.searchParams.append('page', page.toString());
+      url.searchParams.append('limit', limit.toString());
+      url.searchParams.append('sort', sort);
+      url.searchParams.append('order', order);
+
+      const response = await fetch(url.toString(), {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Origin': 'https://beingmartinbmc.github.io'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setConversations(data.conversations || []);
+      setPagination(data.pagination || null);
+    } catch (error) {
+      console.error('Error fetching conversations:', error);
+      setConversations([]);
+      setPagination(null);
+    } finally {
+      setConversationsLoading(false);
+    }
+  }, []);
+
   // Debounced version for real-time features
   const debouncedSeekGuidance = useCallback(
     debounce(seekGuidance, 300),
@@ -109,6 +148,10 @@ export const useGuidance = () => {
     isLoading,
     response,
     seekGuidance,
-    debouncedSeekGuidance
+    debouncedSeekGuidance,
+    conversations,
+    conversationsLoading,
+    pagination,
+    fetchConversations
   };
 }; 

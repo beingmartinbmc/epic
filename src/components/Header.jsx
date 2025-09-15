@@ -49,6 +49,10 @@ const Header = React.memo(({ selectedText }) => {
     }
   }, [selectedText]);
 
+  const handleConversationsClick = () => {
+    window.open('/epic/conversations', '_blank');
+  };
+
   return (
     <div className="divine-header">
       <div className="header-content">
@@ -59,6 +63,14 @@ const Header = React.memo(({ selectedText }) => {
             <span className="unicode-icon">{headerContent.icon}</span>
           )}
           <span>{headerContent.title}</span>
+          <button 
+            className="conversations-emoji-btn"
+            onClick={handleConversationsClick}
+            title="View Recent Conversations"
+            aria-label="View Recent Conversations"
+          >
+            💬
+          </button>
         </h1>
         <p className="divine-subtitle">{headerContent.subtitle}</p>
       </div>
