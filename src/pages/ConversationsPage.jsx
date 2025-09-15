@@ -54,6 +54,73 @@ const ConversationsPage = () => {
     return names[optionChosen] || 'Unknown Source';
   };
 
+  // Function to format the AI response for better readability
+  const formatAIResponse = (response) => {
+    if (!response) return null;
+
+    // Check if the response contains structured format (QUOTE:, SOURCE:, etc.)
+    if (response.includes('QUOTE:') && response.includes('SOURCE:')) {
+      return response.split('\n').map((line, index) => {
+        const trimmedLine = line.trim();
+        if (!trimmedLine) return null;
+        
+        if (trimmedLine.startsWith('QUOTE:')) {
+          return (
+            <div key={index} className="formatted-quote">
+              <div className="quote-label">Quote:</div>
+              <blockquote className="quote-text">
+                {trimmedLine.substring(6).trim()}
+              </blockquote>
+            </div>
+          );
+        } else if (trimmedLine.startsWith('SOURCE:')) {
+          return (
+            <div key={index} className="formatted-source">
+              <div className="source-label">Source:</div>
+              <div className="source-text">{trimmedLine.substring(7).trim()}</div>
+            </div>
+          );
+        } else if (trimmedLine.startsWith('REFERENCE_URL:')) {
+          const url = trimmedLine.substring(14).trim();
+          return (
+            <div key={index} className="formatted-reference">
+              <div className="reference-label">Reference:</div>
+              <a 
+                href={url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="reference-link"
+              >
+                <i className="fas fa-external-link-alt"></i> View Reference
+              </a>
+            </div>
+          );
+        } else if (trimmedLine.startsWith('CONTEXT:')) {
+          return (
+            <div key={index} className="formatted-context">
+              <div className="context-label">Context:</div>
+              <div className="context-text">{trimmedLine.substring(8).trim()}</div>
+            </div>
+          );
+        } else if (trimmedLine.startsWith('SUMMARY:')) {
+          return (
+            <div key={index} className="formatted-summary">
+              <div className="summary-label">Summary:</div>
+              <div className="summary-text">{trimmedLine.substring(8).trim()}</div>
+            </div>
+          );
+        } else {
+          return (
+            <div key={index} className="formatted-text">{trimmedLine}</div>
+          );
+        }
+      });
+    } else {
+      // Fallback for non-structured responses
+      return <div className="formatted-text">{response}</div>;
+    }
+  };
+
   return (
     <div className="conversations-page">
       <div className="conversations-page-header">
@@ -92,7 +159,9 @@ const ConversationsPage = () => {
                   
                   <div className="ai-response">
                     <strong>Guidance:</strong>
-                    <p>{conversation.aiResponse}</p>
+                    <div className="formatted-response">
+                      {formatAIResponse(conversation.aiResponse)}
+                    </div>
                   </div>
                 </div>
 

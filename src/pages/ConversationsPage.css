@@ -153,6 +153,90 @@
   border-left: 4px solid #667eea;
 }
 
+/* Formatted response styles */
+.formatted-response {
+  margin-top: 0.5rem;
+}
+
+.formatted-quote,
+.formatted-source,
+.formatted-reference,
+.formatted-context,
+.formatted-summary,
+.formatted-text {
+  margin-bottom: 1rem;
+}
+
+.quote-label,
+.source-label,
+.reference-label,
+.context-label,
+.summary-label {
+  font-weight: 600;
+  color: #667eea;
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.quote-text {
+  font-style: italic;
+  color: #2d3748;
+  padding: 0.8rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 6px;
+  border-left: 3px solid #667eea;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.source-text {
+  color: #4a5568;
+  font-weight: 500;
+  padding: 0.5rem 0.8rem;
+  background: rgba(102, 126, 234, 0.1);
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.reference-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.4rem 0.8rem;
+  background: rgba(102, 126, 234, 0.1);
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all 0.3s ease;
+}
+
+.reference-link:hover {
+  background: rgba(102, 126, 234, 0.2);
+  transform: translateY(-1px);
+}
+
+.reference-link i {
+  font-size: 0.8rem;
+}
+
+.context-text,
+.summary-text {
+  color: #4a5568;
+  line-height: 1.6;
+  padding: 0.8rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 6px;
+  border: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+.formatted-text {
+  color: #4a5568;
+  line-height: 1.6;
+}
+
 .conversation-meta {
   display: flex;
   justify-content: space-between;
