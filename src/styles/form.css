@@ -22,15 +22,23 @@
 
 .form-control, .form-select {
     border: 2px solid var(--divine-light-gold);
-    border-radius: 15px;
-    padding: 1rem 1.2rem;
-    font-size: 1rem;
+    border-radius: 18px;
+    padding: 1.2rem 1.5rem;
+    font-size: 1.1rem;
+    font-family: 'Playfair Display', 'Georgia', serif;
     transition: var(--transition-smooth);
-    background: var(--divine-white);
+    background: 
+        linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(255, 248, 220, 0.8) 100%
+        );
     width: 100%;
     box-sizing: border-box;
     position: relative;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .form-control:focus, .form-select:focus {
@@ -46,23 +54,32 @@
     transform: translateY(-1px);
 }
 
-/* Button styles */
+/* Sacred Button styles */
 .divine-btn {
-    background: var(--divine-gradient);
-    border: none;
-    border-radius: 15px;
-    padding: 1rem 2.5rem;
-    font-size: 1.2rem;
+    background: 
+        linear-gradient(135deg, 
+            var(--divine-gradient) 0%,
+            rgba(212, 175, 55, 0.9) 50%,
+            var(--divine-gradient) 100%
+        );
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 1.2rem 3rem;
+    font-size: 1.3rem;
     font-weight: 600;
+    font-family: 'Playfair Display', 'Georgia', serif;
     color: white;
     transition: var(--transition-bounce);
     width: 100%;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .divine-btn::before {

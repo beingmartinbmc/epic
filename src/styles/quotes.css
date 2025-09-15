@@ -66,18 +66,27 @@
     }
 }
 
-/* Quote card styles */
+/* Sacred Quote card styles */
 .quote-card {
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    padding: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: 
+        linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.98) 0%,
+            rgba(255, 248, 220, 0.9) 50%,
+            rgba(255, 255, 255, 0.98) 100%
+        );
+    border-radius: 20px;
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.08),
+        0 0 0 1px rgba(212, 175, 55, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    padding: 2.5rem;
+    border: 2px solid rgba(212, 175, 55, 0.15);
     position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
     overflow: hidden;
     will-change: transform;
     margin-bottom: 0 !important;
+    backdrop-filter: blur(10px);
 }
 
 .quote-card::before {
@@ -86,13 +95,22 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: var(--divine-gradient);
+    height: 5px;
+    background: 
+        linear-gradient(90deg, 
+            var(--divine-gradient) 0%,
+            rgba(212, 175, 55, 0.8) 50%,
+            var(--divine-gradient) 100%
+        );
+    border-radius: 20px 20px 0 0;
 }
 
 .quote-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.12),
+        0 0 0 1px rgba(212, 175, 55, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 1);
     border-color: rgba(212, 175, 55, 0.3);
 }
 
@@ -113,15 +131,24 @@
 }
 
 .quote-text {
-    font-size: 1.2rem;
+    font-family: 'Playfair Display', 'Georgia', serif;
+    font-size: 1.4rem;
     line-height: 1.8;
     color: #2d3748;
     font-style: italic;
     margin-bottom: 0;
-    padding: 1rem;
-    background: rgba(248, 250, 252, 0.6);
-    border-radius: 8px;
-    border-left: 4px solid var(--divine-gold);
+    padding: 1.5rem;
+    background: 
+        linear-gradient(135deg, 
+            rgba(248, 250, 252, 0.8) 0%,
+            rgba(255, 248, 220, 0.6) 100%
+        );
+    border-radius: 12px;
+    border-left: 5px solid var(--divine-gold);
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    position: relative;
 }
 
 /* Source section */

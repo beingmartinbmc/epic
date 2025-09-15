@@ -1,11 +1,17 @@
-/* Header styles */
+/* Sacred Header styles */
 .divine-header {
-    background: var(--divine-gradient);
+    background: 
+        linear-gradient(135deg, 
+            var(--divine-gradient) 0%,
+            rgba(212, 175, 55, 0.8) 50%,
+            var(--divine-gradient) 100%
+        );
     color: white;
-    padding: 3rem 2rem;
+    padding: 4rem 3rem;
     text-align: center;
     position: relative;
     overflow: hidden;
+    border-bottom: 3px solid rgba(255, 255, 255, 0.2);
 }
 
 .divine-header::before {
@@ -20,17 +26,21 @@
 }
 
 .divine-title {
-    font-size: 3rem;
-    font-weight: 300;
+    font-family: 'Playfair Display', 'Georgia', serif;
+    font-size: 3.5rem;
+    font-weight: 400;
     margin: 0;
     position: relative;
     z-index: 1;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    text-shadow: 
+        2px 2px 4px rgba(0,0,0,0.4),
+        0 0 20px rgba(255, 255, 255, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: 1.5rem;
     transition: var(--transition-smooth);
+    letter-spacing: 0.5px;
 }
 
 .divine-title:hover {

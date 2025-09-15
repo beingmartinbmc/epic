@@ -140,22 +140,25 @@
 
 /* Global styles */
 body {
-    background: linear-gradient(-45deg, 
-        rgba(235, 188, 121, 1),
-        rgba(210, 235, 210, 0.9),
-        rgba(190, 190, 230, 1),
-        rgba(170, 198, 235, 1),
-        rgba(235, 190, 205, 1)
-    );
-    background-size: 400% 400%;
-    /* Animate background to match live site */
-    animation: gradient 20s ease infinite;
-    font-family: 'Georgia', 'Times New Roman', serif;
+    background: 
+        radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(139, 90, 150, 0.08) 0%, transparent 50%),
+        linear-gradient(135deg, 
+            rgba(255, 248, 220, 0.4) 0%,
+            rgba(240, 248, 255, 0.3) 25%,
+            rgba(255, 240, 245, 0.3) 50%,
+            rgba(248, 248, 255, 0.4) 75%,
+            rgba(255, 250, 240, 0.3) 100%
+        );
+    background-size: 100% 100%;
+    font-family: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
     min-height: 100vh;
     margin: 0;
     padding: 20px;
     position: relative;
     overflow-x: hidden;
+    color: var(--divine-dark);
+    line-height: 1.6;
 }
 
 /* Enhanced Divine Background with Glassmorphism */
@@ -181,21 +184,29 @@ body {
     backdrop-filter: blur(1px);
 }
 
-/* Enhanced Divine Container with Glassmorphism */
+/* Enhanced Divine Container with Sacred Glassmorphism */
 .divine-container {
     position: relative;
     z-index: 1;
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    background: 
+        linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(255, 248, 220, 0.9) 50%,
+            rgba(255, 255, 255, 0.95) 100%
+        );
+    border-radius: 24px;
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.08),
+        0 0 0 1px rgba(212, 175, 55, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
     overflow: hidden;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(212, 175, 55, 0.15);
     transition: var(--transition-smooth);
-    /* Subtle float animation to match live site */
-    animation: containerFloat 8s ease-in-out infinite;
+    /* Sacred floating animation */
+    animation: sacredFloat 12s ease-in-out infinite;
 }
 
 .divine-container:hover {
@@ -204,6 +215,39 @@ body {
 }
 
 .divine-content {
-    padding: 3rem 2rem;
+    padding: 4rem 3rem;
+    position: relative;
+}
+
+/* Sacred floating animation */
+@keyframes sacredFloat {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        box-shadow: 
+            0 25px 50px rgba(0, 0, 0, 0.08),
+            0 0 0 1px rgba(212, 175, 55, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+    25% {
+        transform: translateY(-3px) rotate(0.5deg);
+        box-shadow: 
+            0 30px 60px rgba(0, 0, 0, 0.1),
+            0 0 0 1px rgba(212, 175, 55, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+    50% {
+        transform: translateY(-5px) rotate(0deg);
+        box-shadow: 
+            0 35px 70px rgba(0, 0, 0, 0.12),
+            0 0 0 1px rgba(212, 175, 55, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 1);
+    }
+    75% {
+        transform: translateY(-3px) rotate(-0.5deg);
+        box-shadow: 
+            0 30px 60px rgba(0, 0, 0, 0.1),
+            0 0 0 1px rgba(212, 175, 55, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
 }
 
