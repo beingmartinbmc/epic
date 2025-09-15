@@ -3,10 +3,10 @@
     background: 
         linear-gradient(135deg, 
             var(--divine-gradient) 0%,
-            rgba(212, 175, 55, 0.8) 50%,
+            var(--divine-gold) 50%,
             var(--divine-gradient) 100%
         );
-    color: white;
+    color: var(--divine-white);
     padding: 4rem 3rem;
     text-align: center;
     position: relative;

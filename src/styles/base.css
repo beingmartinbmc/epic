@@ -30,19 +30,19 @@
     --divine-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-/* Hindu/Om Theme (Bhagavad Gita) */
+/* Hindu/Om Theme (Bhagavad Gita) - Orange/Saffron */
 .theme-hindu {
     --divine-gold: #FF9933;
-    --divine-purple: #FF6B6B;
-    --divine-blue: #4ECDC4;
+    --divine-purple: #FF6B35;
+    --divine-blue: #FF8C42;
     --divine-cream: #FFF8DC;
     --divine-white: #FFFFFF;
     --divine-dark: #2C3E50;
     --divine-light-gold: #FFE4B5;
-    --divine-gradient: linear-gradient(135deg, #FF9933 0%, #FF6B6B 100%);
+    --divine-gradient: linear-gradient(135deg, #FF9933 0%, #FF6B35 100%);
 }
 
-/* Islamic Theme (Quran) */
+/* Islamic Theme (Quran) - Green */
 .theme-islamic {
     --divine-gold: #228B22;
     --divine-purple: #006400;
@@ -54,7 +54,7 @@
     --divine-gradient: linear-gradient(135deg, #228B22 0%, #006400 100%);
 }
 
-/* Christian Theme (Bible) */
+/* Christian Theme (Bible) - Blue */
 .theme-christian {
     --divine-gold: #4169E1;
     --divine-purple: #191970;
@@ -66,7 +66,7 @@
     --divine-gradient: linear-gradient(135deg, #4169E1 0%, #191970 100%);
 }
 
-/* Sikh Theme (Guru Granth Sahib) */
+/* Sikh Theme (Guru Granth Sahib) - Golden */
 .theme-sikh {
     --divine-gold: #FFD700;
     --divine-purple: #DAA520;
@@ -78,7 +78,7 @@
     --divine-gradient: linear-gradient(135deg, #FFD700 0%, #DAA520 100%);
 }
 
-/* Buddhist Theme (Tripitaka) */
+/* Buddhist Theme (Tripitaka) - Orange/Brown */
 .theme-buddhist {
     --divine-gold: #FFA500;
     --divine-purple: #8B4513;
@@ -90,7 +90,7 @@
     --divine-gradient: linear-gradient(135deg, #FFA500 0%, #8B4513 100%);
 }
 
-/* Taoist Theme (Tao Te Ching) */
+/* Taoist Theme (Tao Te Ching) - Earth Brown */
 .theme-taoist {
     --divine-gold: #8B7355;
     --divine-purple: #6B4423;
@@ -102,7 +102,7 @@
     --divine-gradient: linear-gradient(135deg, #8B7355 0%, #6B4423 100%);
 }
 
-/* Confucian Theme (Analects of Confucius) */
+/* Confucian Theme (Analects of Confucius) - Red */
 .theme-confucian {
     --divine-gold: #8B0000;
     --divine-purple: #DC143C;
@@ -114,7 +114,7 @@
     --divine-gradient: linear-gradient(135deg, #8B0000 0%, #DC143C 100%);
 }
 
-/* Jewish Theme (Talmud) */
+/* Jewish Theme (Talmud) - Navy Blue */
 .theme-jewish {
     --divine-gold: #000080;
     --divine-purple: #191970;
@@ -126,7 +126,7 @@
     --divine-gradient: linear-gradient(135deg, #000080 0%, #191970 100%);
 }
 
-/* Zoroastrian Theme (Avesta) */
+/* Zoroastrian Theme (Avesta) - Crimson */
 .theme-zoroastrian {
     --divine-gold: #DC143C;
     --divine-purple: #8B0000;
@@ -141,14 +141,14 @@
 /* Global styles */
 body {
     background: 
-        radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 75% 75%, rgba(139, 90, 150, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 25% 25%, var(--divine-gold) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, var(--divine-purple) 0%, transparent 50%),
         linear-gradient(135deg, 
-            rgba(255, 248, 220, 0.4) 0%,
-            rgba(240, 248, 255, 0.3) 25%,
-            rgba(255, 240, 245, 0.3) 50%,
-            rgba(248, 248, 255, 0.4) 75%,
-            rgba(255, 250, 240, 0.3) 100%
+            var(--divine-cream) 0%,
+            rgba(255, 255, 255, 0.8) 25%,
+            var(--divine-cream) 50%,
+            rgba(255, 255, 255, 0.8) 75%,
+            var(--divine-cream) 100%
         );
     background-size: 100% 100%;
     font-family: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
@@ -171,14 +171,14 @@ body {
     pointer-events: none;
     z-index: 0;
     background: 
-        radial-gradient(circle at 20% 80%, rgba(255, 215, 0, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(138, 43, 226, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 20% 80%, var(--divine-gold) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, var(--divine-purple) 0%, transparent 50%),
         linear-gradient(135deg, 
-            rgba(255, 248, 220, 0.3) 0%,
-            rgba(240, 248, 255, 0.3) 25%,
-            rgba(255, 240, 245, 0.3) 50%,
-            rgba(248, 248, 255, 0.3) 75%,
-            rgba(255, 250, 240, 0.3) 100%
+            var(--divine-cream) 0%,
+            rgba(255, 255, 255, 0.3) 25%,
+            var(--divine-cream) 50%,
+            rgba(255, 255, 255, 0.3) 75%,
+            var(--divine-cream) 100%
         );
     opacity: 0.9;
     backdrop-filter: blur(1px);
@@ -193,17 +193,17 @@ body {
     background: 
         linear-gradient(135deg, 
             rgba(255, 255, 255, 0.95) 0%,
-            rgba(255, 248, 220, 0.9) 50%,
+            var(--divine-cream) 50%,
             rgba(255, 255, 255, 0.95) 100%
         );
     border-radius: 24px;
     box-shadow: 
         0 25px 50px rgba(0, 0, 0, 0.08),
-        0 0 0 1px rgba(212, 175, 55, 0.1),
+        0 0 0 1px var(--divine-gold),
         inset 0 1px 0 rgba(255, 255, 255, 0.8);
     overflow: hidden;
     backdrop-filter: blur(20px);
-    border: 2px solid rgba(212, 175, 55, 0.15);
+    border: 2px solid var(--divine-gold);
     transition: var(--transition-smooth);
     /* Sacred floating animation */
     animation: sacredFloat 12s ease-in-out infinite;
@@ -225,28 +225,28 @@ body {
         transform: translateY(0px) rotate(0deg);
         box-shadow: 
             0 25px 50px rgba(0, 0, 0, 0.08),
-            0 0 0 1px rgba(212, 175, 55, 0.1),
+            0 0 0 1px var(--divine-gold),
             inset 0 1px 0 rgba(255, 255, 255, 0.8);
     }
     25% {
         transform: translateY(-3px) rotate(0.5deg);
         box-shadow: 
             0 30px 60px rgba(0, 0, 0, 0.1),
-            0 0 0 1px rgba(212, 175, 55, 0.15),
+            0 0 0 1px var(--divine-gold),
             inset 0 1px 0 rgba(255, 255, 255, 0.9);
     }
     50% {
         transform: translateY(-5px) rotate(0deg);
         box-shadow: 
             0 35px 70px rgba(0, 0, 0, 0.12),
-            0 0 0 1px rgba(212, 175, 55, 0.2),
+            0 0 0 1px var(--divine-gold),
             inset 0 1px 0 rgba(255, 255, 255, 1);
     }
     75% {
         transform: translateY(-3px) rotate(-0.5deg);
         box-shadow: 
             0 30px 60px rgba(0, 0, 0, 0.1),
-            0 0 0 1px rgba(212, 175, 55, 0.15),
+            0 0 0 1px var(--divine-gold),
             inset 0 1px 0 rgba(255, 255, 255, 0.9);
     }
 }
