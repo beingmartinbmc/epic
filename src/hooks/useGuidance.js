@@ -2,8 +2,8 @@ import { useState, useCallback, useRef } from 'react';
 import prompts from '../prompts.js';
 
 const API_CONFIG = {
-  OPENAI_PROXY_URL: 'https://epic-backend-ofr9df23x-beingmartinbmcs-projects.vercel.app/api/openai-proxy',
-  CONVERSATIONS_URL: 'https://epic-backend-ofr9df23x-beingmartinbmcs-projects.vercel.app/api/conversations'
+  OPENAI_PROXY_URL: 'https://epic-backend-62lr1dfmi-beingmartinbmcs-projects.vercel.app/api/openai-proxy',
+  CONVERSATIONS_URL: 'https://epic-backend-62lr1dfmi-beingmartinbmcs-projects.vercel.app/api/conversations'
 };
 
 // Prompt mapping for different sacred texts
