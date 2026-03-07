@@ -4,9 +4,9 @@
     --divine-gold: #D4AF37;
     --divine-purple: #8B5A96;
     --divine-blue: #4A90E2;
-    --divine-cream: #FFF8DC;
+    --divine-cream: #FDFAF3;
     --divine-white: #FFFFFF;
-    --divine-dark: #2C3E50;
+    --divine-dark: #1a1a2e;
     --divine-light-gold: #F4E4BC;
     --divine-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     
@@ -16,6 +16,12 @@
     --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-heading: 'Playfair Display', 'Georgia', serif;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
 }
 
 /* Universal Theme (All texts) */
@@ -141,24 +147,26 @@
 /* Global styles */
 body {
     background: 
-        radial-gradient(circle at 25% 25%, var(--divine-gold) 0%, transparent 50%),
-        radial-gradient(circle at 75% 75%, var(--divine-purple) 0%, transparent 50%),
-        linear-gradient(135deg, 
-            var(--divine-cream) 0%,
-            rgba(255, 255, 255, 0.8) 25%,
-            var(--divine-cream) 50%,
-            rgba(255, 255, 255, 0.8) 75%,
-            var(--divine-cream) 100%
+        radial-gradient(ellipse at 20% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(139, 90, 150, 0.06) 0%, transparent 50%),
+        linear-gradient(160deg, 
+            #faf8f4 0%,
+            #f5f0e8 40%,
+            #faf8f4 60%,
+            #f5f0e8 100%
         );
     background-size: 100% 100%;
-    font-family: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
+    background-attachment: fixed;
+    font-family: var(--font-body);
     min-height: 100vh;
     margin: 0;
-    padding: 20px;
+    padding: 24px;
     position: relative;
     overflow-x: hidden;
     color: var(--divine-dark);
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* Enhanced Divine Background with Glassmorphism */
@@ -171,83 +179,36 @@ body {
     pointer-events: none;
     z-index: 0;
     background: 
-        radial-gradient(circle at 20% 80%, var(--divine-gold) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, var(--divine-purple) 0%, transparent 50%),
-        linear-gradient(135deg, 
-            var(--divine-cream) 0%,
-            rgba(255, 255, 255, 0.3) 25%,
-            var(--divine-cream) 50%,
-            rgba(255, 255, 255, 0.3) 75%,
-            var(--divine-cream) 100%
-        );
-    opacity: 0.9;
-    backdrop-filter: blur(1px);
+        radial-gradient(ellipse at 15% 85%, rgba(212, 175, 55, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 15%, rgba(139, 90, 150, 0.05) 0%, transparent 50%);
+    opacity: 1;
 }
 
 /* Enhanced Divine Container with Sacred Glassmorphism */
 .divine-container {
     position: relative;
     z-index: 1;
-    max-width: 1000px;
+    max-width: 720px;
     margin: 0 auto;
-    background: 
-        linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.95) 0%,
-            var(--divine-cream) 50%,
-            rgba(255, 255, 255, 0.95) 100%
-        );
-    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: var(--radius-xl);
     box-shadow: 
-        0 25px 50px rgba(0, 0, 0, 0.08),
-        0 0 0 1px var(--divine-gold),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        0 4px 6px rgba(0, 0, 0, 0.02),
+        0 12px 40px rgba(0, 0, 0, 0.06);
     overflow: hidden;
     backdrop-filter: blur(20px);
-    border: 2px solid var(--divine-gold);
-    transition: var(--transition-smooth);
-    /* Sacred floating animation */
-    animation: sacredFloat 12s ease-in-out infinite;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    transition: box-shadow 0.4s ease;
 }
 
 .divine-container:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    box-shadow: 
+        0 4px 6px rgba(0, 0, 0, 0.02),
+        0 20px 50px rgba(0, 0, 0, 0.08);
 }
 
 .divine-content {
-    padding: 4rem 3rem;
+    padding: 2.5rem 2.5rem 3rem;
     position: relative;
-}
-
-/* Sacred floating animation */
-@keyframes sacredFloat {
-    0%, 100% {
-        transform: translateY(0px) rotate(0deg);
-        box-shadow: 
-            0 25px 50px rgba(0, 0, 0, 0.08),
-            0 0 0 1px var(--divine-gold),
-            inset 0 1px 0 rgba(255, 255, 255, 0.8);
-    }
-    25% {
-        transform: translateY(-3px) rotate(0.5deg);
-        box-shadow: 
-            0 30px 60px rgba(0, 0, 0, 0.1),
-            0 0 0 1px var(--divine-gold),
-            inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    }
-    50% {
-        transform: translateY(-5px) rotate(0deg);
-        box-shadow: 
-            0 35px 70px rgba(0, 0, 0, 0.12),
-            0 0 0 1px var(--divine-gold),
-            inset 0 1px 0 rgba(255, 255, 255, 1);
-    }
-    75% {
-        transform: translateY(-3px) rotate(-0.5deg);
-        box-shadow: 
-            0 30px 60px rgba(0, 0, 0, 0.1),
-            0 0 0 1px var(--divine-gold),
-            inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    }
 }
 

@@ -153,8 +153,7 @@ const GuidanceForm = React.memo(({
         </label>
         
         <div className="textarea-container" style={{
-          position: 'relative',
-          transition: 'var(--transition-smooth)'
+          position: 'relative'
         }}>
           <textarea
             id="userMessage"
@@ -178,11 +177,10 @@ const GuidanceForm = React.memo(({
             <div className="character-indicator" style={{
               position: 'absolute',
               bottom: '10px',
-              right: '15px',
-              fontSize: '0.8rem',
-              color: characterData.characterPercentage > 90 ? 'var(--divine-purple)' : 'var(--divine-dark)',
-              opacity: 0.7,
-              transition: 'var(--transition-smooth)'
+              right: '12px',
+              fontSize: '0.75rem',
+              color: characterData.characterPercentage > 90 ? 'var(--divine-purple)' : '#9ca3af',
+              transition: 'color 0.2s ease'
             }}>
               {characterData.characterCount}
             </div>
@@ -195,9 +193,9 @@ const GuidanceForm = React.memo(({
               bottom: 0,
               left: 0,
               right: 0,
-              height: '3px',
-              background: 'rgba(0, 0, 0, 0.1)',
-              borderRadius: '0 0 15px 15px',
+              height: '2px',
+              background: 'rgba(0, 0, 0, 0.04)',
+              borderRadius: '0 0 var(--radius-md) var(--radius-md)',
               overflow: 'hidden'
             }}>
               <div style={{
@@ -207,7 +205,7 @@ const GuidanceForm = React.memo(({
                   ? 'var(--divine-purple)' 
                   : 'var(--divine-gradient)',
                 transition: 'width 0.3s ease',
-                borderRadius: '0 0 15px 15px'
+                borderRadius: '0 0 var(--radius-md) var(--radius-md)'
               }} />
             </div>
           )}
@@ -216,12 +214,11 @@ const GuidanceForm = React.memo(({
         {/* Helpful tips */}
         <div className="form-tips" style={{
           marginTop: '0.5rem',
-          fontSize: '0.9rem',
-          color: 'var(--divine-purple)',
-          opacity: 0.8,
-          fontStyle: 'italic'
+          fontSize: '0.8rem',
+          color: '#9ca3af',
+          fontStyle: 'normal'
         }}>
-          💡 Tip: Be specific about your situation for more personalized guidance
+          💡 Be specific about your situation for more personalized guidance
         </div>
       </div>
 
@@ -231,8 +228,7 @@ const GuidanceForm = React.memo(({
         </label>
         
         <div className="select-container" style={{
-          position: 'relative',
-          transition: 'var(--transition-smooth)'
+          position: 'relative'
         }}>
           <select
             id="selectedText"
@@ -260,15 +256,14 @@ const GuidanceForm = React.memo(({
           {/* Custom select arrow */}
           <div className="select-arrow" style={{
             position: 'absolute',
-            right: '15px',
+            right: '12px',
             top: '50%',
             transform: 'translateY(-50%)',
-            pointerEvents: 'none',
-            transition: 'var(--transition-smooth)'
+            pointerEvents: 'none'
           }}>
             <i className="fas fa-chevron-down" style={{
-              color: 'var(--divine-purple)',
-              fontSize: '0.9rem'
+              color: '#9ca3af',
+              fontSize: '0.75rem'
             }}></i>
           </div>
         </div>
@@ -277,15 +272,15 @@ const GuidanceForm = React.memo(({
         {selectedText && (
           <div className="source-description" style={{
             marginTop: '0.5rem',
-            padding: '0.8rem',
-            background: 'rgba(212, 175, 55, 0.1)',
-            borderRadius: '8px',
-            fontSize: '0.9rem',
-            color: 'var(--divine-dark)',
-            border: '1px solid rgba(212, 175, 55, 0.2)',
-            animation: 'fadeInUp 0.3s ease-out'
+            padding: '0.6rem 0.85rem',
+            background: 'rgba(0, 0, 0, 0.02)',
+            borderRadius: 'var(--radius-sm)',
+            fontSize: '0.8rem',
+            color: '#6b7280',
+            border: '1px solid rgba(0, 0, 0, 0.04)',
+            lineHeight: '1.5'
           }}>
-            <strong>Selected:</strong> {getSourceDescription(selectedText)}
+            {getSourceDescription(selectedText)}
           </div>
         )}
       </div>
@@ -294,28 +289,24 @@ const GuidanceForm = React.memo(({
         type="submit" 
         className={`divine-btn ${isLoading ? 'loading' : ''}`} 
         disabled={isLoading || characterData.characterCount === 0}
-        style={{
-          position: 'relative',
-          overflow: 'hidden'
-        }}
       >
         {isLoading ? (
           <>
             <div className="btn-loading-spinner" style={{
               display: 'inline-block',
-              width: '16px',
-              height: '16px',
-              border: '2px solid transparent',
+              width: '14px',
+              height: '14px',
+              border: '2px solid rgba(255,255,255,0.3)',
               borderTop: '2px solid white',
               borderRadius: '50%',
-              animation: 'spin 1s linear infinite',
+              animation: 'spin 0.8s linear infinite',
               marginRight: '8px'
             }}></div>
-            Seeking divine wisdom...
+            Seeking wisdom...
           </>
         ) : (
           <>
-            <i className="fas fa-search"></i> 
+            <i className="fas fa-search" style={{ marginRight: '6px', fontSize: '0.85rem' }}></i>
             Seek Divine Guidance
           </>
         )}

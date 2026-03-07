@@ -1,39 +1,57 @@
 .conversations-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(160deg, #faf8f4 0%, #f5f0e8 40%, #faf8f4 60%, #f5f0e8 100%);
   padding: 2rem;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.conversations-page-nav {
+  max-width: 900px;
+  margin: 0 auto 1.5rem;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6b7280;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.back-link:hover {
+  color: #1a1a2e;
+  background: rgba(0, 0, 0, 0.04);
+  text-decoration: none;
+}
+
+.back-link i {
+  font-size: 0.75rem;
 }
 
 .conversations-page-header {
   text-align: center;
-  margin-bottom: 3rem;
-  color: white;
+  margin-bottom: 2.5rem;
+  color: #1a1a2e;
 }
 
 .conversations-page-header h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-family: 'Playfair Display', 'Georgia', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: #1a1a2e;
 }
 
 .conversations-page-header p {
-  font-size: 1.1rem;
-  opacity: 0.9;
+  font-size: 0.95rem;
+  color: #6b7280;
   margin: 0;
-}
-
-.community-note {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 1rem 2rem;
-  border-radius: 12px;
-  margin-top: 1rem !important;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  font-weight: 500;
-  font-size: 1rem !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .conversations-loading {
@@ -42,16 +60,16 @@
   align-items: center;
   justify-content: center;
   padding: 4rem 2rem;
-  color: white;
+  color: #6b7280;
 }
 
 .conversations-loading .spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-top: 4px solid white;
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(0, 0, 0, 0.06);
+  border-top: 3px solid #667eea;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: spin 0.8s linear infinite;
   margin-bottom: 1rem;
 }
 
@@ -61,30 +79,29 @@
 }
 
 .conversations-loading p {
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   margin: 0;
 }
 
 .conversations-list {
-  max-width: 1200px;
+  max-width: 900px;
   margin: 0 auto;
   display: grid;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .conversation-card {
-  background: rgba(255, 255, 255, 0.95);
+  background: #fff;
   border-radius: 16px;
   padding: 1.5rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .conversation-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 .conversation-header {
@@ -92,8 +109,8 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .conversation-source {
@@ -103,19 +120,19 @@
 }
 
 .source-icon {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 .source-name {
   font-weight: 600;
-  color: #4a5568;
-  font-size: 0.95rem;
+  color: #1a1a2e;
+  font-size: 0.85rem;
 }
 
 .conversation-timestamp {
-  font-size: 0.85rem;
-  color: #718096;
-  font-weight: 500;
+  font-size: 0.8rem;
+  color: #9ca3af;
+  font-weight: 400;
 }
 
 .conversation-content {
@@ -130,12 +147,12 @@
 .user-question strong,
 .ai-response strong {
   display: block;
-  color: #2d3748;
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+  color: #9ca3af;
+  font-size: 0.7rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.06em;
 }
 
 .user-question p,
@@ -143,14 +160,14 @@
   color: #4a5568;
   line-height: 1.6;
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
 .ai-response {
-  background: rgba(102, 126, 234, 0.05);
+  background: rgba(248, 250, 252, 0.7);
   padding: 1rem;
-  border-radius: 8px;
-  border-left: 4px solid #667eea;
+  border-radius: 10px;
+  border-left: 3px solid #667eea;
 }
 
 /* Formatted response styles */
@@ -164,7 +181,7 @@
 .formatted-context,
 .formatted-summary,
 .formatted-text {
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .quote-label,
@@ -172,79 +189,84 @@
 .reference-label,
 .context-label,
 .summary-label {
-  font-weight: 600;
-  color: #667eea;
-  font-size: 0.85rem;
-  margin-bottom: 0.3rem;
+  font-weight: 700;
+  color: #9ca3af;
+  font-size: 0.7rem;
+  margin-bottom: 0.25rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.06em;
 }
 
-.quote-text {
+.conversations-page .quote-text {
   font-style: italic;
-  color: #2d3748;
-  padding: 0.8rem;
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 6px;
+  font-family: 'Playfair Display', 'Georgia', serif;
+  color: #1a1a2e;
+  padding: 0.65rem 0.85rem;
+  background: rgba(248, 250, 252, 0.6);
+  border-radius: 8px;
   border-left: 3px solid #667eea;
   margin: 0;
   line-height: 1.6;
+  font-size: 0.9rem;
 }
 
 .source-text {
   color: #4a5568;
-  font-weight: 500;
-  padding: 0.5rem 0.8rem;
-  background: rgba(102, 126, 234, 0.1);
-  border-radius: 4px;
+  font-weight: 600;
+  padding: 0.3rem 0.65rem;
+  background: rgba(102, 126, 234, 0.08);
+  border-radius: 6px;
   display: inline-block;
+  font-size: 0.8rem;
 }
 
 .reference-link {
   color: #667eea;
   text-decoration: none;
   font-weight: 500;
-  padding: 0.4rem 0.8rem;
-  background: rgba(102, 126, 234, 0.1);
-  border-radius: 4px;
+  padding: 0.3rem 0.65rem;
+  background: rgba(102, 126, 234, 0.06);
+  border-radius: 6px;
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  font-size: 0.8rem;
 }
 
 .reference-link:hover {
-  background: rgba(102, 126, 234, 0.2);
-  transform: translateY(-1px);
+  background: rgba(102, 126, 234, 0.12);
 }
 
 .reference-link i {
-  font-size: 0.8rem;
+  font-size: 0.7rem;
 }
 
 .context-text,
 .summary-text {
   color: #4a5568;
   line-height: 1.6;
-  padding: 0.8rem;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 6px;
-  border: 1px solid rgba(102, 126, 234, 0.1);
+  padding: 0.65rem 0.85rem;
+  background: rgba(248, 250, 252, 0.5);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  font-size: 0.85rem;
 }
 
 .formatted-text {
   color: #4a5568;
   line-height: 1.6;
+  font-size: 0.85rem;
 }
 
 .conversation-meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.8rem;
-  color: #718096;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 0.75rem;
+  color: #9ca3af;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.04);
 }
 
 .model-info,
@@ -264,43 +286,41 @@
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  margin-top: 3rem;
-  padding: 2rem;
+  margin-top: 2rem;
+  padding: 1.5rem;
 }
 
 .pagination-btn {
-  background: rgba(255, 255, 255, 0.9);
-  border: none;
-  border-radius: 8px;
-  padding: 0.75rem 1.5rem;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 0.6rem 1.25rem;
   font-weight: 600;
   color: #4a5568;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
+  gap: 0.4rem;
+  font-size: 0.85rem;
 }
 
 .pagination-btn:hover:not(:disabled) {
-  background: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .pagination-btn:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
-  transform: none;
 }
 
 .pagination-info {
-  color: white;
+  color: #6b7280;
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   text-align: center;
-  min-width: 200px;
+  min-width: 180px;
 }
 
 /* Responsive Design */
@@ -310,28 +330,31 @@
   }
   
   .conversations-page-header h1 {
-    font-size: 2rem;
+    font-size: 1.6rem;
   }
   
   .conversation-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5rem;
+    gap: 0.4rem;
+  }
+  
+  .conversation-card {
+    padding: 1.25rem;
   }
   
   .conversation-meta {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5rem;
+    gap: 0.3rem;
   }
   
   .conversations-pagination {
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.75rem;
   }
   
   .pagination-info {
     min-width: auto;
   }
 }
-/* Force rebuild */

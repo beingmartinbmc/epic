@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useGuidance } from '../hooks/useGuidance.js';
 import './ConversationsPage.css';
 
@@ -123,12 +124,16 @@ const ConversationsPage = () => {
 
   return (
     <div className="conversations-page">
+      <div className="conversations-page-nav">
+        <Link to="/" className="back-link">
+          <i className="fas fa-arrow-left"></i>
+          Back to Home
+        </Link>
+      </div>
+
       <div className="conversations-page-header">
         <h1>Recent Conversations</h1>
-        <p>Explore your past spiritual guidance sessions</p>
-        <p className="community-note">
-          🌟 Join thousands of seekers who are finding wisdom and guidance through these sacred texts
-        </p>
+        <p>Explore past spiritual guidance sessions from the community</p>
       </div>
 
       {conversationsLoading ? (

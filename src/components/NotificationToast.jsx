@@ -72,14 +72,15 @@ const NotificationToast = ({ message, type = 'info', duration = 4000, onClose })
         top: '20px',
         right: '20px',
         background: getBackground(),
-        backdropFilter: 'blur(15px)',
-        border: `1px solid ${getColor()}40`,
-        borderRadius: '15px',
-        padding: '1rem 1.5rem',
-        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+        backdropFilter: 'blur(12px)',
+        border: `1px solid ${getColor()}25`,
+        borderRadius: '14px',
+        padding: '0.85rem 1.25rem',
+        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04)',
         zIndex: 10000,
-        minWidth: '300px',
-        maxWidth: '400px',
+        minWidth: '280px',
+        maxWidth: '380px',
+        fontFamily: 'var(--font-body)',
         transform: isExiting ? 'translateX(100%)' : 'translateX(0)',
         opacity: isExiting ? 0 : 1,
         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -93,7 +94,7 @@ const NotificationToast = ({ message, type = 'info', duration = 4000, onClose })
       }}>
         <div style={{
           color: getColor(),
-          fontSize: '1.2rem',
+          fontSize: '1rem',
           marginTop: '0.1rem',
           flexShrink: 0
         }}>
@@ -107,15 +108,15 @@ const NotificationToast = ({ message, type = 'info', duration = 4000, onClose })
           <div style={{
             fontWeight: 600,
             color: 'var(--divine-dark)',
-            marginBottom: '0.2rem',
-            fontSize: '0.95rem'
+            marginBottom: '0.15rem',
+            fontSize: '0.85rem'
           }}>
             {type.charAt(0).toUpperCase() + type.slice(1)}
           </div>
           <div style={{
-            color: 'var(--divine-dark)',
-            fontSize: '0.9rem',
-            lineHeight: 1.4
+            color: '#4a5568',
+            fontSize: '0.8rem',
+            lineHeight: 1.5
           }}>
             {message}
           </div>
@@ -157,16 +158,16 @@ const NotificationToast = ({ message, type = 'info', duration = 4000, onClose })
         bottom: 0,
         left: 0,
         right: 0,
-        height: '3px',
-        background: 'rgba(0, 0, 0, 0.1)',
-        borderRadius: '0 0 15px 15px',
+        height: '2px',
+        background: 'rgba(0, 0, 0, 0.04)',
+        borderRadius: '0 0 14px 14px',
         overflow: 'hidden'
       }}>
         <div style={{
           width: '100%',
           height: '100%',
           background: getColor(),
-          borderRadius: '0 0 15px 15px',
+          borderRadius: '0 0 14px 14px',
           animation: 'progressShrink 4s linear forwards'
         }} />
       </div>

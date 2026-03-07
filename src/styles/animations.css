@@ -10,7 +10,7 @@
 /* Container float animation */
 @keyframes containerFloat {
     0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-5px); }
+    50% { transform: translateY(-2px); }
 }
 
 /* Shimmer effect animation */
@@ -65,14 +65,14 @@
 /* Float animation */
 @keyframes float {
     0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+    50% { transform: translateY(-4px); }
 }
 
 /* Slide in animations */
 @keyframes slideInUp {
     from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(12px);
     }
     to {
         opacity: 1;
@@ -83,7 +83,7 @@
 @keyframes slideInRight {
     from {
         opacity: 0;
-        transform: translateX(20px);
+        transform: translateX(10px);
     }
     to {
         opacity: 1;
@@ -111,7 +111,7 @@
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(10px);
     }
     to {
         opacity: 1;
@@ -129,25 +129,25 @@
 
 /* Optimized animations with GPU acceleration */
 .animate-float {
-    animation: float 3s ease-in-out infinite;
+    animation: float 4s ease-in-out infinite;
     will-change: transform;
     transform: translateZ(0);
 }
 
 .animate-pulse {
-    animation: iconPulse 2s ease-in-out infinite;
+    animation: iconPulse 3s ease-in-out infinite;
     will-change: transform;
     transform: translateZ(0);
 }
 
 .animate-glow {
-    animation: glow 2s ease-in-out infinite alternate;
+    animation: glow 3s ease-in-out infinite alternate;
     will-change: text-shadow, transform;
     transform: translateZ(0);
 }
 
 .animate-shimmer {
-    animation: shimmer 2s ease-in-out infinite;
+    animation: shimmer 3s ease-in-out infinite;
     will-change: transform;
     transform: translateZ(0);
 }

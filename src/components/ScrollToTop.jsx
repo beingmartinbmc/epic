@@ -31,41 +31,38 @@ const ScrollToTop = () => {
       className="scroll-to-top"
       style={{
         position: 'fixed',
-        bottom: '30px',
-        right: '30px',
-        width: '50px',
-        height: '50px',
-        borderRadius: '50%',
-        background: 'rgba(255, 255, 255, 0.9)',
-        backdropFilter: 'blur(15px)',
-        border: '1px solid rgba(212, 175, 55, 0.3)',
-        boxShadow: '0 8px 25px rgba(0, 0, 0, 0.1)',
+        bottom: '24px',
+        right: '24px',
+        width: '40px',
+        height: '40px',
+        borderRadius: '12px',
+        background: '#fff',
+        border: '1px solid rgba(0, 0, 0, 0.08)',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
         cursor: 'pointer',
         zIndex: 1000,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-        animation: 'fadeInUp 0.3s ease-out'
+        transition: 'all 0.2s ease',
+        animation: 'fadeInUp 0.2s ease-out'
       }}
       onMouseEnter={(e) => {
-        e.target.style.transform = 'translateY(-5px) scale(1.1)';
-        e.target.style.boxShadow = '0 15px 35px rgba(212, 175, 55, 0.3)';
-        e.target.style.background = 'rgba(255, 255, 255, 0.95)';
+        e.currentTarget.style.transform = 'translateY(-2px)';
+        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.12)';
       }}
       onMouseLeave={(e) => {
-        e.target.style.transform = 'translateY(0) scale(1)';
-        e.target.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.1)';
-        e.target.style.background = 'rgba(255, 255, 255, 0.9)';
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.08)';
       }}
       aria-label="Scroll to top"
     >
       <i 
         className="fas fa-chevron-up" 
         style={{
-          color: 'var(--divine-gold)',
-          fontSize: '1.2rem',
-          transition: 'transform 0.3s ease'
+          color: '#6b7280',
+          fontSize: '0.85rem',
+          transition: 'color 0.2s ease'
         }}
       />
       

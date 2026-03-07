@@ -1,6 +1,6 @@
 /* Form styles */
 .form-group {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.5rem;
     position: relative;
 }
 
@@ -8,80 +8,59 @@
     font-weight: 600;
     color: var(--divine-dark);
     margin-bottom: 0.5rem;
-    font-size: 1rem;
+    font-size: 0.875rem;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    transition: var(--transition-smooth);
+    gap: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 
 .form-label:hover {
     color: var(--divine-purple);
-    transform: translateX(5px);
 }
 
 .form-control, .form-select {
-    border: 2px solid var(--divine-light-gold);
-    border-radius: 15px;
-    padding: 0.8rem 1.2rem;
-    font-size: 1rem;
-    font-family: 'Playfair Display', 'Georgia', serif;
-    transition: var(--transition-smooth);
-    background: 
-        linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.95) 0%,
-            rgba(255, 248, 220, 0.8) 100%
-        );
+    border: 1.5px solid rgba(0, 0, 0, 0.1);
+    border-radius: var(--radius-md);
+    padding: 0.85rem 1rem;
+    font-size: 0.95rem;
+    font-family: var(--font-body);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background: #fff;
     width: 100%;
     box-sizing: border-box;
     position: relative;
-    backdrop-filter: blur(10px);
-    box-shadow: 
-        0 4px 15px rgba(0, 0, 0, 0.05),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    color: var(--divine-dark);
 }
 
 .form-control:focus, .form-select:focus {
     border-color: var(--divine-gold);
-    box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.12);
     outline: none;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
 }
 
 .form-control:hover, .form-select:hover {
-    border-color: var(--divine-purple);
-    transform: translateY(-1px);
+    border-color: rgba(0, 0, 0, 0.2);
 }
 
 /* Sacred Button styles */
 .divine-btn {
-    background: 
-        linear-gradient(135deg, 
-            var(--divine-gold) 0%,
-            var(--divine-purple) 50%,
-            var(--divine-gold) 100%
-        );
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    border-radius: 25px;
-    padding: 1.2rem 3rem;
-    font-size: 1.2rem;
+    background: var(--divine-gradient);
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 0.9rem 2rem;
+    font-size: 1rem;
     font-weight: 600;
-    font-family: 'Playfair Display', 'Georgia', serif;
+    font-family: var(--font-body);
     color: white;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.25s ease;
     width: 100%;
-    text-transform: none;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.02em;
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    backdrop-filter: blur(20px);
-    box-shadow: 
-        0 12px 35px rgba(212, 175, 55, 0.4),
-        0 6px 20px rgba(139, 90, 150, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.6);
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
 .divine-btn::before {
@@ -91,8 +70,8 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transition: left 0.6s ease;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    transition: left 0.5s ease;
 }
 
 .divine-btn:hover::before {
@@ -100,38 +79,20 @@
 }
 
 .divine-btn:hover {
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 
-        0 25px 50px rgba(212, 175, 55, 0.5),
-        0 10px 30px rgba(139, 90, 150, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
-    background: 
-        linear-gradient(135deg, 
-            var(--divine-blue) 0%,
-            var(--divine-purple) 50%,
-            var(--divine-blue) 100%
-        );
-    border-color: rgba(255, 255, 255, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
 }
 
 .divine-btn:active {
-    transform: translateY(-1px) scale(0.98);
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
 }
 
 .divine-btn:disabled {
-    opacity: 0.7;
+    opacity: 0.55;
     cursor: not-allowed;
     transform: none;
-    background: 
-        linear-gradient(135deg, 
-            var(--divine-gold) 0%,
-            var(--divine-purple) 50%,
-            var(--divine-gold) 100%
-        );
-    box-shadow: 
-        0 8px 20px rgba(212, 175, 55, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: none;
 }
 
 /* Loading spinner */
@@ -178,13 +139,13 @@
 
 /* Enhanced form animations */
 .enhanced-form .form-group {
-    animation: slideInUp 0.6s ease-out;
+    animation: fadeInUp 0.4s ease-out;
     animation-fill-mode: both;
 }
 
-.enhanced-form .form-group:nth-child(1) { animation-delay: 0.1s; }
-.enhanced-form .form-group:nth-child(2) { animation-delay: 0.2s; }
-.enhanced-form .form-group:nth-child(3) { animation-delay: 0.3s; }
+.enhanced-form .form-group:nth-child(1) { animation-delay: 0.05s; }
+.enhanced-form .form-group:nth-child(2) { animation-delay: 0.1s; }
+.enhanced-form .form-group:nth-child(3) { animation-delay: 0.15s; }
 
 /* Character count */
 .character-count {
@@ -211,24 +172,7 @@
 /* Enhanced focus states */
 .form-control.focused {
     border-color: var(--divine-gold);
-    box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
-    animation: focusGlow 0.3s ease-out;
-}
-
-/* Button glow animation */
-@keyframes buttonGlow {
-    0%, 100% {
-        box-shadow: 
-            0 10px 30px rgba(212, 175, 55, 0.3),
-            0 4px 15px rgba(139, 90, 150, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    }
-    50% {
-        box-shadow: 
-            0 12px 35px rgba(212, 175, 55, 0.4),
-            0 6px 20px rgba(139, 90, 150, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.5);
-    }
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.12);
 }
 
 /* Mobile responsive */
@@ -238,8 +182,8 @@
     }
     
     .divine-btn {
-        padding: 1rem 2.5rem;
-        font-size: 1.1rem;
+        padding: 0.85rem 1.5rem;
+        font-size: 0.95rem;
     }
 }
 

@@ -1,17 +1,11 @@
 /* Sacred Header styles */
 .divine-header {
-    background: 
-        linear-gradient(135deg, 
-            var(--divine-gradient) 0%,
-            var(--divine-gold) 50%,
-            var(--divine-gradient) 100%
-        );
+    background: var(--divine-gradient);
     color: var(--divine-white);
-    padding: 4rem 3rem;
+    padding: 2.5rem 2.5rem 2rem;
     text-align: center;
     position: relative;
     overflow: hidden;
-    border-bottom: 3px solid rgba(255, 255, 255, 0.2);
 }
 
 .divine-header::before {
@@ -21,104 +15,95 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
-    animation: shimmer 3s ease-in-out infinite;
+    background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
+    pointer-events: none;
 }
 
 .divine-title {
-    font-family: 'Playfair Display', 'Georgia', serif;
-    font-size: 3.5rem;
-    font-weight: 400;
+    font-family: var(--font-heading);
+    font-size: 2.4rem;
+    font-weight: 600;
     margin: 0;
     position: relative;
     z-index: 1;
-    color: var(--divine-dark) !important;
-    text-shadow: 
-        2px 2px 4px rgba(255,255,255,0.8),
-        0 0 20px rgba(255, 255, 255, 0.5);
+    color: #fff !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1.5rem;
-    transition: var(--transition-smooth);
-    letter-spacing: 0.5px;
+    gap: 0.75rem;
+    letter-spacing: -0.01em;
 }
 
 .divine-title:hover {
-    transform: scale(1.02);
+    transform: none;
 }
 
 .conversations-emoji-btn {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    font-size: 1.1rem;
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 0;
     border-radius: 50%;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    margin-left: 1rem;
-    opacity: 0.8;
+    width: 2.4rem;
+    height: 2.4rem;
+    margin-left: 0.75rem;
+    opacity: 0.9;
 }
 
 .conversations-emoji-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.08);
     opacity: 1;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .conversations-emoji-btn:active {
-    transform: scale(0.95);
+    transform: scale(0.96);
 }
 
 .unicode-icon {
-    font-size: 2.5rem;
-    opacity: 0.9;
-    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
-    animation: iconPulse 2s ease-in-out infinite;
+    font-size: 1.8rem;
+    opacity: 0.95;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
 }
 
 .divine-subtitle {
-    font-size: 1.2rem;
-    margin: 0.5rem 0 0 0;
-    opacity: 0.9;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 400;
+    margin: 0.4rem 0 0 0;
+    opacity: 0.85;
     position: relative;
     z-index: 1;
-    color: var(--divine-dark) !important;
-    transition: var(--transition-smooth);
+    color: rgba(255, 255, 255, 0.9) !important;
+    letter-spacing: 0.02em;
 }
 
 /* Mobile responsive styles */
 @media (max-width: 768px) {
     .divine-title {
-        font-size: 2.2rem;
-        flex-direction: column;
+        font-size: 1.8rem;
         gap: 0.5rem;
     }
 
     .conversations-emoji-btn {
-        font-size: 1.2rem;
-        width: 2.5rem;
-        height: 2.5rem;
+        font-size: 1rem;
+        width: 2.2rem;
+        height: 2.2rem;
         margin-left: 0.5rem;
     }
 
     .divine-header {
-        position: relative;
-        min-height: 120px;
-        padding: 2rem 1rem;
+        padding: 2rem 1.5rem 1.5rem;
     }
-    
-    .divine-header > div:first-child,
-    .divine-header > div:nth-child(2) {
-        position: static;
-        margin: 0.5rem 0;
-        text-align: center;
+
+    .divine-subtitle {
+        font-size: 0.85rem;
     }
 }
 

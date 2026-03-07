@@ -2,11 +2,11 @@
 
 .quotes-header {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .quotes-header h5 {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     color: var(--divine-purple);
     font-weight: 600;
     margin: 0;
@@ -17,76 +17,34 @@
 .quotes-header h5::after {
     content: '';
     position: absolute;
-    bottom: -5px;
+    bottom: -4px;
     left: 50%;
     transform: translateX(-50%);
-    width: 50px;
-    height: 3px;
+    width: 40px;
+    height: 2px;
     background: var(--divine-gradient);
     border-radius: 2px;
 }
 
-/* Main quotes section - Grid container */
+/* Main quotes section */
 .quotes-section {
-    margin-top: 3rem;
-    display: grid !important;
-    gap: 2rem !important;
-    grid-template-columns: 1fr !important;
+    margin-top: 2rem;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.25rem !important;
     width: 100% !important;
-}
-
-/* Responsive grid layout for quote cards */
-@media (min-width: 768px) {
-    .quotes-section {
-        grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)) !important;
-    }
-}
-
-@media (min-width: 1200px) {
-    .quotes-section {
-        grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)) !important;
-    }
-}
-
-@media (min-width: 1600px) {
-    .quotes-section {
-        grid-template-columns: repeat(auto-fit, minmax(700px, 1fr)) !important;
-    }
-}
-
-/* Mobile responsive - single column */
-@media (max-width: 767px) {
-    .quotes-section {
-        display: block !important;
-        grid-template-columns: 1fr !important;
-    }
-    
-    .quote-card {
-        margin-bottom: 2rem !important;
-    }
 }
 
 /* Sacred Quote card styles */
 .quote-card {
-    background: 
-        linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.98) 0%,
-            rgba(255, 248, 220, 0.9) 50%,
-            rgba(255, 255, 255, 0.98) 100%
-        );
-    border-radius: 20px;
-    box-shadow: 
-        0 8px 25px rgba(0, 0, 0, 0.08),
-        0 0 0 1px rgba(212, 175, 55, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
-    padding: 2.5rem;
-    border: 2px solid rgba(212, 175, 55, 0.15);
+    background: #fff;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.04);
+    padding: 1.75rem;
+    border: 1px solid rgba(0, 0, 0, 0.06);
     position: relative;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
     overflow: hidden;
-    will-change: transform;
-    margin-bottom: 0 !important;
-    backdrop-filter: blur(10px);
 }
 
 .quote-card::before {
@@ -95,71 +53,56 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 5px;
-    background: 
-        linear-gradient(90deg, 
-            var(--divine-gradient) 0%,
-            rgba(212, 175, 55, 0.8) 50%,
-            var(--divine-gradient) 100%
-        );
-    border-radius: 20px 20px 0 0;
+    height: 3px;
+    background: var(--divine-gradient);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    opacity: 0.8;
 }
 
 .quote-card:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.12),
-        0 0 0 1px rgba(212, 175, 55, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 1);
-    border-color: rgba(212, 175, 55, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 /* Section titles */
 .section-title {
-    font-size: 1.1rem;
-    font-weight: 600;
+    font-size: 0.75rem;
+    font-weight: 700;
     color: var(--divine-purple);
-    margin-bottom: 0.8rem;
-    padding-bottom: 0.3rem;
-    border-bottom: 2px solid var(--divine-light-gold);
-    display: inline-block;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    display: block;
 }
 
 /* Quote section */
 .quote-section {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
 }
 
 .quote-text {
-    font-family: 'Playfair Display', 'Georgia', serif;
-    font-size: 1.4rem;
-    line-height: 1.8;
-    color: #2d3748;
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    line-height: 1.75;
+    color: #1a1a2e;
     font-style: italic;
     margin-bottom: 0;
-    padding: 1.5rem;
-    background: 
-        linear-gradient(135deg, 
-            rgba(248, 250, 252, 0.8) 0%,
-            rgba(255, 248, 220, 0.6) 100%
-        );
-    border-radius: 12px;
-    border-left: 5px solid var(--divine-gold);
-    box-shadow: 
-        0 2px 8px rgba(0, 0, 0, 0.05),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    padding: 1rem 1.25rem;
+    background: rgba(248, 250, 252, 0.6);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--divine-gold);
     position: relative;
 }
 
 /* Source section */
 .source-section {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
 }
 
 .source-content {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
+    gap: 0.6rem;
     flex-wrap: wrap;
 }
 
@@ -167,31 +110,30 @@
 .quote-source-container {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin: 1rem 0;
+    gap: 0.75rem;
+    margin: 0.75rem 0;
 }
 
 .quote-source {
     display: inline-flex;
     align-items: center;
-    padding: 0.5rem 1.2rem;
-    background: linear-gradient(135deg, var(--divine-purple) 0%, #8b5cf6 100%);
+    padding: 0.35rem 0.85rem;
+    background: var(--divine-gradient);
     color: white !important;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     font-weight: 600;
-    font-size: 0.95rem;
-    box-shadow: 0 2px 4px rgba(139, 92, 246, 0.1);
-    transition: var(--transition-smooth);
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    transition: opacity 0.2s ease;
 }
 
 .quote-source:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+    opacity: 0.9;
 }
 
 .quote-source i {
-    margin-right: 0.5rem;
-    opacity: 0.8;
+    margin-right: 0.4rem;
+    opacity: 0.85;
 }
 
 /* Quote source link styles */
@@ -215,43 +157,45 @@
 
 /* Context section */
 .context-section {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
 }
 
 .context-content {
-    background: rgba(248, 250, 252, 0.95);
-    border-radius: 12px;
-    padding: 1.5rem;
+    background: rgba(248, 250, 252, 0.7);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
     position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    line-height: 1.8;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    line-height: 1.7;
     color: #4a5568;
-    font-size: 1rem;
+    font-size: 0.9rem;
     white-space: pre-wrap;
 }
 
 /* Quote context styles */
 .quote-context {
-    background: rgba(248, 250, 252, 0.95);
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-top: 1.5rem;
+    background: rgba(248, 250, 252, 0.7);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    margin-top: 1rem;
     position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
 .context-label {
-    font-weight: 600;
+    font-weight: 700;
     color: var(--divine-purple);
     display: block;
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
 }
 
 .context-text {
     color: #4a5568;
-    line-height: 1.8;
-    font-size: 1rem;
+    line-height: 1.7;
+    font-size: 0.9rem;
     white-space: pre-wrap;
 }
 
@@ -259,78 +203,63 @@
 .quote-marker {
     background: var(--divine-gradient);
     color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
+    padding: 0.3rem 0.8rem;
+    border-radius: var(--radius-sm);
     display: inline-block;
-    margin: 1rem 0 0.5rem 0;
-    font-weight: bold;
-    animation: markerPulse 2s ease-in-out infinite;
+    margin: 0.75rem 0 0.4rem 0;
+    font-weight: 600;
+    font-size: 0.8rem;
 }
 
 .source-marker {
     background: var(--divine-purple);
     color: white;
-    padding: 0.3rem 0.8rem;
-    border-radius: 15px;
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-sm);
     display: inline-block;
-    margin: 0.5rem 0;
-    font-size: 0.9rem;
+    margin: 0.4rem 0;
+    font-size: 0.8rem;
 }
 
 .context-marker {
     background: var(--divine-blue);
     color: white;
-    padding: 0.3rem 0.8rem;
-    border-radius: 15px;
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-sm);
     display: inline-block;
-    margin: 0.5rem 0;
-    font-size: 0.9rem;
+    margin: 0.4rem 0;
+    font-size: 0.8rem;
 }
 
 /* Enhanced quote card animations */
-.enhanced-quote-card {
-    animation: fadeInUp 0.6s ease-out;
+.quote-card {
+    animation: fadeInUp 0.35s ease-out;
     animation-fill-mode: both;
 }
 
-.enhanced-quote-card:nth-child(1) { animation-delay: 0.1s; }
-.enhanced-quote-card:nth-child(2) { animation-delay: 0.2s; }
-.enhanced-quote-card:nth-child(3) { animation-delay: 0.3s; }
-.enhanced-quote-card:nth-child(4) { animation-delay: 0.4s; }
-
-/* Enhanced context expansion */
-.enhanced-context {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.enhanced-context:hover {
-    background: rgba(248, 250, 252, 0.9);
-    transform: translateY(-2px);
-}
+.quote-card:nth-child(2) { animation-delay: 0.08s; }
+.quote-card:nth-child(3) { animation-delay: 0.16s; }
+.quote-card:nth-child(4) { animation-delay: 0.24s; }
 
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
     .quote-card {
-        padding: 1.5rem;
+        padding: 1.25rem;
     }
 
     .quote-text {
-        font-size: 1.1rem;
-        padding: 0.8rem;
-    }
-
-    .section-title {
         font-size: 1rem;
+        padding: 0.75rem 1rem;
     }
 
     .source-content {
         flex-direction: column;
         align-items: flex-start;
-        gap: 0.5rem;
+        gap: 0.4rem;
     }
 
     .context-content {
-        padding: 1rem;
+        padding: 0.85rem 1rem;
     }
 }
 
