@@ -6,6 +6,19 @@ import './ConversationsPage.css';
 const ConversationsPage = () => {
   const { conversations, conversationsLoading, pagination, fetchConversations } = useGuidance();
   const [currentPage, setCurrentPage] = useState(1);
+  const [expandedIds, setExpandedIds] = useState(new Set());
+
+  const toggleExpand = (id) => {
+    setExpandedIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
 
   useEffect(() => {
     fetchConversations(currentPage, 20, 'timestamp', 'desc');
@@ -144,46 +157,56 @@ const ConversationsPage = () => {
       ) : (
         <>
           <div className="conversations-list">
-            {conversations.map((conversation) => (
-              <div key={conversation._id} className="conversation-card">
-                <div className="conversation-header">
-                  <div className="conversation-source">
-                    <span className="source-icon">{getSourceIcon(conversation.optionChosen)}</span>
-                    <span className="source-name">{getSourceName(conversation.optionChosen)}</span>
-                  </div>
-                  <div className="conversation-timestamp">
-                    {formatTimestamp(conversation.timestamp)}
-                  </div>
-                </div>
-                
-                <div className="conversation-content">
-                  <div className="user-question">
-                    <strong>Question:</strong>
-                    <p>{conversation.userInput}</p>
-                  </div>
-                  
-                  <div className="ai-response">
-                    <strong>Guidance:</strong>
-                    <div className="formatted-response">
-                      {formatAIResponse(conversation.aiResponse)}
+            {conversations.map((conversation) => {
+              const isExpanded = expandedIds.has(conversation._id);
+              return (
+                <div key={conversation._id} className="conversation-card">
+                  <button
+                    className="conversation-toggle"
+                    onClick={() => toggleExpand(conversation._id)}
+                    aria-expanded={isExpanded}
+                  >
+                    <div className="conversation-toggle-left">
+                      <span className="source-icon">{getSourceIcon(conversation.optionChosen)}</span>
+                      <div className="conversation-toggle-text">
+                        <span className="source-name">{getSourceName(conversation.optionChosen)}</span>
+                        <p className="question-preview">{conversation.userInput}</p>
+                      </div>
                     </div>
-                  </div>
-                </div>
+                    <div className="conversation-toggle-right">
+                      <span className="conversation-timestamp">
+                        {formatTimestamp(conversation.timestamp)}
+                      </span>
+                      <i className={`fas fa-chevron-down expand-icon ${isExpanded ? 'expanded' : ''}`}></i>
+                    </div>
+                  </button>
 
-                <div className="conversation-meta">
-                  <span className="model-info">
-                    <i className="fas fa-robot"></i>
-                    {conversation.model}
-                  </span>
-                  {conversation.usage && (
-                    <span className="usage-info">
-                      <i className="fas fa-chart-bar"></i>
-                      {conversation.usage.total_tokens} tokens
-                    </span>
+                  {isExpanded && (
+                    <div className="conversation-body">
+                      <div className="ai-response">
+                        <strong>Guidance:</strong>
+                        <div className="formatted-response">
+                          {formatAIResponse(conversation.aiResponse)}
+                        </div>
+                      </div>
+
+                      <div className="conversation-meta">
+                        <span className="model-info">
+                          <i className="fas fa-robot"></i>
+                          {conversation.model}
+                        </span>
+                        {conversation.usage && (
+                          <span className="usage-info">
+                            <i className="fas fa-chart-bar"></i>
+                            {conversation.usage.total_tokens} tokens
+                          </span>
+                        )}
+                      </div>
+                    </div>
                   )}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {pagination && (
