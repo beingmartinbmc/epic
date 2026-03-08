@@ -6,8 +6,8 @@ const API_CONFIG = {
   CONVERSATIONS_URL: 'https://epic-backend-f9tfcyn1d-beingmartinbmcs-projects.vercel.app/api/conversations'
 };
 
-// Prompt mapping for different sacred texts
-const PROMPT_MAPPING = {
+// Prompt mapping for different sacred texts - guidance mode
+const GUIDANCE_PROMPT_MAPPING = {
   'BHAGAVAD_GITA': prompts.userPrompts.bhagavadGita,
   'VEDAS': prompts.userPrompts.vedas,
   'QURAN': prompts.userPrompts.quran,
@@ -21,6 +21,23 @@ const PROMPT_MAPPING = {
   'TALMUD': prompts.userPrompts.talmud,
   'AVESTA': prompts.userPrompts.avesta,
   'ALL': prompts.userPrompts.allTexts
+};
+
+// Prompt mapping for different sacred texts - understand mode
+const UNDERSTAND_PROMPT_MAPPING = {
+  'BHAGAVAD_GITA': prompts.understandPrompts.bhagavadGita,
+  'VEDAS': prompts.understandPrompts.vedas,
+  'QURAN': prompts.understandPrompts.quran,
+  'BIBLE': prompts.understandPrompts.bible,
+  'GURU_GRANTH_SAHIB': prompts.understandPrompts.guruGranthSahib,
+  'TRIPITAKA': prompts.understandPrompts.tripitaka,
+  'TAO_TE_CHING': prompts.understandPrompts.taoTeChing,
+  'ANALECTS_OF_CONFUCIUS': prompts.understandPrompts.analectsOfConfucius,
+  'DHAMMAPADA': prompts.understandPrompts.dhammapada,
+  'UPANISHADS': prompts.understandPrompts.upanishads,
+  'TALMUD': prompts.understandPrompts.talmud,
+  'AVESTA': prompts.understandPrompts.avesta,
+  'ALL': prompts.understandPrompts.allTexts
 };
 
 // Debounce utility function
@@ -44,7 +61,7 @@ export const useGuidance = () => {
   const [pagination, setPagination] = useState(null);
   const abortControllerRef = useRef(null);
 
-  const seekGuidance = useCallback(async (userInput, selectedText) => {
+  const seekGuidance = useCallback(async (userInput, selectedText, mode = 'guidance') => {
     if (!userInput.trim()) return;
 
     // Cancel any ongoing request
@@ -58,6 +75,12 @@ export const useGuidance = () => {
     setIsLoading(true);
     setResponse('');
 
+    // Select prompts based on mode
+    const isUnderstand = mode === 'understand';
+    const systemPrompt = isUnderstand ? prompts.understandSystem.prompt : prompts.system.prompt;
+    const promptMapping = isUnderstand ? UNDERSTAND_PROMPT_MAPPING : GUIDANCE_PROMPT_MAPPING;
+    const userPrefix = isUnderstand ? "User's question" : "User's situation";
+
     try {
       const response = await fetch(API_CONFIG.OPENAI_PROXY_URL, {
         method: 'POST',
@@ -68,11 +91,11 @@ export const useGuidance = () => {
           messages: [
             {
               role: 'system',
-              content: prompts.system.prompt
+              content: systemPrompt
             },
             {
               role: 'user',
-              content: `${PROMPT_MAPPING[selectedText]}\n\nUser's situation: ${userInput}`
+              content: `${promptMapping[selectedText]}\n\n${userPrefix}: ${userInput}`
             }
           ],
           userInput: userInput, // Send raw input for language detection

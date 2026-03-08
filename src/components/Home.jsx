@@ -26,6 +26,7 @@ const ResponseSectionFallback = () => (
 function Home() {
   const [selectedText, setSelectedText] = useState('ALL');
   const [userInput, setUserInput] = useState('');
+  const [mode, setMode] = useState('guidance');
   const [notifications, setNotifications] = useState([]);
 
   const { isLoading, response, seekGuidance } = useGuidance();
@@ -65,6 +66,11 @@ function Home() {
     setSelectedText(event.target.value);
   }, []);
 
+  // Handle mode toggle
+  const handleModeChange = useCallback((newMode) => {
+    setMode(newMode);
+  }, []);
+
   // Notification management - moved before handleSubmit to fix circular dependency
   const addNotification = useCallback((message, type = 'info') => {
     const id = Date.now();
@@ -97,12 +103,12 @@ function Home() {
     }
 
     try {
-      await seekGuidance(userInput, selectedText);
+      await seekGuidance(userInput, selectedText, mode);
       addNotification('Divine guidance received successfully!', 'success');
     } catch (error) {
       addNotification('Failed to receive guidance. Please try again.', 'error');
     }
-  }, [userInput, selectedText, seekGuidance, addNotification]);
+  }, [userInput, selectedText, mode, seekGuidance, addNotification]);
 
   return (
     <>
@@ -141,6 +147,8 @@ function Home() {
             onTextChange={handleTextChange}
             onSubmit={handleSubmit}
             isLoading={isLoading}
+            mode={mode}
+            onModeChange={handleModeChange}
           />
 
           {/* Lazy loaded ResponseSection with Suspense */}

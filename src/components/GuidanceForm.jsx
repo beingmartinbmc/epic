@@ -40,7 +40,9 @@ const GuidanceForm = React.memo(({
   selectedText, 
   onTextChange, 
   onSubmit, 
-  isLoading 
+  isLoading,
+  mode,
+  onModeChange
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [showCharacterCount, setShowCharacterCount] = useState(false);
@@ -55,6 +57,36 @@ const GuidanceForm = React.memo(({
 
   // Memoize theme-specific placeholder text
   const placeholderText = useMemo(() => {
+    if (mode === 'understand') {
+      switch (selectedText) {
+        case 'BHAGAVAD_GITA':
+          return "What would you like to learn about the Bhagavad Gita? e.g., 'What is karma yoga?'";
+        case 'VEDAS':
+          return "What would you like to understand about the Vedas? e.g., 'What is the concept of Rita?'";
+        case 'QURAN':
+          return "What would you like to learn about the Quran? e.g., 'What does Islam teach about patience?'";
+        case 'BIBLE':
+          return "What would you like to understand about the Bible? e.g., 'What are the Beatitudes?'";
+        case 'GURU_GRANTH_SAHIB':
+          return "What would you like to learn about Sikhism? e.g., 'What is the concept of Seva?'";
+        case 'TRIPITAKA':
+          return "What would you like to understand about Buddhist scriptures? e.g., 'What are the Four Noble Truths?'";
+        case 'TAO_TE_CHING':
+          return "What would you like to learn about Taoism? e.g., 'What is wu-wei?'";
+        case 'ANALECTS_OF_CONFUCIUS':
+          return "What would you like to understand about Confucianism? e.g., 'What is ren (humaneness)?'";
+        case 'DHAMMAPADA':
+          return "What would you like to learn from the Dhammapada? e.g., 'What is the Eightfold Path?'";
+        case 'UPANISHADS':
+          return "What would you like to understand about the Upanishads? e.g., 'What is Brahman?'";
+        case 'TALMUD':
+          return "What would you like to learn about the Talmud? e.g., 'What is tikkun olam?'";
+        case 'AVESTA':
+          return "What would you like to understand about Zoroastrianism? e.g., 'What is Asha?'";
+        default:
+          return "Ask a question about any religion or sacred text, e.g., 'What do religions say about forgiveness?'";
+      }
+    }
     switch (selectedText) {
       case 'BHAGAVAD_GITA':
         return "Share your thoughts, struggles, or questions for guidance from the Bhagavad Gita...";
@@ -83,7 +115,7 @@ const GuidanceForm = React.memo(({
       default:
         return "Tell me about your feelings, struggles, or what's on your mind for divine guidance...";
     }
-  }, [selectedText]);
+  }, [selectedText, mode]);
 
   // Memoize theme-specific icon
   const themeIcon = useMemo(() => {
@@ -141,6 +173,33 @@ const GuidanceForm = React.memo(({
 
   return (
     <form id="guidanceForm" onSubmit={onSubmit} className="enhanced-form">
+      {/* Mode Toggle */}
+      <div className="mode-toggle-container">
+        <div className="mode-toggle">
+          <button
+            type="button"
+            className={`mode-toggle-btn ${mode === 'guidance' ? 'active' : ''}`}
+            onClick={() => onModeChange('guidance')}
+          >
+            <i className="fas fa-hands-praying" style={{ marginRight: '6px' }}></i>
+            Seek Guidance
+          </button>
+          <button
+            type="button"
+            className={`mode-toggle-btn ${mode === 'understand' ? 'active' : ''}`}
+            onClick={() => onModeChange('understand')}
+          >
+            <i className="fas fa-book-open-reader" style={{ marginRight: '6px' }}></i>
+            Understand
+          </button>
+        </div>
+        <p className="mode-description">
+          {mode === 'guidance'
+            ? 'Share your situation and receive personalized spiritual guidance'
+            : 'Ask questions to learn about religious teachings and concepts'}
+        </p>
+      </div>
+
       <div className="form-group">
         <label htmlFor="userMessage" className="form-label">
           <i className={themeIcon}></i> 
@@ -218,7 +277,9 @@ const GuidanceForm = React.memo(({
           color: '#9ca3af',
           fontStyle: 'normal'
         }}>
-          💡 Be specific about your situation for more personalized guidance
+          {mode === 'guidance'
+          ? '💡 Be specific about your situation for more personalized guidance'
+          : '💡 Ask about concepts, teachings, practices, or history of any tradition'}
         </div>
       </div>
 
@@ -306,8 +367,8 @@ const GuidanceForm = React.memo(({
           </>
         ) : (
           <>
-            <i className="fas fa-search" style={{ marginRight: '6px', fontSize: '0.85rem' }}></i>
-            Seek Divine Guidance
+            <i className={mode === 'guidance' ? 'fas fa-search' : 'fas fa-lightbulb'} style={{ marginRight: '6px', fontSize: '0.85rem' }}></i>
+            {mode === 'guidance' ? 'Seek Divine Guidance' : 'Explore Teachings'}
           </>
         )}
       </button>
