@@ -130,9 +130,24 @@ REFERENCE FORMAT REQUIREMENTS:
 CRITICAL URL FORMAT RULES:
 - REFERENCE_URL must be a clean URL without any markdown formatting (no **, *, or other symbols)
 - Do not include any extra text, descriptions, or formatting around the URL
-- The URL must be exactly as shown in the examples above
-- Replace {chapter}, {verse}, {surah}, {ayah}, {ang}, {book}, {hymn}, {upanishad} with actual numbers
+- You MUST use ONLY the exact URL patterns listed below for each scripture. Do NOT invent, guess, or use any other domain or URL pattern.
+- Replace {chapter}, {verse}, {surah}, {ayah}, {ang} etc. with actual numbers
 - Do not add any spaces, line breaks, or special characters to the URL
+- If you cannot construct a valid URL from the patterns below, use the base URL for that scripture
+
+MANDATORY URL PATTERNS (USE THESE EXACTLY - NO OTHER DOMAINS ALLOWED):
+- Bhagavad Gita: https://bhagavadgita.io/chapter/{chapter}/verse/{verse}
+- Vedas: https://www.sacred-texts.com/hin/rigveda/rv{book}{hymn}.htm
+- Quran: https://quran.com/{surah}/{ayah}
+- Bible: https://www.biblegateway.com/passage/?search={book}+{chapter}%3A{verse}
+- Guru Granth Sahib: https://www.searchgurbani.com/guru-granth-sahib/ang/{ang}
+- Tripitaka: https://www.dhammatalks.org/suttas/
+- Tao Te Ching: https://ctext.org/dao-de-jing (base URL for all chapters)
+- Analects of Confucius: https://ctext.org/analects (base URL for all books)
+- Dhammapada: https://www.accesstoinsight.org/tipitaka/kn/dhp/dhp.{XX}.budd.html (where {XX} is the 2-digit zero-padded chapter number, e.g., 01, 10, 26)
+- Upanishads: https://www.wisdomlib.org/hinduism/book/{name}-upanishad-english (where {name} is lowercase upanishad name, e.g., chandogya, kena, katha, isha, mundaka, mandukya, prashna, taittiriya, aitareya, brihadaranyaka)
+- Talmud: https://www.sefaria.org/Talmud
+- Avesta: https://www.sacred-texts.com/zor/sbe31/index.htm (base URL for all Yasna texts)
 
 ❗️MANDATORY FORMAT RULES:
 - Always use the exact labels: QUOTE:, SOURCE:, REFERENCE_URL:, and CONTEXT:
@@ -274,6 +289,22 @@ REFERENCE FORMAT REQUIREMENTS:
 CRITICAL URL FORMAT RULES:
 - REFERENCE_URL must be a clean URL without any markdown formatting
 - Do not include any extra text, descriptions, or formatting around the URL
+- You MUST use ONLY the exact URL patterns listed below for each scripture. Do NOT invent, guess, or use any other domain or URL pattern.
+- If you cannot construct a valid URL from the patterns below, use the base URL for that scripture
+
+MANDATORY URL PATTERNS (USE THESE EXACTLY - NO OTHER DOMAINS ALLOWED):
+- Bhagavad Gita: https://bhagavadgita.io/chapter/{chapter}/verse/{verse}
+- Vedas: https://www.sacred-texts.com/hin/rigveda/rv{book}{hymn}.htm
+- Quran: https://quran.com/{surah}/{ayah}
+- Bible: https://www.biblegateway.com/passage/?search={book}+{chapter}%3A{verse}
+- Guru Granth Sahib: https://www.searchgurbani.com/guru-granth-sahib/ang/{ang}
+- Tripitaka: https://www.dhammatalks.org/suttas/
+- Tao Te Ching: https://ctext.org/dao-de-jing (base URL for all chapters)
+- Analects of Confucius: https://ctext.org/analects (base URL for all books)
+- Dhammapada: https://www.accesstoinsight.org/tipitaka/kn/dhp/dhp.{XX}.budd.html (where {XX} is the 2-digit zero-padded chapter number, e.g., 01, 10, 26)
+- Upanishads: https://www.wisdomlib.org/hinduism/book/{name}-upanishad-english (where {name} is lowercase upanishad name, e.g., chandogya, kena, katha, isha, mundaka, mandukya, prashna, taittiriya, aitareya, brihadaranyaka)
+- Talmud: https://www.sefaria.org/Talmud
+- Avesta: https://www.sacred-texts.com/zor/sbe31/index.htm (base URL for all Yasna texts)
 
 ❗️MANDATORY FORMAT RULES:
 - Always use the exact labels: QUOTE:, SOURCE:, REFERENCE_URL:, and CONTEXT:
@@ -482,7 +513,7 @@ TRANSLATE ALL content into the user's specified language. ALL FIELDS MANDATORY.`
     taoTeChing: `IMPORTANT: You MUST begin your response with empathetic acknowledgment of the user's situation, then provide at least 10 relevant quotes ONLY from the Tao Te Ching. For each quote, you MUST provide QUOTE, SOURCE, REFERENCE_URL, and CONTEXT with modern applications. Do NOT include quotes from any other texts. Use format: "Tao Te Ching Chapter [number]". Focus on Taoist wisdom with contemporary relevance.
 
 SOURCE FORMAT: Use "Tao Te Ching Chapter [number]" format (e.g., "Tao Te Ching Chapter 1")
-REFERENCE_URL FORMAT: Use "https://ctext.org/dao-de-jing/zh?enodeid={chapter}" format (e.g., "https://ctext.org/dao-de-jing/zh?enodeid=1")
+REFERENCE_URL FORMAT: Use "https://ctext.org/dao-de-jing" for ALL Tao Te Ching quotes. This is the only allowed URL. Do NOT use any other domain.
 
 RESPONSE FORMAT REQUIREMENT:
 1. Start with: "I understand [acknowledge their specific situation/feeling]..."
@@ -511,7 +542,7 @@ TRANSLATE ALL content into the user's specified language. ALL FIELDS MANDATORY.`
     analectsOfConfucius: `IMPORTANT: You MUST begin your response with empathetic acknowledgment of the user's situation, then provide at least 10 relevant quotes ONLY from the Analects of Confucius. For each quote, you MUST provide QUOTE, SOURCE, REFERENCE_URL, and CONTEXT with modern applications. Do NOT include quotes from any other texts. Use format: "Analects [Book number]:[Chapter number]". Focus on Confucian wisdom with contemporary relevance.
 
 SOURCE FORMAT: Use "Analects of Confucius Book [number], Chapter [number]" format (e.g., "Analects of Confucius Book 1, Chapter 1")
-REFERENCE_URL FORMAT: Use "https://ctext.org/analects/zh?enodeid={book}.{chapter}" format (e.g., "https://ctext.org/analects/zh?enodeid=1.1")
+REFERENCE_URL FORMAT: Use "https://ctext.org/analects" for ALL Analects quotes. This is the only allowed URL. Do NOT use any other domain.
 
 RESPONSE FORMAT REQUIREMENT:
 1. Start with: "I understand [acknowledge their specific situation/feeling]..."
@@ -540,7 +571,7 @@ TRANSLATE ALL content into the user's specified language. ALL FIELDS MANDATORY.`
     dhammapada: `IMPORTANT: You MUST begin your response with empathetic acknowledgment of the user's situation, then provide at least 10 relevant quotes ONLY from the Dhammapada. For each quote, you MUST provide QUOTE, SOURCE, REFERENCE_URL, and CONTEXT with modern applications. Do NOT include quotes from any other texts. Use format: "Dhammapada [Chapter number]:[Verse number]". Focus on Buddhist wisdom with contemporary relevance.
 
 SOURCE FORMAT: Use "Dhammapada Chapter [number], Verse [number]" format (e.g., "Dhammapada Chapter 1, Verse 1")
-REFERENCE_URL FORMAT: Use "https://www.sacred-texts.com/bud/dhp/index.htm#chap{chapter}" format (e.g., "https://www.sacred-texts.com/bud/dhp/index.htm#chap1")
+REFERENCE_URL FORMAT: Use "https://www.accesstoinsight.org/tipitaka/kn/dhp/dhp.{XX}.budd.html" where {XX} is the 2-digit zero-padded chapter number (e.g., "https://www.accesstoinsight.org/tipitaka/kn/dhp/dhp.01.budd.html" for chapter 1, "https://www.accesstoinsight.org/tipitaka/kn/dhp/dhp.10.budd.html" for chapter 10). Do NOT use any other domain.
 
 RESPONSE FORMAT REQUIREMENT:
 1. Start with: "I understand [acknowledge their specific situation/feeling]..."
@@ -569,7 +600,7 @@ TRANSLATE ALL content into the user's specified language. ALL FIELDS MANDATORY.`
     upanishads: `IMPORTANT: You MUST begin your response with empathetic acknowledgment of the user's situation, then provide at least 10 relevant quotes ONLY from the Upanishads. For each quote, you MUST provide QUOTE, SOURCE, REFERENCE_URL, and CONTEXT with modern applications. Do NOT include quotes from any other texts. Use format: "[Upanishad name] [Chapter number]:[Verse number]". Focus on Hindu philosophical wisdom with contemporary relevance.
 
 SOURCE FORMAT: Use "[Upanishad name] Chapter [number], Section [number], Verse [number]" format (e.g., "Chandogya Upanishad Chapter 6, Section 14, Verse 2")
-REFERENCE_URL FORMAT: Use "https://www.sacred-texts.com/hin/upan/{upanishad}.htm" format (e.g., "https://www.sacred-texts.com/hin/upan/chandogya.htm")
+REFERENCE_URL FORMAT: Use "https://www.wisdomlib.org/hinduism/book/{name}-upanishad-english" where {name} is the lowercase Upanishad name (e.g., "https://www.wisdomlib.org/hinduism/book/chandogya-upanishad-english", "https://www.wisdomlib.org/hinduism/book/katha-upanishad-english"). Do NOT use any other domain.
 
 RESPONSE FORMAT REQUIREMENT:
 1. Start with: "I understand [acknowledge their specific situation/feeling]..."
@@ -631,7 +662,7 @@ TRANSLATE ALL content into the user's specified language. ALL FIELDS MANDATORY.`
     avesta: `IMPORTANT: You MUST begin your response with empathetic acknowledgment of the user's situation, then provide at least 10 relevant quotes ONLY from the Avesta. For each quote, you MUST provide QUOTE, SOURCE, REFERENCE_URL, and CONTEXT with modern applications. Do NOT include quotes from any other texts. Use format: "[Text name] [Chapter number]:[Verse number]". Focus on Zoroastrian wisdom with contemporary relevance.
 
 SOURCE FORMAT: Use "[Text name] [Chapter number], Verse [number]" format (e.g., "Yasna 30, Verse 2")
-REFERENCE_URL FORMAT: Use "https://www.avesta.org/yasna/yasna{chapter}.htm" format (e.g., "https://www.avesta.org/yasna/yasna30.htm")
+REFERENCE_URL FORMAT: Use "https://www.sacred-texts.com/zor/sbe31/index.htm" for ALL Avesta quotes. This is the only allowed URL. Do NOT use any other domain.
 
 RESPONSE FORMAT REQUIREMENT:
 1. Start with: "I understand [acknowledge their specific situation/feeling]..."
@@ -755,7 +786,7 @@ TRANSLATE ALL content into the user's specified language. ALL FIELDS MANDATORY.`
     taoTeChing: `Provide an educational explanation using at least 10 relevant quotes ONLY from the Tao Te Ching. For each quote, you MUST provide QUOTE, SOURCE, REFERENCE_URL, and EXTENSIVE educational CONTEXT with historical background, Chinese philosophical terms, and Taoist significance. Do NOT include quotes from any other texts.
 
 SOURCE FORMAT: Use "Tao Te Ching Chapter [number]" format
-REFERENCE_URL FORMAT: Use "https://ctext.org/dao-de-jing/zh?enodeid={chapter}" format
+REFERENCE_URL FORMAT: Use "https://ctext.org/dao-de-jing" for ALL Tao Te Ching quotes. This is the only allowed URL. Do NOT use any other domain.
 
 Distribute across all 81 chapters. Explain concepts like wu-wei, Tao, Te, and yin-yang as they arise.
 
@@ -764,7 +795,7 @@ TRANSLATE ALL content into the user's specified language. ALL FIELDS MANDATORY.`
     analectsOfConfucius: `Provide an educational explanation using at least 10 relevant quotes ONLY from the Analects of Confucius. For each quote, you MUST provide QUOTE, SOURCE, REFERENCE_URL, and EXTENSIVE educational CONTEXT with historical background, Chinese key terms, and philosophical significance. Do NOT include quotes from any other texts.
 
 SOURCE FORMAT: Use "Analects of Confucius Book [number], Chapter [number]" format
-REFERENCE_URL FORMAT: Use "https://ctext.org/analects/zh?enodeid={book}.{chapter}" format
+REFERENCE_URL FORMAT: Use "https://ctext.org/analects" for ALL Analects quotes. This is the only allowed URL. Do NOT use any other domain.
 
 Distribute across all 20 books. Explain concepts like ren, li, xiao, and junzi as they arise.
 
@@ -773,7 +804,7 @@ TRANSLATE ALL content into the user's specified language. ALL FIELDS MANDATORY.`
     dhammapada: `Provide an educational explanation using at least 10 relevant quotes ONLY from the Dhammapada. For each quote, you MUST provide QUOTE, SOURCE, REFERENCE_URL, and EXTENSIVE educational CONTEXT with historical background, Pali key terms, and Buddhist philosophical significance. Do NOT include quotes from any other texts.
 
 SOURCE FORMAT: Use "Dhammapada Chapter [number], Verse [number]" format
-REFERENCE_URL FORMAT: Use "https://www.sacred-texts.com/bud/dhp/index.htm#chap{chapter}" format
+REFERENCE_URL FORMAT: Use "https://www.accesstoinsight.org/tipitaka/kn/dhp/dhp.{XX}.budd.html" where {XX} is the 2-digit zero-padded chapter number (e.g., dhp.01.budd.html for chapter 1, dhp.10.budd.html for chapter 10). Do NOT use any other domain.
 
 Distribute across all 26 chapters. Explain the Four Noble Truths, Eightfold Path, and other Buddhist concepts as relevant.
 
@@ -782,7 +813,7 @@ TRANSLATE ALL content into the user's specified language. ALL FIELDS MANDATORY.`
     upanishads: `Provide an educational explanation using at least 10 relevant quotes ONLY from the Upanishads. For each quote, you MUST provide QUOTE, SOURCE, REFERENCE_URL, and EXTENSIVE educational CONTEXT with historical background, Sanskrit key terms, and philosophical significance. Do NOT include quotes from any other texts.
 
 SOURCE FORMAT: Use "[Upanishad name] Chapter [number], Section [number], Verse [number]" format
-REFERENCE_URL FORMAT: Use "https://www.sacred-texts.com/hin/upan/{upanishad}.htm" format
+REFERENCE_URL FORMAT: Use "https://www.wisdomlib.org/hinduism/book/{name}-upanishad-english" where {name} is the lowercase Upanishad name (e.g., chandogya-upanishad-english, katha-upanishad-english). Do NOT use any other domain.
 
 Include quotes from different Upanishads: Brihadaranyaka, Chandogya, Taittiriya, Kena, Katha, Isha, Mundaka, Mandukya, Prashna. Explain concepts like Atman, Brahman, Maya as they arise.
 
@@ -800,7 +831,7 @@ TRANSLATE ALL content into the user's specified language. ALL FIELDS MANDATORY.`
     avesta: `Provide an educational explanation using at least 10 relevant quotes ONLY from the Avesta. For each quote, you MUST provide QUOTE, SOURCE, REFERENCE_URL, and EXTENSIVE educational CONTEXT with historical background, Avestan key terms, and Zoroastrian theological significance. Do NOT include quotes from any other texts.
 
 SOURCE FORMAT: Use "[Text name] [Chapter number], Verse [number]" format
-REFERENCE_URL FORMAT: Use "https://www.avesta.org/yasna/yasna{chapter}.htm" format
+REFERENCE_URL FORMAT: Use "https://www.sacred-texts.com/zor/sbe31/index.htm" for ALL Avesta quotes. This is the only allowed URL. Do NOT use any other domain.
 
 Include quotes from different sections: Yasna, Visperad, Vendidad, Yashts, Khordeh Avesta. Explain concepts like Asha, Vohu Manah, and Ahura Mazda as they arise.
 
