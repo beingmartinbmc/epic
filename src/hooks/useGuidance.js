@@ -61,6 +61,10 @@ export const useGuidance = () => {
   const [pagination, setPagination] = useState(null);
   const abortControllerRef = useRef(null);
 
+  const clearResponse = useCallback(() => {
+    setResponse('');
+  }, []);
+
   const seekGuidance = useCallback(async (userInput, selectedText, mode = 'guidance') => {
     if (!userInput.trim()) return;
 
@@ -170,6 +174,7 @@ export const useGuidance = () => {
   return {
     isLoading,
     response,
+    clearResponse,
     seekGuidance,
     debouncedSeekGuidance,
     conversations,

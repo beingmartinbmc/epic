@@ -29,7 +29,7 @@ function Home() {
   const [mode, setMode] = useState('guidance');
   const [notifications, setNotifications] = useState([]);
 
-  const { isLoading, response, seekGuidance } = useGuidance();
+  const { isLoading, response, clearResponse, seekGuidance } = useGuidance();
   useTheme(selectedText);
 
   // Get theme name for visual components
@@ -69,7 +69,8 @@ function Home() {
   // Handle mode toggle
   const handleModeChange = useCallback((newMode) => {
     setMode(newMode);
-  }, []);
+    clearResponse();
+  }, [clearResponse]);
 
   // Notification management - moved before handleSubmit to fix circular dependency
   const addNotification = useCallback((message, type = 'info') => {
