@@ -137,7 +137,11 @@ CRITICAL URL FORMAT RULES:
 
 MANDATORY URL PATTERNS (USE THESE EXACTLY - NO OTHER DOMAINS ALLOWED):
 - Bhagavad Gita: https://bhagavadgita.io/chapter/{chapter}/verse/{verse}
-- Vedas: https://www.sacred-texts.com/hin/rigveda/rv{book}{hymn}.htm
+- Vedas (use the correct URL for each Veda):
+  Rig Veda: https://www.sacred-texts.com/hin/rigveda/rv{book}{hymn}.htm (e.g., rv10085.htm)
+  Yajur Veda: https://www.sacred-texts.com/hin/yv/yv{kanda}.htm (where {kanda} is 2-digit: 01-07)
+  Sama Veda: https://www.sacred-texts.com/hin/sv.htm (single page for all content)
+  Atharva Veda: https://www.sacred-texts.com/hin/av/avbook{book}.htm (where {book} is 2-digit: 01-20)
 - Quran: https://quran.com/{surah}/{ayah}
 - Bible: https://www.biblegateway.com/passage/?search={book}+{chapter}%3A{verse}
 - Guru Granth Sahib: https://www.searchgurbani.com/guru-granth-sahib/ang/{ang}
@@ -294,7 +298,11 @@ CRITICAL URL FORMAT RULES:
 
 MANDATORY URL PATTERNS (USE THESE EXACTLY - NO OTHER DOMAINS ALLOWED):
 - Bhagavad Gita: https://bhagavadgita.io/chapter/{chapter}/verse/{verse}
-- Vedas: https://www.sacred-texts.com/hin/rigveda/rv{book}{hymn}.htm
+- Vedas (use the correct URL for each Veda):
+  Rig Veda: https://www.sacred-texts.com/hin/rigveda/rv{book}{hymn}.htm (e.g., rv10085.htm)
+  Yajur Veda: https://www.sacred-texts.com/hin/yv/yv{kanda}.htm (where {kanda} is 2-digit: 01-07)
+  Sama Veda: https://www.sacred-texts.com/hin/sv.htm (single page for all content)
+  Atharva Veda: https://www.sacred-texts.com/hin/av/avbook{book}.htm (where {book} is 2-digit: 01-20)
 - Quran: https://quran.com/{surah}/{ayah}
 - Bible: https://www.biblegateway.com/passage/?search={book}+{chapter}%3A{verse}
 - Guru Granth Sahib: https://www.searchgurbani.com/guru-granth-sahib/ang/{ang}
@@ -302,7 +310,7 @@ MANDATORY URL PATTERNS (USE THESE EXACTLY - NO OTHER DOMAINS ALLOWED):
 - Tao Te Ching: https://ctext.org/dao-de-jing (base URL for all chapters)
 - Analects of Confucius: https://ctext.org/analects (base URL for all books)
 - Dhammapada: https://www.accesstoinsight.org/tipitaka/kn/dhp/dhp.{XX}.budd.html (where {XX} is the 2-digit zero-padded chapter number, e.g., 01, 10, 26)
-- Upanishads: https://www.wisdomlib.org/hinduism/book/{name}-upanishad-english (where {name} is lowercase upanishad name, e.g., chandogya, kena, katha, isha, mundaka, mandukya, prashna, taittiriya, aitareya, brihadaranyaka)
+- Upanishads: https://www.wisdomlib.org/hinduism/book/{name}-upanishad-english (where {name} is lowercase upanishad name, e.g., chandogya, kena, katha, isha, mundaka, mandukya, prashna, taittiriya, aitareye, brihadaranyaka)
 - Talmud: https://www.sefaria.org/Talmud
 - Avesta: https://www.sacred-texts.com/zor/sbe31/index.htm (base URL for all Yasna texts)
 
@@ -363,7 +371,12 @@ TRANSLATE ALL content into the user's specified language. ALL FIELDS (QUOTE, SOU
     vedas: `IMPORTANT: You MUST begin your response with empathetic acknowledgment of the user's situation, then provide at least 10 relevant quotes ONLY from The Vedas. For each quote, you MUST provide QUOTE, SOURCE, REFERENCE_URL, and EXTENSIVE CONTEXT with comprehensive background and multiple modern applications. Do NOT include quotes from any other texts. Focus on ancient Hindu wisdom from The Vedas with contemporary relevance.
 
 SOURCE FORMAT: Use "[Veda Name] Mandala [number], Sukta [number]" format (e.g., "Rig Veda Mandala 10, Sukta 85", "Atharva Veda Mandala 19, Sukta 9")
-REFERENCE_URL FORMAT: Use "https://www.sacred-texts.com/hin/rigveda/rv{book}{hymn}.htm" format (e.g., "https://www.sacred-texts.com/hin/rigveda/rv10085.htm")
+REFERENCE_URL FORMAT: Use the correct URL for each Veda:
+- Rig Veda: "https://www.sacred-texts.com/hin/rigveda/rv{book}{hymn}.htm" (e.g., "https://www.sacred-texts.com/hin/rigveda/rv10085.htm")
+- Yajur Veda: "https://www.sacred-texts.com/hin/yv/yv{kanda}.htm" (e.g., "https://www.sacred-texts.com/hin/yv/yv01.htm")
+- Sama Veda: "https://www.sacred-texts.com/hin/sv.htm"
+- Atharva Veda: "https://www.sacred-texts.com/hin/av/avbook{book}.htm" (e.g., "https://www.sacred-texts.com/hin/av/avbook19.htm")
+Do NOT use any other domain.
 
 RESPONSE FORMAT REQUIREMENT:
 1. Start with: "I understand [acknowledge their specific situation/feeling]..."
@@ -741,7 +754,12 @@ TRANSLATE ALL content into the user's specified language. ALL FIELDS MANDATORY.`
     vedas: `Provide an educational explanation using at least 10 relevant quotes ONLY from The Vedas. For each quote, you MUST provide QUOTE, SOURCE, REFERENCE_URL, and EXTENSIVE educational CONTEXT. Do NOT include quotes from any other texts. Focus on teaching the user about the Vedic perspective on their topic.
 
 SOURCE FORMAT: Use "[Veda Name] Mandala [number], Sukta [number]" format
-REFERENCE_URL FORMAT: Use "https://www.sacred-texts.com/hin/rigveda/rv{book}{hymn}.htm" format
+REFERENCE_URL FORMAT: Use the correct URL for each Veda:
+- Rig Veda: "https://www.sacred-texts.com/hin/rigveda/rv{book}{hymn}.htm"
+- Yajur Veda: "https://www.sacred-texts.com/hin/yv/yv{kanda}.htm" (kanda is 2-digit: 01-07)
+- Sama Veda: "https://www.sacred-texts.com/hin/sv.htm"
+- Atharva Veda: "https://www.sacred-texts.com/hin/av/avbook{book}.htm" (book is 2-digit: 01-20)
+Do NOT use any other domain.
 
 Include quotes from different Vedic texts: Rigveda, Yajurveda, Samaveda, Atharvaveda.
 
