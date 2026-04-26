@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3';
 const STATIC_CACHE = `epic-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `epic-dynamic-${CACHE_VERSION}`;
 
@@ -43,6 +43,19 @@ self.addEventListener('activate', (event) => {
         );
       })
       .then(() => self.clients.claim())
+      .then(() => self.clients.matchAll({ type: 'window', includeUncontrolled: true }))
+      .then((windowClients) => {
+        return Promise.all(
+          windowClients.map((client) => {
+            const clientUrl = new URL(client.url);
+            const isAppPage = !BASE_PATH || clientUrl.pathname === BASE_PATH || clientUrl.pathname.startsWith(`${BASE_PATH}/`);
+
+            if (clientUrl.origin === self.location.origin && isAppPage && 'navigate' in client) {
+              return client.navigate(client.url);
+            }
+          })
+        );
+      })
   );
 });
 

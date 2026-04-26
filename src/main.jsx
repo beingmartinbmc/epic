@@ -5,13 +5,24 @@ import './styles/index.css'
 
 // Register service worker for caching and offline functionality
 if ('serviceWorker' in navigator) {
+  let refreshing = false;
+
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (refreshing) {
+      return;
+    }
+
+    refreshing = true;
+    window.location.reload();
+  });
+
   window.addEventListener('load', () => {
     // Use the correct base path for the service worker
     const baseUrl = import.meta.env.BASE_URL || '/';
     const swPath = baseUrl + 'sw.js';
     console.log('Attempting to register service worker at:', swPath);
     
-    navigator.serviceWorker.register(swPath)
+    navigator.serviceWorker.register(swPath, { updateViaCache: 'none' })
       .then((registration) => {
         console.log('SW registered successfully: ', registration);
       })
