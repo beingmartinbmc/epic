@@ -1,6 +1,6 @@
-const CACHE_NAME = 'epic-v1';
-const STATIC_CACHE = 'epic-static-v1';
-const DYNAMIC_CACHE = 'epic-dynamic-v1';
+const CACHE_VERSION = 'v2';
+const STATIC_CACHE = `epic-static-${CACHE_VERSION}`;
+const DYNAMIC_CACHE = `epic-dynamic-${CACHE_VERSION}`;
 
 // Get the base path from the service worker scope
 const BASE_PATH = self.location.pathname.replace('/sw.js', '');
@@ -24,6 +24,8 @@ self.addEventListener('install', (event) => {
         console.log('Cache install failed:', error);
       })
   );
+
+  self.skipWaiting();
 });
 
 // Activate event - clean up old caches
@@ -33,13 +35,14 @@ self.addEventListener('activate', (event) => {
       .then((cacheNames) => {
         return Promise.all(
           cacheNames.map((cacheName) => {
-            if (cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE) {
+            if (cacheName.startsWith('epic-') && cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE) {
               console.log('Deleting old cache:', cacheName);
               return caches.delete(cacheName);
             }
           })
         );
       })
+      .then(() => self.clients.claim())
   );
 });
 
@@ -50,6 +53,27 @@ self.addEventListener('fetch', (event) => {
 
   // Skip non-GET requests
   if (request.method !== 'GET') {
+    return;
+  }
+
+  // Always try the network first for app shell navigations so new releases
+  // pick up the latest hashed assets on GitHub Pages.
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response && response.status === 200) {
+            const responseClone = response.clone();
+            caches.open(STATIC_CACHE)
+              .then((cache) => {
+                cache.put(request, responseClone);
+              });
+          }
+
+          return response;
+        })
+        .catch(() => caches.match(request).then((cachedResponse) => cachedResponse || caches.match(BASE_PATH + '/index.html')))
+    );
     return;
   }
 

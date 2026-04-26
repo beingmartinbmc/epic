@@ -2,9 +2,12 @@ import { useState, useCallback, useRef } from 'react';
 import prompts from '../prompts.js';
 
 const API_CONFIG = {
-  OPENAI_PROXY_URL: 'https://epic-backend-f9tfcyn1d-beingmartinbmcs-projects.vercel.app/api/openai-proxy',
+  OPENAI_PROXY_URL: 'https://ai-gateway-production-0388.up.railway.app/api/v1/openai-proxy',
   CONVERSATIONS_URL: 'https://epic-backend-f9tfcyn1d-beingmartinbmcs-projects.vercel.app/api/conversations'
 };
+
+const OPENAI_MODEL = 'gpt-5-nano';
+const OPENAI_MAX_TOKENS = 1000;
 
 // Prompt mapping for different sacred texts - guidance mode
 const GUIDANCE_PROMPT_MAPPING = {
@@ -90,8 +93,11 @@ export const useGuidance = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
         body: JSON.stringify({
+          model: OPENAI_MODEL,
+          maxTokens: OPENAI_MAX_TOKENS,
           messages: [
             {
               role: 'system',
@@ -101,9 +107,7 @@ export const useGuidance = () => {
               role: 'user',
               content: `${promptMapping[selectedText]}\n\n${userPrefix}: ${userInput}`
             }
-          ],
-          userInput: userInput, // Send raw input for language detection
-          selectedText: selectedText
+          ]
         }),
         signal: abortControllerRef.current.signal
       });
@@ -113,7 +117,11 @@ export const useGuidance = () => {
       }
 
       const data = await response.json();
-      const content = data.choices[0].message.content;
+      const content = data.choices?.[0]?.message?.content;
+
+      if (!content) {
+        throw new Error('OpenAI proxy response did not include message content');
+      }
       
       // Set the raw response - processing will be done in the component
       setResponse(content);
