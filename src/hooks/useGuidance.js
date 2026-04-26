@@ -3,10 +3,10 @@ import prompts from '../prompts.js';
 
 const API_CONFIG = {
   OPENAI_PROXY_URL: 'https://ai-gateway-production-0388.up.railway.app/api/v1/openai-proxy',
-  CONVERSATIONS_URL: 'https://epic-backend-f9tfcyn1d-beingmartinbmcs-projects.vercel.app/api/conversations'
+  CONVERSATIONS_URL: 'https://ai-gateway-production-0388.up.railway.app/api/v1/conversations'
 };
 
-const OPENAI_MODEL = 'gpt-5-nano';
+const OPENAI_MODEL = 'gpt-4.1-nano';
 const OPENAI_MAX_TOKENS = 1000;
 
 // Prompt mapping for different sacred texts - guidance mode
@@ -68,6 +68,26 @@ export const useGuidance = () => {
     setResponse('');
   }, []);
 
+  const saveConversation = useCallback(async ({ userInput, aiResponse, timestamp, book }) => {
+    try {
+      await fetch(API_CONFIG.CONVERSATIONS_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          userInput,
+          aiResponse,
+          timestamp,
+          book
+        })
+      });
+    } catch (error) {
+      console.error('Error saving conversation:', error);
+    }
+  }, []);
+
   const seekGuidance = useCallback(async (userInput, selectedText, mode = 'guidance') => {
     if (!userInput.trim()) return;
 
@@ -87,6 +107,7 @@ export const useGuidance = () => {
     const systemPrompt = isUnderstand ? prompts.understandSystem.prompt : prompts.system.prompt;
     const promptMapping = isUnderstand ? UNDERSTAND_PROMPT_MAPPING : GUIDANCE_PROMPT_MAPPING;
     const userPrefix = isUnderstand ? "User's question" : "User's situation";
+    const askedAt = new Date().toISOString();
 
     try {
       const response = await fetch(API_CONFIG.OPENAI_PROXY_URL, {
@@ -125,6 +146,14 @@ export const useGuidance = () => {
       
       // Set the raw response - processing will be done in the component
       setResponse(content);
+      if (data.choices?.[0]?.finish_reason === 'stop') {
+        saveConversation({
+          userInput,
+          aiResponse: content,
+          timestamp: askedAt,
+          book: selectedText
+        });
+      }
     } catch (error) {
       if (error.name === 'AbortError') {
         // Request was cancelled, don't show error
@@ -136,10 +165,10 @@ export const useGuidance = () => {
       setIsLoading(false);
       abortControllerRef.current = null;
     }
-  }, []);
+  }, [saveConversation]);
 
   // Fetch conversations with pagination
-  const fetchConversations = useCallback(async (page = 1, limit = 20, sort = 'timestamp', order = 'desc') => {
+  const fetchConversations = useCallback(async (page = 1, limit = 20, sort = 'timestamp', order = 'desc', filters = {}) => {
     setConversationsLoading(true);
     
     try {
@@ -148,12 +177,20 @@ export const useGuidance = () => {
       url.searchParams.append('limit', limit.toString());
       url.searchParams.append('sort', sort);
       url.searchParams.append('order', order);
+      if (filters.book) {
+        url.searchParams.append('book', filters.book);
+      }
+      if (filters.from) {
+        url.searchParams.append('from', filters.from);
+      }
+      if (filters.to) {
+        url.searchParams.append('to', filters.to);
+      }
 
       const response = await fetch(url.toString(), {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
-          'Origin': 'https://beingmartinbmc.github.io'
+          'Content-Type': 'application/json'
         }
       });
 
