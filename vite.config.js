@@ -10,17 +10,26 @@ export default defineConfig({
     // Optimize bundle size with better code splitting
     rollupOptions: {
       output: {
-        manualChunks: {
-          // Core React libraries
-          'react-vendor': ['react', 'react-dom'],
-          // Language detection library (lighter alternative)
-          'language-detection': ['franc-all'],
-          // UI libraries
-          'ui-vendor': ['bootstrap', '@fortawesome/fontawesome-free'],
-          // Application logic
-          'app-core': ['./src/utils.js', './src/config.js'],
-          // Prompts (large file, lazy load)
-          'prompts': ['./src/prompts.js']
+        manualChunks(id) {
+          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
+            return 'react-vendor'
+          }
+
+          if (id.includes('node_modules/franc-all')) {
+            return 'language-detection'
+          }
+
+          if (id.includes('node_modules/bootstrap') || id.includes('node_modules/@fortawesome/fontawesome-free')) {
+            return 'ui-vendor'
+          }
+
+          if (id.endsWith('/src/utils.js') || id.endsWith('/src/config.js')) {
+            return 'app-core'
+          }
+
+          if (id.endsWith('/src/prompts.js')) {
+            return 'prompts'
+          }
         },
         // Optimize chunk naming for better caching
         chunkFileNames: 'assets/[name]-[hash].js',
