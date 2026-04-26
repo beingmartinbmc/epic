@@ -146,14 +146,12 @@ export const useGuidance = () => {
       
       // Set the raw response - processing will be done in the component
       setResponse(content);
-      if (data.choices?.[0]?.finish_reason === 'stop') {
-        saveConversation({
-          userInput,
-          aiResponse: content,
-          timestamp: askedAt,
-          book: selectedText
-        });
-      }
+      saveConversation({
+        userInput,
+        aiResponse: content,
+        timestamp: askedAt,
+        book: selectedText
+      });
     } catch (error) {
       if (error.name === 'AbortError') {
         // Request was cancelled, don't show error
