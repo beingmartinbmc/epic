@@ -6,9 +6,33 @@ A React-based frontend application that provides spiritual guidance from sacred 
 
 - **Multi-Religious Support**: Bhagavad Gita, Vedas, Quran, Bible, Guru Granth Sahib, Tripitaka, Tao Te Ching, Analects of Confucius, Dhammapada, Upanishads, Talmud, and Avesta
 - **Multi-Language Support**: English, Hindi, Spanish, Portuguese, French, German, Arabic, Punjabi, Urdu, and more
+- **Four Guidance Modes**: Seek Guidance, Understand, Reflect, and Ask Me (Socratic) — see below
+- **Crisis-Aware Compassion**: Detects acute distress and responds with human warmth and real-world help, never a verse-dump
+- **Intellectual Humility**: Every substantive response is accompanied by a transparency disclaimer
 - **Interactive UI**: Breathing background animations, floating particles, and spiritual loader
 - **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
 - **Performance Optimized**: Lazy loading, code splitting, and efficient rendering
+
+## Guidance Philosophy
+
+Epic is built around a few deliberate principles:
+
+- **Lead with the human, not the verse.** When a message signals acute distress
+  or crisis, the app responds first with compassion and concrete real-world
+  resources (helplines, support links) instead of parsing scripture into quotes.
+- **Meet people where they are.** Four distinct modes let a user choose between
+  comfort, learning, contemplation, and self-inquiry.
+- **Stay humble.** Substantive responses carry a transparency disclaimer making
+  clear this is reflective guidance, not authoritative religious ruling.
+
+### Guidance Modes
+
+| Mode | Button | What it does |
+|------|--------|--------------|
+| **Guidance** | Seek Guidance | Warm, personalized reflections rooted in scripture for your situation |
+| **Understand** | Understand | Educational answers about religious teachings, concepts, and history |
+| **Reflect** | Reflect | A single passage to sit with quietly, plus an open question to carry |
+| **Socratic** | Ask Me | Returns the questions a tradition might gently ask you, instead of answers |
 
 ## Technology Stack
 
@@ -62,8 +86,10 @@ src/
 ├── styles/             # CSS stylesheets
 ├── data/               # Static data files
 │   └── book-name-mappings.json
+├── test/               # Test setup (jsdom + jest-dom)
+├── crisisDetection.js  # Crisis-language detection + compassionate message
 ├── utils.js            # Utility functions
-├── prompts.js          # AI prompts configuration
+├── prompts.js          # AI prompts configuration (per-mode prompts)
 └── App.jsx             # Main application component
 ```
 
@@ -93,6 +119,28 @@ src/
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
 - `npm run clean` - Clean build directory
+- `npm test` - Run the test suite once
+- `npm run test:watch` - Run tests in watch mode
+- `npm run coverage` - Run tests with a coverage report
+
+### Testing
+
+The project uses [Vitest](https://vitest.dev/) with
+[@testing-library/react](https://testing-library.com/) and a jsdom environment.
+
+```bash
+npm test
+```
+
+Coverage includes:
+- **Crisis detection** — language matching and the compassionate response shape
+- **`resolveMode`** — prompt/system selection across all four modes
+- **`GuidanceForm`** — the four-mode toggle (render, active state, callbacks)
+- **`ResponseSection`** — crisis support card, humility disclaimer, and normal
+  scripture parsing
+
+Tests run automatically in CI (`.github/workflows/ci.yml`) on every push and
+pull request, and gate the GitHub Pages deploy (`.github/workflows/deploy.yml`).
 
 ### Performance Monitoring
 The application includes built-in performance monitoring:

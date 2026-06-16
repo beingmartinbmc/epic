@@ -1,5 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { cleanUrl } from '../utils';
+import { CRISIS_MESSAGE } from '../crisisDetection.js';
+import prompts from '../prompts.js';
 
 // Memoized parsing function to avoid recreating on every render
 const parseResponse = (response) => {
@@ -109,8 +111,16 @@ const parseResponse = (response) => {
   return { quotes, summary };
 };
 
-const ResponseSection = React.memo(({ response, isLoading, selectedText }) => {
+const ResponseSection = React.memo(({ response, isLoading, selectedText, mode = 'guidance' }) => {
   const [copiedQuote, setCopiedQuote] = useState(null);
+
+  // Detect the compassionate crisis response so we can render it as a
+  // supportive message rather than parsing it for scripture quotes.
+  // (Ideology: no verse-dump for someone in acute distress.)
+  const isCrisisResponse = useMemo(
+    () => Boolean(response) && response.startsWith(CRISIS_MESSAGE.title),
+    [response]
+  );
 
   // Function to get the appropriate title based on selected text
   const getWisdomTitle = (selectedText) => {
@@ -196,6 +206,32 @@ const ResponseSection = React.memo(({ response, isLoading, selectedText }) => {
     return null;
   }
 
+  // Crisis-aware compassionate response: lead with human warmth and real-world
+  // help. Render as a dedicated support card, never as parsed scripture quotes.
+  if (isCrisisResponse) {
+    return (
+      <div className="response-section">
+        <div className="crisis-support" role="alert" aria-live="assertive">
+          <h3 className="crisis-title">
+            <i className="fas fa-heart" style={{ marginRight: '8px' }}></i>
+            {CRISIS_MESSAGE.title}
+          </h3>
+          <p className="crisis-body">{CRISIS_MESSAGE.body}</p>
+          <ul className="crisis-resources">
+            {CRISIS_MESSAGE.resources.map((resource) => (
+              <li key={resource.url}>
+                <a href={resource.url} target="_blank" rel="noopener noreferrer">
+                  {resource.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p className="crisis-closing">{CRISIS_MESSAGE.closing}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="response-section">
       {/* Quotes Section */}
@@ -267,6 +303,15 @@ const ResponseSection = React.memo(({ response, isLoading, selectedText }) => {
             {parsedData.summary}
           </div>
         </div>
+      )}
+
+      {/* Humility / transparency disclaimer (Ideology D).
+          Shown whenever there is substantive content, in every mode. */}
+      {(processedQuotes.length > 0 || parsedData.summary) && (
+        <p className="humility-disclaimer" role="note">
+          <i className="fas fa-circle-info" style={{ marginRight: '6px' }}></i>
+          {prompts.humilityDisclaimer}
+        </p>
       )}
     </div>
   );

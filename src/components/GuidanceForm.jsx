@@ -1,5 +1,13 @@
 import React, { useState, useMemo, useCallback } from 'react';
 
+// Short description shown under the mode toggle for each mode.
+const MODE_DESCRIPTIONS = {
+  guidance: 'Share your situation and receive warm, personalized reflections rooted in scripture',
+  understand: 'Ask questions to learn about religious teachings, concepts, and history',
+  reflect: 'Receive a single passage to sit with quietly, and an open question to carry',
+  socratic: 'Instead of answers, receive the questions a tradition might gently ask you'
+};
+
 // Helper function to get source descriptions - moved before component to fix hoisting
 const getSourceDescription = (selectedText) => {
   switch (selectedText) {
@@ -192,11 +200,25 @@ const GuidanceForm = React.memo(({
             <i className="fas fa-book-open-reader" style={{ marginRight: '6px' }}></i>
             Understand
           </button>
+          <button
+            type="button"
+            className={`mode-toggle-btn ${mode === 'reflect' ? 'active' : ''}`}
+            onClick={() => onModeChange('reflect')}
+          >
+            <i className="fas fa-feather" style={{ marginRight: '6px' }}></i>
+            Reflect
+          </button>
+          <button
+            type="button"
+            className={`mode-toggle-btn ${mode === 'socratic' ? 'active' : ''}`}
+            onClick={() => onModeChange('socratic')}
+          >
+            <i className="fas fa-circle-question" style={{ marginRight: '6px' }}></i>
+            Ask Me
+          </button>
         </div>
         <p className="mode-description">
-          {mode === 'guidance'
-            ? 'Share your situation and receive personalized spiritual guidance'
-            : 'Ask questions to learn about religious teachings and concepts'}
+          {MODE_DESCRIPTIONS[mode] || MODE_DESCRIPTIONS.guidance}
         </p>
       </div>
 
@@ -278,8 +300,12 @@ const GuidanceForm = React.memo(({
           fontStyle: 'normal'
         }}>
           {mode === 'guidance'
-          ? '💡 Be specific about your situation for more personalized guidance'
-          : '💡 Ask about concepts, teachings, practices, or history of any tradition'}
+            ? '💡 Be specific about your situation for more personalized guidance'
+            : mode === 'understand'
+            ? '💡 Ask about concepts, teachings, practices, or history of any tradition'
+            : mode === 'reflect'
+            ? '💡 Share what is on your heart — you will receive one passage to dwell on, not many'
+            : '💡 Bring a dilemma — you will receive questions to sit with, not verdicts'}
         </div>
       </div>
 
