@@ -3,9 +3,28 @@ import React, { useState, useMemo, useCallback } from 'react';
 // Short description shown under the mode toggle for each mode.
 const MODE_DESCRIPTIONS = {
   guidance: 'Share your situation and receive warm, personalized reflections rooted in scripture',
-  understand: 'Ask questions to learn about religious teachings, concepts, and history',
+  understand: 'Enter a specific verse or passage reference and have it explained in depth — pick an example below or type your own',
   reflect: 'Receive a single passage to sit with quietly, and an open question to carry',
   socratic: 'Instead of answers, receive the questions a tradition might gently ask you'
+};
+
+// Ready-made example verse references per sacred text, shown in "Understand"
+// mode so users know exactly what to type (a verse reference, not a topic).
+// These are well-known, genuine references and double as one-tap shortcuts.
+const VERSE_EXAMPLES = {
+  BHAGAVAD_GITA: ['Bhagavad Gita 2:47', 'Bhagavad Gita 4:7', 'Bhagavad Gita 18:66'],
+  VEDAS: ['Rig Veda 10:129', 'Rig Veda 1:1', 'Yajur Veda 36:17'],
+  UPANISHADS: ['Chandogya Upanishad 6:8:7', 'Isha Upanishad 1', 'Katha Upanishad 1:2:20'],
+  QURAN: ['Quran 2:255', 'Quran 1:1-7', 'Quran 94:5-6'],
+  BIBLE: ['John 3:16', 'Psalm 23:1', 'Matthew 5:9'],
+  TALMUD: ['Pirkei Avot 1:14', 'Sanhedrin 37a', 'Shabbat 31a'],
+  GURU_GRANTH_SAHIB: ['Guru Granth Sahib Ang 1', 'Guru Granth Sahib Ang 8', 'Guru Granth Sahib Ang 1429'],
+  TRIPITAKA: ['Dhammapada 1:1', 'Samyutta Nikaya 56:11', 'Majjhima Nikaya 10'],
+  DHAMMAPADA: ['Dhammapada 1:1', 'Dhammapada 5:60', 'Dhammapada 14:183'],
+  TAO_TE_CHING: ['Tao Te Ching 1', 'Tao Te Ching 8', 'Tao Te Ching 81'],
+  ANALECTS_OF_CONFUCIUS: ['Analects 1:1', 'Analects 2:4', 'Analects 15:24'],
+  AVESTA: ['Yasna 30:2', 'Yasna 28:1', 'Yasht 17:14'],
+  ALL: ['Bhagavad Gita 2:47', 'John 3:16', 'Quran 2:255']
 };
 
 // Helper function to get source descriptions - moved before component to fix hoisting
@@ -68,31 +87,31 @@ const GuidanceForm = React.memo(({
     if (mode === 'understand') {
       switch (selectedText) {
         case 'BHAGAVAD_GITA':
-          return "What would you like to learn about the Bhagavad Gita? e.g., 'What is karma yoga?'";
+          return "Enter a verse to understand, e.g., 'Bhagavad Gita 2:47'";
         case 'VEDAS':
-          return "What would you like to understand about the Vedas? e.g., 'What is the concept of Rita?'";
+          return "Enter a verse to understand, e.g., 'Rig Veda 10:129'";
         case 'QURAN':
-          return "What would you like to learn about the Quran? e.g., 'What does Islam teach about patience?'";
+          return "Enter a verse to understand, e.g., 'Quran 2:255'";
         case 'BIBLE':
-          return "What would you like to understand about the Bible? e.g., 'What are the Beatitudes?'";
+          return "Enter a verse to understand, e.g., 'John 3:16'";
         case 'GURU_GRANTH_SAHIB':
-          return "What would you like to learn about Sikhism? e.g., 'What is the concept of Seva?'";
+          return "Enter a passage to understand, e.g., 'Guru Granth Sahib Ang 1'";
         case 'TRIPITAKA':
-          return "What would you like to understand about Buddhist scriptures? e.g., 'What are the Four Noble Truths?'";
+          return "Enter a verse to understand, e.g., 'Dhammapada 1:1'";
         case 'TAO_TE_CHING':
-          return "What would you like to learn about Taoism? e.g., 'What is wu-wei?'";
+          return "Enter a chapter to understand, e.g., 'Tao Te Ching 1'";
         case 'ANALECTS_OF_CONFUCIUS':
-          return "What would you like to understand about Confucianism? e.g., 'What is ren (humaneness)?'";
+          return "Enter a passage to understand, e.g., 'Analects 1:1'";
         case 'DHAMMAPADA':
-          return "What would you like to learn from the Dhammapada? e.g., 'What is the Eightfold Path?'";
+          return "Enter a verse to understand, e.g., 'Dhammapada 1:1'";
         case 'UPANISHADS':
-          return "What would you like to understand about the Upanishads? e.g., 'What is Brahman?'";
+          return "Enter a verse to understand, e.g., 'Isha Upanishad 1'";
         case 'TALMUD':
-          return "What would you like to learn about the Talmud? e.g., 'What is tikkun olam?'";
+          return "Enter a passage to understand, e.g., 'Pirkei Avot 1:14'";
         case 'AVESTA':
-          return "What would you like to understand about Zoroastrianism? e.g., 'What is Asha?'";
+          return "Enter a verse to understand, e.g., 'Yasna 30:2'";
         default:
-          return "Ask a question about any religion or sacred text, e.g., 'What do religions say about forgiveness?'";
+          return "Enter a verse or passage reference to understand, e.g., 'Bhagavad Gita 2:47'";
       }
     }
     switch (selectedText) {
@@ -157,6 +176,11 @@ const GuidanceForm = React.memo(({
   // Memoize source description
   const sourceDescription = useMemo(() => {
     return getSourceDescription(selectedText);
+  }, [selectedText]);
+
+  // Example verse references for the selected text (Understand mode).
+  const exampleVerses = useMemo(() => {
+    return VERSE_EXAMPLES[selectedText] || [];
   }, [selectedText]);
 
   // Memoize event handlers
@@ -292,6 +316,24 @@ const GuidanceForm = React.memo(({
           )}
         </div>
         
+        {/* Example verse chips (Understand mode): show ready-made references
+            per book so the user knows what to type, and let them one-tap fill. */}
+        {mode === 'understand' && exampleVerses.length > 0 && (
+          <div className="verse-examples" role="group" aria-label="Example verses to understand">
+            <span className="verse-examples-label">Try a verse:</span>
+            {exampleVerses.map((verse) => (
+              <button
+                key={verse}
+                type="button"
+                className="verse-chip"
+                onClick={() => setUserInput(verse)}
+              >
+                {verse}
+              </button>
+            ))}
+          </div>
+        )}
+
         {/* Helpful tips */}
         <div className="form-tips" style={{
           marginTop: '0.5rem',
@@ -302,7 +344,7 @@ const GuidanceForm = React.memo(({
           {mode === 'guidance'
             ? '💡 Be specific about your situation for more personalized guidance'
             : mode === 'understand'
-            ? '💡 Ask about concepts, teachings, practices, or history of any tradition'
+            ? '💡 Enter a verse or passage reference (e.g., "Bhagavad Gita 2:47") to have it explained in depth'
             : mode === 'reflect'
             ? '💡 Share what is on your heart — you will receive one passage to dwell on, not many'
             : '💡 Bring a dilemma — you will receive questions to sit with, not verdicts'}

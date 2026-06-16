@@ -46,3 +46,28 @@ describe('GuidanceForm mode toggle', () => {
     expect(screen.getByText(/questions a tradition might gently ask/i)).toBeInTheDocument();
   });
 });
+
+describe('GuidanceForm understand mode', () => {
+  it('shows example verse chips for the selected text', () => {
+    renderForm({ mode: 'understand', selectedText: 'BHAGAVAD_GITA' });
+    expect(screen.getByText('Try a verse:')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Bhagavad Gita 2:47' })).toBeInTheDocument();
+  });
+
+  it('fills the input when an example verse chip is clicked', () => {
+    const setUserInput = vi.fn();
+    renderForm({ mode: 'understand', selectedText: 'BIBLE', setUserInput });
+    fireEvent.click(screen.getByRole('button', { name: 'John 3:16' }));
+    expect(setUserInput).toHaveBeenCalledWith('John 3:16');
+  });
+
+  it('uses a verse-style placeholder in understand mode', () => {
+    renderForm({ mode: 'understand', selectedText: 'QURAN' });
+    expect(screen.getByPlaceholderText(/Quran 2:255/i)).toBeInTheDocument();
+  });
+
+  it('does NOT show verse chips in guidance mode', () => {
+    renderForm({ mode: 'guidance', selectedText: 'BHAGAVAD_GITA' });
+    expect(screen.queryByText('Try a verse:')).not.toBeInTheDocument();
+  });
+});

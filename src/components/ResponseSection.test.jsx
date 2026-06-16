@@ -65,4 +65,46 @@ describe('ResponseSection', () => {
     render(<ResponseSection response="" isLoading={true} />);
     expect(screen.getByText(/seeking divine wisdom/i)).toBeInTheDocument();
   });
+
+  describe('free-form modes (Reflect / Ask Me)', () => {
+    const socraticResponse = [
+      'I hear your longing to contribute positively to the world.',
+      'What does it mean to you personally to make the world better?',
+      'How do your actions align with what you understand to be true?',
+      'QUOTE: Let each examine their own actions first.',
+      'SOURCE: Bhagavad Gita 3.9',
+      'REFERENCE_URL: https://bhagavadgita.io/chapter/3/verse/9',
+      'These questions are yours to live with.'
+    ].join('\n');
+
+    it('renders socratic prose instead of an empty screen', () => {
+      const { container } = render(
+        <ResponseSection response={socraticResponse} isLoading={false} mode="socratic" />
+      );
+      expect(container.querySelector('.freeform-response')).toBeInTheDocument();
+      expect(screen.getByText(/what does it mean to you personally/i)).toBeInTheDocument();
+      expect(screen.getByText(/these questions are yours to live with/i)).toBeInTheDocument();
+    });
+
+    it('surfaces a labeled quote and reference link in prose', () => {
+      render(<ResponseSection response={socraticResponse} isLoading={false} mode="socratic" />);
+      expect(screen.getByText(/let each examine their own actions/i)).toBeInTheDocument();
+      const link = screen.getByRole('link', { name: /view reference/i });
+      expect(link).toHaveAttribute('href', 'https://bhagavadgita.io/chapter/3/verse/9');
+    });
+
+    it('shows the humility disclaimer in free-form modes', () => {
+      render(<ResponseSection response={socraticResponse} isLoading={false} mode="socratic" />);
+      expect(screen.getByText(prompts.humilityDisclaimer)).toBeInTheDocument();
+    });
+
+    it('falls back to prose when guidance text has no parseable quotes', () => {
+      const plain = 'Here is some reflective guidance with no structured quote fields at all.';
+      const { container } = render(
+        <ResponseSection response={plain} isLoading={false} mode="guidance" />
+      );
+      expect(container.querySelector('.freeform-response')).toBeInTheDocument();
+      expect(screen.getByText(/reflective guidance with no structured quote/i)).toBeInTheDocument();
+    });
+  });
 });

@@ -231,3 +231,49 @@
     color: #9ca3af;
 }
 
+/* Free-form prose responses (Reflect & Socratic "Ask Me" modes) */
+.freeform-response {
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: var(--radius-md);
+    padding: 1.75rem 1.9rem;
+}
+
+.freeform-text {
+    color: #374151;
+    font-size: 1.05rem;
+    line-height: 1.75;
+    margin: 0 0 1rem;
+}
+
+.freeform-text:last-child {
+    margin-bottom: 0;
+}
+
+.freeform-labeled {
+    color: #374151;
+    font-size: 1.02rem;
+    line-height: 1.7;
+    margin: 0 0 0.9rem;
+}
+
+.freeform-label {
+    font-weight: 600;
+    color: #4c51bf;
+    letter-spacing: 0.01em;
+}
+
+.freeform-reference {
+    margin: 0 0 1rem;
+}
+
+.freeform-reference a {
+    color: #4c51bf;
+    text-decoration: none;
+    font-size: 0.92rem;
+}
+
+.freeform-reference a:hover {
+    text-decoration: underline;
+}
+

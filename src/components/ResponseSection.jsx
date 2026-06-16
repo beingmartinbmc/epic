@@ -111,6 +111,62 @@ const parseResponse = (response) => {
   return { quotes, summary };
 };
 
+// Render a free-form (prose) response — used for the Socratic ("Ask Me") and
+// Reflect modes, which intentionally return flowing text (questions, an open
+// invitation, an optional single passage) rather than a grid of quote cards.
+// Known field labels are surfaced cleanly; REFERENCE_URL becomes a link.
+const FreeformResponse = ({ response }) => {
+  const blocks = useMemo(() => {
+    const KNOWN_LABELS = ['QUOTE', 'SOURCE', 'REFERENCE_URL', 'CONTEXT', 'REFLECT', 'SUMMARY', 'DIVERGENCE'];
+    return response
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .map((line, index) => {
+        const labelMatch = KNOWN_LABELS.find((label) => line.startsWith(`${label}:`));
+        if (labelMatch) {
+          const value = line.substring(labelMatch.length + 1).trim().replace(/\*\*/g, '');
+          return { type: 'labeled', key: index, label: labelMatch, value };
+        }
+        return { type: 'text', key: index, value: line.replace(/\*\*/g, '') };
+      });
+  }, [response]);
+
+  const prettyLabel = (label) =>
+    label.charAt(0) + label.slice(1).toLowerCase().replace('_', ' ');
+
+  return (
+    <div className="freeform-response">
+      {blocks.map((block) => {
+        if (block.type === 'labeled') {
+          if (block.label === 'REFERENCE_URL') {
+            const url = cleanUrl(block.value);
+            if (!url) return null;
+            return (
+              <p key={block.key} className="freeform-reference">
+                <a href={url} target="_blank" rel="noopener noreferrer">
+                  View reference <i className="fas fa-external-link-alt"></i>
+                </a>
+              </p>
+            );
+          }
+          return (
+            <p key={block.key} className="freeform-labeled">
+              <span className="freeform-label">{prettyLabel(block.label)}: </span>
+              {block.value}
+            </p>
+          );
+        }
+        return (
+          <p key={block.key} className="freeform-text">
+            {block.value}
+          </p>
+        );
+      })}
+    </div>
+  );
+};
+
 const ResponseSection = React.memo(({ response, isLoading, selectedText, mode = 'guidance' }) => {
   const [copiedQuote, setCopiedQuote] = useState(null);
 
@@ -228,6 +284,27 @@ const ResponseSection = React.memo(({ response, isLoading, selectedText, mode = 
           </ul>
           <p className="crisis-closing">{CRISIS_MESSAGE.closing}</p>
         </div>
+      </div>
+    );
+  }
+
+  // Reflect & Socratic ("Ask Me") modes return intentional free-form prose
+  // (open questions, an invitation to sit with a passage), not a grid of quote
+  // cards. Render that prose directly so it never silently disappears.
+  const isFreeformMode = mode === 'socratic' || mode === 'reflect';
+
+  // Fallback safety net: if the model returned text we couldn't parse into any
+  // quote cards or a summary, show the prose rather than a blank screen.
+  const hasStructuredContent = processedQuotes.length > 0 || Boolean(parsedData.summary);
+
+  if (isFreeformMode || !hasStructuredContent) {
+    return (
+      <div className="response-section">
+        <FreeformResponse response={response} />
+        <p className="humility-disclaimer" role="note">
+          <i className="fas fa-circle-info" style={{ marginRight: '6px' }}></i>
+          {prompts.humilityDisclaimer}
+        </p>
       </div>
     );
   }
