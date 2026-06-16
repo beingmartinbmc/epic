@@ -255,3 +255,38 @@
     }
 }
 
+
+/* Example verse chips (Understand mode) */
+.verse-examples {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+}
+
+.verse-examples-label {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-right: 0.15rem;
+}
+
+.verse-chip {
+    border: 1px solid rgba(99, 102, 241, 0.35);
+    background: rgba(99, 102, 241, 0.06);
+    color: #4c51bf;
+    border-radius: 999px;
+    padding: 0.28rem 0.7rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+}
+
+.verse-chip:hover {
+    background: rgba(99, 102, 241, 0.14);
+    border-color: rgba(99, 102, 241, 0.6);
+}
+
+.verse-chip:active {
+    transform: scale(0.97);
+}
