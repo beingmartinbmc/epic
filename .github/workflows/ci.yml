@@ -21,6 +21,11 @@ jobs:
         node-version: '24'
         cache: 'npm'
 
+    # The npm bundled with the Node 24 runner image hits the
+    # "Exit handler never called!" bug on `npm ci`. Pin a known-good npm.
+    - name: Update npm
+      run: npm install -g npm@11.12.1
+
     - name: Install dependencies
       run: npm ci
 
