@@ -140,3 +140,94 @@
     }
 }
 
+/* ============================================================
+   Crisis-aware support card (Ideology: lead with human warmth,
+   not a verse-dump, when someone is in acute distress).
+   ============================================================ */
+.crisis-support {
+    background: #fff8f8;
+    border: 1px solid #f3c6c6;
+    border-left: 4px solid #d9534f;
+    border-radius: var(--radius-md);
+    padding: 1.75rem;
+    margin-top: 1rem;
+    animation: fadeInUp 0.4s ease-out;
+}
+
+.crisis-title {
+    font-family: var(--font-heading);
+    color: #b23b3b;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.85rem 0;
+    display: flex;
+    align-items: center;
+}
+
+.crisis-body,
+.crisis-closing {
+    color: #4b3b3b;
+    line-height: 1.65;
+    margin: 0 0 1rem 0;
+    font-size: 0.95rem;
+}
+
+.crisis-closing {
+    font-style: italic;
+    margin-bottom: 0;
+}
+
+.crisis-resources {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem 0;
+}
+
+.crisis-resources li {
+    margin: 0.5rem 0;
+    padding-left: 1.25rem;
+    position: relative;
+}
+
+.crisis-resources li::before {
+    content: '\f0a4';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 400;
+    position: absolute;
+    left: 0;
+    color: #d9534f;
+}
+
+.crisis-resources a {
+    color: #b23b3b;
+    font-weight: 500;
+    text-decoration: underline;
+    word-break: break-word;
+}
+
+.crisis-resources a:hover {
+    color: #8a2d2d;
+}
+
+/* ============================================================
+   Humility / transparency disclaimer (Ideology D).
+   ============================================================ */
+.humility-disclaimer {
+    margin-top: 1.75rem;
+    padding: 0.85rem 1.1rem;
+    background: rgba(248, 250, 252, 0.7);
+    border: 1px dashed rgba(0, 0, 0, 0.12);
+    border-radius: var(--radius-md);
+    color: #6b7280;
+    font-size: 0.8rem;
+    line-height: 1.55;
+    font-style: italic;
+    display: flex;
+    align-items: flex-start;
+}
+
+.humility-disclaimer i {
+    margin-top: 0.15rem;
+    color: #9ca3af;
+}
+

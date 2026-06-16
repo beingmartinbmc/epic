@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import prompts from '../prompts.js';
+import { detectCrisis, CRISIS_MESSAGE } from '../crisisDetection.js';
 
 const API_CONFIG = {
   OPENAI_PROXY_URL: 'https://ai-gateway-production-0388.up.railway.app/api/v1/openai-proxy',
@@ -47,6 +48,46 @@ const UNDERSTAND_PROMPT_MAPPING = {
   'TALMUD': prompts.understandPrompts.talmud,
   'AVESTA': prompts.understandPrompts.avesta,
   'ALL': prompts.understandPrompts.allTexts
+};
+
+// Resolves which system prompt, prompt mapping, and user-label to use for a
+// given mode. Pure function — exported for testing.
+//
+// Supported modes:
+//   'guidance'  - warm, personalized spiritual support (default)
+//   'understand'- educational explanation of teachings
+//   'reflect'   - ONE passage to dwell on + an open question (depth over volume)
+//   'socratic'  - responds with questions, not verdicts
+export const resolveMode = (mode, selectedText) => {
+  switch (mode) {
+    case 'understand':
+      return {
+        systemPrompt: prompts.understandSystem.prompt,
+        userPrompt: UNDERSTAND_PROMPT_MAPPING[selectedText],
+        userPrefix: "User's question"
+      };
+    case 'reflect':
+      return {
+        systemPrompt: prompts.reflectSystem.prompt,
+        // Reflect/Socratic are mode-driven, not text-template driven; the
+        // single selected text is conveyed via the system prompt + label.
+        userPrompt: `Offer one passage to reflect on${selectedText && selectedText !== 'ALL' ? ` from the selected text (${selectedText})` : ''}.`,
+        userPrefix: "User's situation"
+      };
+    case 'socratic':
+      return {
+        systemPrompt: prompts.socraticSystem.prompt,
+        userPrompt: `Respond with open questions in the spirit of the chosen tradition${selectedText && selectedText !== 'ALL' ? ` (${selectedText})` : ''}.`,
+        userPrefix: "User's situation"
+      };
+    case 'guidance':
+    default:
+      return {
+        systemPrompt: prompts.system.prompt,
+        userPrompt: GUIDANCE_PROMPT_MAPPING[selectedText],
+        userPrefix: "User's situation"
+      };
+  }
 };
 
 // Debounce utility function
@@ -97,6 +138,20 @@ export const useGuidance = () => {
   const seekGuidance = useCallback(async (userInput, selectedText, mode = 'guidance') => {
     if (!userInput.trim()) return;
 
+    // IDEOLOGY (crisis-aware compassion): if the seeker is in acute distress,
+    // no tradition wants a verse-dump. Lead with human warmth and real-world
+    // help instead of calling the model at all.
+    const crisis = detectCrisis(userInput);
+    if (crisis.isCrisis) {
+      const resourceLines = CRISIS_MESSAGE.resources
+        .map((r) => `${r.label}: ${r.url}`)
+        .join('\n');
+      setResponse(
+        `${CRISIS_MESSAGE.title}\n\n${CRISIS_MESSAGE.body}\n\n${resourceLines}\n\n${CRISIS_MESSAGE.closing}`
+      );
+      return;
+    }
+
     // Cancel any ongoing request
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
@@ -108,12 +163,13 @@ export const useGuidance = () => {
     setIsLoading(true);
     setResponse('');
 
-    // Select prompts based on mode
-    const isUnderstand = mode === 'understand';
-    const systemPrompt = isUnderstand ? prompts.understandSystem.prompt : prompts.system.prompt;
-    const promptMapping = isUnderstand ? UNDERSTAND_PROMPT_MAPPING : GUIDANCE_PROMPT_MAPPING;
-    const userPrefix = isUnderstand ? "User's question" : "User's situation";
+    // Resolve prompts for the selected mode (guidance | understand | reflect | socratic)
+    const { systemPrompt, userPrompt, userPrefix } = resolveMode(mode, selectedText);
     const askedAt = new Date().toISOString();
+
+    // IDEOLOGY (honor difference): when drawing on ALL texts, ask the model to
+    // surface genuine divergence between traditions, not just forced unity.
+    const comparativeAddon = selectedText === 'ALL' ? `\n\n${prompts.comparativeNote}` : '';
 
     const requestBody = JSON.stringify({
       model: OPENAI_MODEL,
@@ -125,7 +181,7 @@ export const useGuidance = () => {
         },
         {
           role: 'user',
-          content: `${promptMapping[selectedText]}\n\n${userPrefix}: ${userInput}`
+          content: `${userPrompt}${comparativeAddon}\n\n${userPrefix}: ${userInput}`
         }
       ]
     });
