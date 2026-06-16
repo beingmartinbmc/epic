@@ -9,6 +9,12 @@ const API_CONFIG = {
 const OPENAI_MODEL = 'gpt-4.1-nano';
 const OPENAI_MAX_TOKENS = 1000;
 
+// Retry configuration for transient failures (network blips, empty responses, 5xx)
+const MAX_RETRIES = 3;
+const RETRY_BASE_DELAY_MS = 600;
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 // Prompt mapping for different sacred texts - guidance mode
 const GUIDANCE_PROMPT_MAPPING = {
   'BHAGAVAD_GITA': prompts.userPrompts.bhagavadGita,
@@ -109,27 +115,31 @@ export const useGuidance = () => {
     const userPrefix = isUnderstand ? "User's question" : "User's situation";
     const askedAt = new Date().toISOString();
 
-    try {
+    const requestBody = JSON.stringify({
+      model: OPENAI_MODEL,
+      maxTokens: OPENAI_MAX_TOKENS,
+      messages: [
+        {
+          role: 'system',
+          content: systemPrompt
+        },
+        {
+          role: 'user',
+          content: `${promptMapping[selectedText]}\n\n${userPrefix}: ${userInput}`
+        }
+      ]
+    });
+
+    // Performs a single request attempt and returns the message content.
+    // Throws on transient failures so the caller can retry.
+    const attemptRequest = async () => {
       const response = await fetch(API_CONFIG.OPENAI_PROXY_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
-        body: JSON.stringify({
-          model: OPENAI_MODEL,
-          maxTokens: OPENAI_MAX_TOKENS,
-          messages: [
-            {
-              role: 'system',
-              content: systemPrompt
-            },
-            {
-              role: 'user',
-              content: `${promptMapping[selectedText]}\n\n${userPrefix}: ${userInput}`
-            }
-          ]
-        }),
+        body: requestBody,
         signal: abortControllerRef.current.signal
       });
 
@@ -143,7 +153,38 @@ export const useGuidance = () => {
       if (!content) {
         throw new Error('OpenAI proxy response did not include message content');
       }
-      
+
+      return content;
+    };
+
+    try {
+      let content;
+      let lastError;
+
+      for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+        try {
+          content = await attemptRequest();
+          break;
+        } catch (error) {
+          // Never retry a user-cancelled request
+          if (error.name === 'AbortError') {
+            throw error;
+          }
+
+          lastError = error;
+          console.warn(`Guidance request attempt ${attempt} of ${MAX_RETRIES} failed:`, error);
+
+          // If we have retries left, wait with exponential backoff and try again
+          if (attempt < MAX_RETRIES) {
+            await sleep(RETRY_BASE_DELAY_MS * attempt);
+          }
+        }
+      }
+
+      if (!content) {
+        throw lastError || new Error('Failed to receive guidance after retries');
+      }
+
       // Set the raw response - processing will be done in the component
       setResponse(content);
       saveConversation({
